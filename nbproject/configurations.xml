@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="90">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <logicalFolder name="include" displayName="include" projectFiles="true">
+        <logicalFolder name="abstract" displayName="abstract" projectFiles="true">
+          <itemPath>include/abstract/Cleanable.h</itemPath>
+          <itemPath>include/abstract/ITask.h</itemPath>
+          <itemPath>include/abstract/Runnable.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="net" displayName="net" projectFiles="true">
+          <itemPath>include/net/NSocket.h</itemPath>
+          <itemPath>include/net/SCTP.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="sys" displayName="sys" projectFiles="true">
+          <itemPath>include/sys/AtomicBool.h</itemPath>
+          <itemPath>include/sys/AtomicDigital.h</itemPath>
+          <itemPath>include/sys/CancelableThread.h</itemPath>
+          <itemPath>include/sys/Conditional.h</itemPath>
+          <itemPath>include/sys/ITCSemaphore.h</itemPath>
+          <itemPath>include/sys/Mutex.h</itemPath>
+          <itemPath>include/sys/Nanosleep.h</itemPath>
+          <itemPath>include/sys/PosixSemaphore.h</itemPath>
+          <itemPath>include/sys/Semaphore.h</itemPath>
+          <itemPath>include/sys/SyncLock.h</itemPath>
+          <itemPath>include/sys/Thread.h</itemPath>
+          <itemPath>include/sys/Types.h</itemPath>
+          <itemPath>include/sys/prototypes.h</itemPath>
+        </logicalFolder>
+        <itemPath>include/ErrConstants.h</itemPath>
+        <itemPath>include/GAINTLock.h</itemPath>
+        <itemPath>include/ITCError.h</itemPath>
+        <itemPath>include/ITCException.h</itemPath>
+        <itemPath>include/LogOutBuffer.h</itemPath>
+        <itemPath>include/NullPointerException.h</itemPath>
+        <itemPath>include/SharedBuffer.h</itemPath>
+        <itemPath>include/StdTextLogFormatter.h</itemPath>
+        <itemPath>include/TSLog.h</itemPath>
+        <itemPath>include/TSafeLogOutAdapter.h</itemPath>
+        <itemPath>include/globals.h</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <logicalFolder name="src" displayName="src" projectFiles="true">
+        <itemPath>src/ITCError.cpp</itemPath>
+        <itemPath>src/Runnable.cpp</itemPath>
+        <itemPath>src/Thread.cpp</itemPath>
+        <itemPath>src/bzError.cpp</itemPath>
+        <itemPath>src/globals.cpp</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="3">
+      <toolsSet>
+        <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>../utils/include</pElem>
+          </incDir>
+          <commandLine>-g -pipe -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -march=native -mtune=native -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -mno-tls-direct-seg-refs -DBZ_NO_STDIO -DLOG_DEBUG -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1 -std=c++11</commandLine>
+        </ccTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+      <item path="include/ErrConstants.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/GAINTLock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/ITCError.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/ITCException.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/NullPointerException.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/SharedBuffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/StdTextLogFormatter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/TSLog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/TSafeLogOutAdapter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/Cleanable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/ITask.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/Runnable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/globals.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/net/NSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/net/SCTP.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/AtomicBool.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/AtomicDigital.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/CancelableThread.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/Conditional.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/ITCSemaphore.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/Mutex.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/Nanosleep.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/Semaphore.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/SyncLock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/Thread.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/Types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ITCError.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Runnable.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/bzError.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/globals.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="3">
+      <toolsSet>
+        <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <stripSymbols>true</stripSymbols>
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>../utils/include</pElem>
+          </incDir>
+          <commandLine>-pipe -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -march=native -mtune=native -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -mno-tls-direct-seg-refs -DBZ_NO_STDIO -DLOG_ERROR -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1 -std=c++0x -DNDEBUG=1</commandLine>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+      <item path="include/ErrConstants.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/GAINTLock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/ITCError.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/ITCException.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/NullPointerException.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/SharedBuffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/StdTextLogFormatter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/TSLog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/TSafeLogOutAdapter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/Cleanable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/ITask.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/Runnable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/globals.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/net/NSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/net/SCTP.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/AtomicBool.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/AtomicDigital.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/CancelableThread.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/Conditional.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/ITCSemaphore.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/Mutex.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/Nanosleep.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/Semaphore.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/SyncLock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/Thread.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/Types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ITCError.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Runnable.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/bzError.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/globals.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

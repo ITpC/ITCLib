@@ -1,0 +1,7 @@
+#Thu Jul 05 10:58:22 CEST 2007
+cdt.managedbuild.config.gnu.lib.debug.830648328/internalBuilder/enabled=false
+cdt.managedbuild.config.gnu.lib.debug.830648328/internalBuilder/ignoreErr=true
+eclipse.preferences.version=1
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.lib.debug.830648328=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<environment>\n<variable name\="CPLUS_INCLUDE_PATH" operation\="remove" value\=""/>\n<variable name\="CPATH" operation\="remove" value\=""/>\n<variable name\="C_INCLUDE_PATH" operation\="replace" value\="/usr/lib/oracle/10.2.0.3/client/include"/>\n</environment>\n
+environment/project=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<environment/>\n
+environment/project/cdt.managedbuild.config.gnu.lib.debug.830648328=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<environment/>\n
