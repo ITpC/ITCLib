@@ -56,9 +56,8 @@ private:
 
 public:
 
-    explicit CancelableThread(
-        const std::shared_ptr<TRunnable>& ref
-    ) : Thread(), mRunnable(ref)
+    explicit CancelableThread(const std::shared_ptr<TRunnable>& ref)
+    : Thread(), mRunnable(ref)
     {
         typedef abstract::IRunnable RunnableInterface;
         STATIC_CHECKER3MSG(
@@ -73,7 +72,7 @@ public:
     inline void run()
     {
         pthread_cleanup_push((void (*)(void*))cleanup_handler, this);
-        if (TRunnable * ptr = mRunnable.get())
+        if (TRunnable *ptr = mRunnable.get())
         {
             pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
             pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, NULL);
@@ -84,7 +83,7 @@ public:
 
     inline void cleanup()
     {
-        if (TRunnable * ptr = mRunnable.get())
+        if (TRunnable *ptr = mRunnable.get())
         {
             ptr->onCancel();
         }
@@ -92,7 +91,7 @@ public:
 
     virtual ~CancelableThread()
     {
-        if (TRunnable * ptr = mRunnable.get())
+        if (TRunnable *ptr = mRunnable.get())
         {
             ptr->shutdown();
         }

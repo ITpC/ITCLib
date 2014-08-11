@@ -565,6 +565,31 @@ namespace itc {
                 return err;
             }
 
+            /**
+             * Accepts incomming connections and set the Socket with appropriate FD and sockaddr
+             *
+             * @note  This method is Serverside, MultiHost and TCP only.
+             *           defined for KEEP_ALIVE and TCP_NODELAY options
+             * @param ref - Client socket casted to SockMemberAttr
+             * @param fictive - a fictive definition for compile time check of the server socket properties.
+             * @return 0 on success  errno on fail
+             *
+             **/
+            inline int accept(std::shared_ptr< Socket<CLN_TCP_KA_TND> >& ref, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive) {
+                register int err = 0;
+
+                ref.get()->mSocket = ::accept(mSocket, &(ref.get()->mAddr), &(ref.get()->mSockAL));
+
+                if (ref.get()->mSocket == INVALID_SOCKET) {
+#if defined(_MSC_VER)|| defined(__MINGW32_VERSION)
+                    err = WSAGetLastError();
+#else
+                    err = errno;
+#endif
+                }
+                return err;
+            }
+
             inline int accept(Socket<CLN_SCTP_KA_TND_UNI>& ref, const itc::utils::SizeT2Type<SRV_SCTP_UNI>& fictive) {
                 register int err = 0;
 
@@ -621,6 +646,10 @@ namespace itc {
             }
 
             inline int accept(Socket<CLN_TCP_KA_TND>& ref) {
+                return this->accept(ref, mSockOptions);
+            }
+
+            inline int accept(std::shared_ptr< Socket<CLN_TCP_KA_TND> >& ref) {
                 return this->accept(ref, mSockOptions);
             }
 
