@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="90">
+<configurationDescriptor version="95">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -73,11 +73,12 @@
       </toolsSet>
       <compileType>
         <ccTool>
+          <standard>8</standard>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
           </incDir>
-          <commandLine>-g -pipe -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -march=native -mtune=native -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -mno-tls-direct-seg-refs -DBZ_NO_STDIO -DLOG_DEBUG -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1 -std=c++11</commandLine>
+          <commandLine>-g -pipe -Wall -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -march=native -mtune=native -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -mno-tls-direct-seg-refs -DBZ_NO_STDIO -DLOG_DEBUG -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1 -std=c++11</commandLine>
         </ccTool>
         <archiverTool>
         </archiverTool>
@@ -164,6 +165,7 @@
         <ccTool>
           <developmentMode>5</developmentMode>
           <stripSymbols>true</stripSymbols>
+          <standard>8</standard>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>

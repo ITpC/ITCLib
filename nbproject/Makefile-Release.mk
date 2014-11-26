@@ -71,27 +71,27 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libitclib.a: ${OBJECTFILES}
 ${OBJECTDIR}/src/ITCError.o: src/ITCError.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Wall -s -Iinclude -I../utils/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/ITCError.o src/ITCError.cpp
+	$(COMPILE.cc) -O2 -Wall -s -Iinclude -I../utils/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/ITCError.o src/ITCError.cpp
 
 ${OBJECTDIR}/src/Runnable.o: src/Runnable.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Wall -s -Iinclude -I../utils/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Runnable.o src/Runnable.cpp
+	$(COMPILE.cc) -O2 -Wall -s -Iinclude -I../utils/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Runnable.o src/Runnable.cpp
 
 ${OBJECTDIR}/src/Thread.o: src/Thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Wall -s -Iinclude -I../utils/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Thread.o src/Thread.cpp
+	$(COMPILE.cc) -O2 -Wall -s -Iinclude -I../utils/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Thread.o src/Thread.cpp
 
 ${OBJECTDIR}/src/bzError.o: src/bzError.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Wall -s -Iinclude -I../utils/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/bzError.o src/bzError.cpp
+	$(COMPILE.cc) -O2 -Wall -s -Iinclude -I../utils/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/bzError.o src/bzError.cpp
 
 ${OBJECTDIR}/src/globals.o: src/globals.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Wall -s -Iinclude -I../utils/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/globals.o src/globals.cpp
+	$(COMPILE.cc) -O2 -Wall -s -Iinclude -I../utils/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/globals.o src/globals.cpp
 
 # Subprojects
 .build-subprojects:

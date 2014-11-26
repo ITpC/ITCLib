@@ -46,8 +46,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-g -pipe -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -march=native -mtune=native -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -mno-tls-direct-seg-refs -DBZ_NO_STDIO -DLOG_DEBUG -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1 -std=c++11
-CXXFLAGS=-g -pipe -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -march=native -mtune=native -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -mno-tls-direct-seg-refs -DBZ_NO_STDIO -DLOG_DEBUG -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1 -std=c++11
+CCFLAGS=-g -pipe -Wall -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -march=native -mtune=native -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -mno-tls-direct-seg-refs -DBZ_NO_STDIO -DLOG_DEBUG -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1 -std=c++11
+CXXFLAGS=-g -pipe -Wall -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -march=native -mtune=native -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -mno-tls-direct-seg-refs -DBZ_NO_STDIO -DLOG_DEBUG -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1 -std=c++11
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -71,27 +71,27 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libitclib.a: ${OBJECTFILES}
 ${OBJECTDIR}/src/ITCError.o: src/ITCError.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -Iinclude -I../utils/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/ITCError.o src/ITCError.cpp
+	$(COMPILE.cc) -g -Iinclude -I../utils/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/ITCError.o src/ITCError.cpp
 
 ${OBJECTDIR}/src/Runnable.o: src/Runnable.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -Iinclude -I../utils/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Runnable.o src/Runnable.cpp
+	$(COMPILE.cc) -g -Iinclude -I../utils/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Runnable.o src/Runnable.cpp
 
 ${OBJECTDIR}/src/Thread.o: src/Thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -Iinclude -I../utils/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Thread.o src/Thread.cpp
+	$(COMPILE.cc) -g -Iinclude -I../utils/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Thread.o src/Thread.cpp
 
 ${OBJECTDIR}/src/bzError.o: src/bzError.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -Iinclude -I../utils/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/bzError.o src/bzError.cpp
+	$(COMPILE.cc) -g -Iinclude -I../utils/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/bzError.o src/bzError.cpp
 
 ${OBJECTDIR}/src/globals.o: src/globals.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -Iinclude -I../utils/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/globals.o src/globals.cpp
+	$(COMPILE.cc) -g -Iinclude -I../utils/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/globals.o src/globals.cpp
 
 # Subprojects
 .build-subprojects:
