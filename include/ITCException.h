@@ -111,6 +111,8 @@ namespace exceptions {
         KeyIsNotSet=2504,
         WrongFileFormat=2505,
         
+        LuaScriptError=2515,
+        
         InvalidException = 2999
     };
 }
@@ -184,11 +186,11 @@ private:
     
 public:
 
-    TITCException() throw () : mErrno(EINVAL, Excpt), mWhat(new std::string())
+/*    TITCException() throw () : mErrno(EINVAL, Excpt), mWhat(new std::string())
     {
     }
-
-    TITCException(const int ErrVal = EINVAL) throw () : mErrno(ErrVal, Excpt), mWhat(new std::string())
+*/
+    explicit TITCException(const int ErrVal = EINVAL) throw () : mErrno(ErrVal, Excpt), mWhat(new std::string())
     {
     }
 
