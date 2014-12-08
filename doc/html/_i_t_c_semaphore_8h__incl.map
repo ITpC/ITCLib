@@ -1,0 +1,12 @@
+<map id="include/sys/ITCSemaphore.h" name="include/sys/ITCSemaphore.h">
+<area shape="rect" id="node5" href="$_mutex_8h.html" title="sys/Mutex.h" alt="" coords="347,315,443,344"/>
+<area shape="rect" id="node9" href="$_i_t_c_exception_8h.html" title="ITCException.h" alt="" coords="796,392,913,421"/>
+<area shape="rect" id="node32" href="$_sync_lock_8h.html" title="sys/SyncLock.h" alt="" coords="384,237,501,267"/>
+<area shape="rect" id="node35" href="$prototypes_8h.html" title="sys/prototypes.h" alt="" coords="1077,83,1203,112"/>
+<area shape="rect" id="node37" href="$_atomic_digital_8h.html" title="sys/AtomicDigital.h" alt="" coords="615,160,753,189"/>
+<area shape="rect" id="node47" href="$_atomic_bool_8h.html" title="sys/AtomicBool.h" alt="" coords="463,160,591,189"/>
+<area shape="rect" id="node51" href="$_nanosleep_8h.html" title="sys/Nanosleep.h" alt="" coords="204,83,329,112"/>
+<area shape="rect" id="node26" href="$_i_t_c_error_8h.html" title="ITCError.h" alt="" coords="360,469,448,499"/>
+<area shape="rect" id="node55" href="$_conditional_8h.html" title="sys/Conditional.h" alt="" coords="119,160,247,189"/>
+<area shape="rect" id="node60" href="$_types_8h.html" title="sys/Types.h" alt="" coords="112,237,208,267"/>
+</map>

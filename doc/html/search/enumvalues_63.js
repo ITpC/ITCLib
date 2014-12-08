@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['can_5fnot_5fassign_5frunnable',['Can_not_assign_runnable',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a4766b00013cde8ed981bdb59fb37d6e8',1,'exceptions']]],
+  ['can_5fnot_5fbind_5fsocket',['Can_not_bind_socket',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a8900caa4d37562f3c815b4319c72a628',1,'exceptions']]],
+  ['can_5fnot_5fcopy_5fmutex',['Can_not_copy_mutex',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a79a9d7910da6cdbb4620be53cb89aad4',1,'exceptions']]],
+  ['can_5fnot_5fcopy_5fsemaphore',['Can_not_copy_semaphore',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a8a0a413378cf8221f04d74c09e0f1c51',1,'exceptions']]],
+  ['can_5fnot_5fcreate_5fconditional',['Can_not_create_conditional',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a395a5c3d3c92855ef986ad6993be0da2',1,'exceptions']]],
+  ['can_5fnot_5fcreate_5fkey',['Can_not_create_key',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a375a13744c5a4f53ed74cdba967d7131',1,'exceptions']]],
+  ['can_5fnot_5fcreate_5fmutex',['Can_not_create_mutex',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36ac9dc0d37bb190fdcd65d8284f9ff98d7',1,'exceptions']]],
+  ['can_5fnot_5fcreate_5freusable_5fobject',['Can_not_create_reusable_object',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a12bdbb40f1e075cf5d3d72522b04b153',1,'exceptions']]],
+  ['can_5fnot_5fcreate_5fthread',['Can_not_create_thread',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36aa185d84e70c4e744f165ae454c8c123a',1,'exceptions']]],
+  ['can_5fnot_5fdestroy_5fmutex',['Can_not_destroy_mutex',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a41948e0c5fcccf4006efee2c42c4abb7',1,'exceptions']]],
+  ['can_5fnot_5fdestroy_5fsemaphore',['Can_not_destroy_semaphore',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36aedf5a3f4b045e5fd6028a0c966eddea7',1,'exceptions']]],
+  ['can_5fnot_5fget_5fsemaphore_5fvalue',['Can_not_get_semaphore_value',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36aff7bcf2db4a4768ceaeb2ca5939300a6',1,'exceptions']]],
+  ['can_5fnot_5finitialize_5fmutex',['Can_not_initialize_mutex',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a1b5d35e6a9d4a14cf2e463a093417f64',1,'exceptions']]],
+  ['can_5fnot_5finitialize_5fsemaphore',['Can_not_initialize_semaphore',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a675737bf9ddbb089559617e137e8532c',1,'exceptions']]],
+  ['can_5fnot_5flisten_5fon_5fsocket',['Can_not_listen_on_socket',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a1ed265dcc8c4bf68a6e51020f88d425a',1,'exceptions']]],
+  ['can_5fnot_5flock_5fmutex',['Can_not_lock_mutex',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a5c7e499f97f3a25dbdaeca870f0459bf',1,'exceptions']]],
+  ['can_5fnot_5fopen_5fqueue',['Can_not_open_queue',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36aaf941236c7afe14e77453cc1cf8d8b34',1,'exceptions']]],
+  ['can_5fnot_5fopen_5fsocket',['Can_not_open_socket',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a3c4eba13d8275eafd01ac1e97730c40f',1,'exceptions']]],
+  ['can_5fnot_5fpost_5fon_5fsemaphore',['Can_not_post_on_semaphore',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36ab0eaaa1a8ccca7dcc2e7125dc1d9fb07',1,'exceptions']]],
+  ['can_5fnot_5funlock_5fmutex',['Can_not_unlock_mutex',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a562e3746ea8b5205503bc9291545c19b',1,'exceptions']]],
+  ['can_5fnot_5fwait_5fon_5fsemaphore',['Can_not_wait_on_semaphore',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a6b16add04621db1fe85647e6cdfcde08',1,'exceptions']]],
+  ['cannotwrite',['CanNotWrite',['../namespaceexceptions.html#acfd7be5a5260891c38036a7f13edaf36a87f120fd4f29a27c5e802f2fa77d281b',1,'exceptions']]]
+];

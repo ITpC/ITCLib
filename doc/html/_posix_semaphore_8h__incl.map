@@ -1,0 +1,12 @@
+<map id="include/sys/PosixSemaphore.h" name="include/sys/PosixSemaphore.h">
+<area shape="rect" id="node15" href="$_i_t_c_exception_8h.html" title="ITCException.h" alt="" coords="428,315,545,344"/>
+<area shape="rect" id="node38" href="$_types_8h.html" title="sys/Types.h" alt="" coords="815,83,911,112"/>
+<area shape="rect" id="node42" href="$_atomic_bool_8h.html" title="sys/AtomicBool.h" alt="" coords="935,83,1063,112"/>
+<area shape="rect" id="node51" href="$_atomic_digital_8h.html" title="sys/AtomicDigital.h" alt="" coords="1087,83,1225,112"/>
+<area shape="rect" id="node61" href="$prototypes_8h.html" title="sys/prototypes.h" alt="" coords="1484,83,1609,112"/>
+<area shape="rect" id="node63" href="$_g_a_i_n_t_lock_8h.html" title="GAINTLock.h" alt="" coords="1633,83,1740,112"/>
+<area shape="rect" id="node32" href="$_i_t_c_error_8h.html" title="ITCError.h" alt="" coords="645,392,733,421"/>
+<area shape="rect" id="node44" href="$_mutex_8h.html" title="sys/Mutex.h" alt="" coords="855,237,951,267"/>
+<area shape="rect" id="node48" href="$_sync_lock_8h.html" title="sys/SyncLock.h" alt="" coords="892,160,1009,189"/>
+<area shape="rect" id="node65" href="$globals_8h.html" title="globals.h" alt="" coords="1648,160,1725,189"/>
+</map>

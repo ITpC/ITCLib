@@ -1,0 +1,16 @@
+<map id="include/sys/Semaphore.h" name="include/sys/Semaphore.h">
+<area shape="rect" id="node3" href="$_posix_semaphore_8h.html" title="sys/PosixSemaphore.h" alt="" coords="815,160,981,189"/>
+<area shape="rect" id="node69" href="$_i_t_c_semaphore_8h.html" title="sys/ITCSemaphore.h" alt="" coords="527,83,682,112"/>
+<area shape="rect" id="node17" href="$_i_t_c_exception_8h.html" title="ITCException.h" alt="" coords="954,469,1071,499"/>
+<area shape="rect" id="node40" href="$_types_8h.html" title="sys/Types.h" alt="" coords="889,315,985,344"/>
+<area shape="rect" id="node44" href="$_atomic_bool_8h.html" title="sys/AtomicBool.h" alt="" coords="330,237,458,267"/>
+<area shape="rect" id="node53" href="$_atomic_digital_8h.html" title="sys/AtomicDigital.h" alt="" coords="482,237,621,267"/>
+<area shape="rect" id="node63" href="$prototypes_8h.html" title="sys/prototypes.h" alt="" coords="735,237,861,267"/>
+<area shape="rect" id="node65" href="$_g_a_i_n_t_lock_8h.html" title="GAINTLock.h" alt="" coords="1349,237,1455,267"/>
+<area shape="rect" id="node34" href="$_i_t_c_error_8h.html" title="ITCError.h" alt="" coords="959,547,1047,576"/>
+<area shape="rect" id="node46" href="$_mutex_8h.html" title="sys/Mutex.h" alt="" coords="287,392,383,421"/>
+<area shape="rect" id="node50" href="$_sync_lock_8h.html" title="sys/SyncLock.h" alt="" coords="246,315,363,344"/>
+<area shape="rect" id="node67" href="$globals_8h.html" title="globals.h" alt="" coords="1363,315,1441,344"/>
+<area shape="rect" id="node77" href="$_nanosleep_8h.html" title="sys/Nanosleep.h" alt="" coords="47,160,173,189"/>
+<area shape="rect" id="node80" href="$_conditional_8h.html" title="sys/Conditional.h" alt="" coords="45,237,173,267"/>
+</map>

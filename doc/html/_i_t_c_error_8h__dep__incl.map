@@ -1,0 +1,26 @@
+<map id="include/ITCError.h" name="include/ITCError.h">
+<area shape="rect" id="node3" href="$_i_t_c_exception_8h.html" title="include/ITCException.h" alt="" coords="1431,83,1596,112"/>
+<area shape="rect" id="node5" href="$_n_socket_8h.html" title="include/net/NSocket.h" alt="" coords="5,160,163,189"/>
+<area shape="rect" id="node9" href="$_null_pointer_exception_8h.html" title="include/NullPointerException.h" alt="" coords="1725,160,1936,189"/>
+<area shape="rect" id="node11" href="$_shared_buffer_8h.html" title="include/SharedBuffer.h" alt="" coords="1960,160,2123,189"/>
+<area shape="rect" id="node13" href="$_i_t_c_semaphore_8h.html" title="include/sys/ITCSemaphore.h" alt="" coords="475,469,677,499"/>
+<area shape="rect" id="node19" href="$_thread_8h.html" title="include/sys/Thread.h" alt="" coords="1124,624,1276,653"/>
+<area shape="rect" id="node24" href="$_mutex_8h.html" title="include/sys/Mutex.h" alt="" coords="952,160,1096,189"/>
+<area shape="rect" id="node31" href="$bz_error_8cpp.html" title="src/bzError.cpp" alt="" coords="1396,469,1513,499"/>
+<area shape="rect" id="node39" href="$_posix_semaphore_8h.html" title="include/sys/PosixSemaphore.h" alt="" coords="831,392,1044,421"/>
+<area shape="rect" id="node69" href="$_i_t_c_error_8cpp.html" title="src/ITCError.cpp" alt="" coords="1576,160,1701,189"/>
+<area shape="rect" id="node7" href="$_s_c_t_p_8h.html" title="include/net/SCTP.h" alt="" coords="13,237,155,267"/>
+<area shape="rect" id="node15" href="$_semaphore_8h.html" title="include/sys/Semaphore.h" alt="" coords="904,547,1083,576"/>
+<area shape="rect" id="node17" href="$_cancelable_thread_8h.html" title="include/sys/CancelableThread.h" alt="" coords="895,701,1116,731"/>
+<area shape="rect" id="node22" href="$_thread_8cpp.html" title="src/Thread.cpp" alt="" coords="1141,701,1259,731"/>
+<area shape="rect" id="node26" href="$_log_out_buffer_8h.html" title="include/LogOutBuffer.h" alt="" coords="1237,315,1400,344"/>
+<area shape="rect" id="node28" href="$_t_s_log_8h.html" title="include/TSLog.h" alt="" coords="1257,392,1380,421"/>
+<area shape="rect" id="node33" href="$_std_text_log_formatter_8h.html" title="include/StdTextLogFormatter.h" alt="" coords="1000,315,1213,344"/>
+<area shape="rect" id="node36" href="$_atomic_bool_8h.html" title="include/sys/AtomicBool.h" alt="" coords="488,315,664,344"/>
+<area shape="rect" id="node42" href="$_conditional_8h.html" title="include/sys/Conditional.h" alt="" coords="288,315,464,344"/>
+<area shape="rect" id="node48" href="$_sync_lock_8h.html" title="include/sys/SyncLock.h" alt="" coords="880,237,1045,267"/>
+<area shape="rect" id="node60" href="$_t_safe_log_out_adapter_8h.html" title="include/TSafeLogOutAdapter.h" alt="" coords="1185,237,1399,267"/>
+<area shape="rect" id="node64" href="$globals_8cpp.html" title="src/globals.cpp" alt="" coords="741,237,856,267"/>
+<area shape="rect" id="node44" href="$_nanosleep_8h.html" title="include/sys/Nanosleep.h" alt="" coords="327,392,500,421"/>
+<area shape="rect" id="node53" href="$_atomic_digital_8h.html" title="include/sys/AtomicDigital.h" alt="" coords="739,315,925,344"/>
+</map>

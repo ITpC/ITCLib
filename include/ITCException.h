@@ -112,7 +112,7 @@ namespace exceptions {
         WrongFileFormat=2505,
         
         LuaScriptError=2515,
-        
+        ApplicationException=2998,
         InvalidException = 2999
     };
 }

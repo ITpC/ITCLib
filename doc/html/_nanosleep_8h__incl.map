@@ -1,0 +1,8 @@
+<map id="include/sys/Nanosleep.h" name="include/sys/Nanosleep.h">
+<area shape="rect" id="node5" href="$_conditional_8h.html" title="sys/Conditional.h" alt="" coords="175,83,303,112"/>
+<area shape="rect" id="node11" href="$_types_8h.html" title="sys/Types.h" alt="" coords="191,160,287,189"/>
+<area shape="rect" id="node15" href="$_sync_lock_8h.html" title="sys/SyncLock.h" alt="" coords="311,160,428,189"/>
+<area shape="rect" id="node17" href="$_mutex_8h.html" title="sys/Mutex.h" alt="" coords="381,237,477,267"/>
+<area shape="rect" id="node20" href="$_i_t_c_exception_8h.html" title="ITCException.h" alt="" coords="395,315,512,344"/>
+<area shape="rect" id="node37" href="$_i_t_c_error_8h.html" title="ITCError.h" alt="" coords="752,392,840,421"/>
+</map>

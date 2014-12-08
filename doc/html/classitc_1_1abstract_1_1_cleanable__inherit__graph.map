@@ -1,0 +1,5 @@
+<map id="itc::abstract::Cleanable" name="itc::abstract::Cleanable">
+<area shape="rect" id="node3" href="$structitc_1_1abstract_1_1_i_task.html" title="itc::abstract::ITask" alt="" coords="19,92,149,121"/>
+<area shape="rect" id="node7" href="$classitc_1_1sys_1_1_cancelable_thread.html" title="itc::sys::CancelableThread\l\&lt; TRunnable \&gt;" alt="" coords="173,83,352,130"/>
+<area shape="rect" id="node5" href="$classitc_1_1abstract_1_1_i_task_with_data.html" title="itc::abstract::ITaskWith\lData\&lt; Data \&gt;" alt="" coords="5,179,163,226"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="itc::sys::ITCSemaphore::tryWait" name="itc::sys::ITCSemaphore::tryWait">
+<area shape="rect" id="node3" href="$classitc_1_1sys_1_1_i_t_c_semaphore.html#a1799dd2e6b2313808a3090c2d78ca81c" title="itc::sys::ITCSemaphore\l::wait" alt="" coords="219,5,384,51"/>
+<area shape="rect" id="node5" href="$classitc_1_1sys_1_1_sleep.html#a224588c130a69ee81f7588809c234eef" title="itc::sys::Sleep::usleep" alt="" coords="432,13,584,43"/>
+<area shape="rect" id="node7" href="$classitc_1_1sys_1_1_conditional.html#a4bddabcb4bf95a137e504a0afb1c97fb" title="itc::sys::Conditional\l::tryWait" alt="" coords="633,5,772,51"/>
+<area shape="rect" id="node9" href="$classitc_1_1sys_1_1_raw_mutex.html#a993bd6e3a7e911c355825190563a2971" title="itc::sys::RawMutex\l::getMutexPtr" alt="" coords="823,5,956,51"/>
+</map>

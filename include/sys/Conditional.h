@@ -33,7 +33,7 @@
 #ifndef __CONDITIONAL__H__
 #define __CONDITIONAL__H__
 #include <pthread.h>
-#include <time.h>
+#include <sys/time.h>
 
 #include <sys/Types.h>
 #include <sys/SyncLock.h>
@@ -42,64 +42,72 @@
 
 namespace itc
 {
-	namespace sys
-	{
-		/**
-		 *@name Conditional is a wrapper class manipulating with pthread_cond_t type
-		 */
-		 
-		class Conditional
-		{
-		private:
-				pthread_cond_t  mCondition;
-				Mutex           mMutex;
-		public:
-				Conditional() : mMutex()
-				{ 
-					SyncLock sync(mMutex);
-					register int ret=pthread_cond_init(&mCondition,NULL);
-					if(ret) throw ITCException(ret,exceptions::Can_not_create_conditional);
-				}
-				
-				inline int wait()
-				{ 
-				    SyncLock sync(mMutex);
-					return pthread_cond_wait(&mCondition,mMutex.getMutexPtr());
-				}
-				
-				inline int tryWait(time_t sec, long usec)
-				{
-				    SyncLock sync(mMutex);
-					struct timespec anAbstime;
-					anAbstime.tv_sec=sec;
-					anAbstime.tv_nsec=usec; 
-					return pthread_cond_timedwait(&mCondition,mMutex.getMutexPtr(),&anAbstime);
-				}
-				
-				inline int broadcast()
-				{ 
-					return pthread_cond_broadcast(&mCondition);
-				}
-				
-				inline int signal()
-				{ 
-					return pthread_cond_signal(&mCondition);
-				}
-		
-				/**
-				 * is an alias to Conditional::signal()
-				 **/
-				inline int post()
-				{
-				    return this->signal();
-				}
-				
-				~Conditional()
-				{ 
-				    SyncLock sync(mMutex);
-				    pthread_cond_destroy(&mCondition);
-				}
-		};
-	}
+    namespace sys
+    {
+        /**
+         *@name Conditional is a wrapper class manipulating with pthread_cond_t type
+         */
+
+        class Conditional
+        {
+        private:
+            pthread_cond_t  mCondition;
+            Mutex           mMutex;
+        public:
+            Conditional() : mMutex()
+            { 
+                SyncLock sync(mMutex);
+                register int ret=pthread_cond_init(&mCondition,NULL);
+                if(ret) throw ITCException(ret,exceptions::Can_not_create_conditional);
+            }
+
+            inline int wait()
+            { 
+                SyncLock sync(mMutex);
+                return pthread_cond_wait(&mCondition,mMutex.getMutexPtr());
+            }
+
+            inline int tryWait(time_t sec, long nsec)
+            {
+                SyncLock sync(mMutex);
+                
+                struct timespec anAbstime;
+                struct timeval now;
+                
+                gettimeofday(&now,NULL);
+                
+                
+                anAbstime.tv_nsec=now.tv_usec*1000UL+nsec;
+                uint64_t addsec=uint64_t(anAbstime.tv_nsec / 1000000000UL);
+                anAbstime.tv_sec=now.tv_sec+sec+addsec;
+                anAbstime.tv_nsec -= addsec*1000000000;
+                return pthread_cond_timedwait(&mCondition,mMutex.getMutexPtr(),&anAbstime);
+            }
+
+            inline int broadcast()
+            { 
+                return pthread_cond_broadcast(&mCondition);
+            }
+
+            inline int signal()
+            { 
+                return pthread_cond_signal(&mCondition);
+            }
+
+            /**
+             * is an alias to Conditional::signal()
+             **/
+            inline int post()
+            {
+                return this->signal();
+            }
+
+            ~Conditional()
+            { 
+                SyncLock sync(mMutex);
+                pthread_cond_destroy(&mCondition);
+            }
+        };
+    }
 }
 #endif

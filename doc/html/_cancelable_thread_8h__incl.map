@@ -1,0 +1,23 @@
+<map id="include/sys/CancelableThread.h" name="include/sys/CancelableThread.h">
+<area shape="rect" id="node7" href="$_runnable_8h.html" title="abstract/Runnable.h" alt="" coords="544,160,691,189"/>
+<area shape="rect" id="node9" href="$_cleanable_8h.html" title="abstract/Cleanable.h" alt="" coords="319,237,468,267"/>
+<area shape="rect" id="node11" href="$_thread_8h.html" title="sys/Thread.h" alt="" coords="1449,83,1553,112"/>
+<area shape="rect" id="node46" href="$_semaphore_8h.html" title="sys/Semaphore.h" alt="" coords="765,160,896,189"/>
+<area shape="rect" id="node19" href="$_i_t_c_exception_8h.html" title="ITCException.h" alt="" coords="1476,547,1593,576"/>
+<area shape="rect" id="node40" href="$_types_8h.html" title="sys/Types.h" alt="" coords="1504,315,1600,344"/>
+<area shape="rect" id="node82" href="$prototypes_8h.html" title="sys/prototypes.h" alt="" coords="507,315,632,344"/>
+<area shape="rect" id="node103" href="$_t_s_log_8h.html" title="TSLog.h" alt="" coords="1988,237,2063,267"/>
+<area shape="rect" id="node36" href="$_i_t_c_error_8h.html" title="ITCError.h" alt="" coords="1491,624,1579,653"/>
+<area shape="rect" id="node48" href="$_posix_semaphore_8h.html" title="sys/PosixSemaphore.h" alt="" coords="971,237,1136,267"/>
+<area shape="rect" id="node88" href="$_i_t_c_semaphore_8h.html" title="sys/ITCSemaphore.h" alt="" coords="492,237,647,267"/>
+<area shape="rect" id="node63" href="$_atomic_bool_8h.html" title="sys/AtomicBool.h" alt="" coords="848,315,976,344"/>
+<area shape="rect" id="node72" href="$_atomic_digital_8h.html" title="sys/AtomicDigital.h" alt="" coords="144,315,283,344"/>
+<area shape="rect" id="node84" href="$_g_a_i_n_t_lock_8h.html" title="GAINTLock.h" alt="" coords="1000,315,1107,344"/>
+<area shape="rect" id="node65" href="$_mutex_8h.html" title="sys/Mutex.h" alt="" coords="1391,469,1487,499"/>
+<area shape="rect" id="node69" href="$_sync_lock_8h.html" title="sys/SyncLock.h" alt="" coords="1105,392,1223,421"/>
+<area shape="rect" id="node86" href="$globals_8h.html" title="globals.h" alt="" coords="903,392,980,421"/>
+<area shape="rect" id="node96" href="$_nanosleep_8h.html" title="sys/Nanosleep.h" alt="" coords="307,315,432,344"/>
+<area shape="rect" id="node112" href="$_log_out_buffer_8h.html" title="LogOutBuffer.h" alt="" coords="2205,315,2320,344"/>
+<area shape="rect" id="node123" href="$_std_text_log_formatter_8h.html" title="StdTextLogFormatter.h" alt="" coords="1725,315,1891,344"/>
+<area shape="rect" id="node137" href="$_t_safe_log_out_adapter_8h.html" title="TSafeLogOutAdapter.h" alt="" coords="2016,315,2181,344"/>
+</map>

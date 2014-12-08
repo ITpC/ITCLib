@@ -1,0 +1,6 @@
+<map id="itc::sys::CancelableThread::~CancelableThread" name="itc::sys::CancelableThread::~CancelableThread">
+<area shape="rect" id="node3" href="$namespaceitc.html#a2e295922a6b3b11b4dc59bc0348d4379" title="itc::getLog" alt="" coords="287,5,369,35"/>
+<area shape="rect" id="node5" href="$classitc_1_1sys_1_1_thread.html#a50c53e49d1fe551667807b22aa216c2f" title="itc::sys::Thread::getThreadId" alt="" coords="233,59,423,88"/>
+<area shape="rect" id="node7" href="$classitc_1_1sys_1_1_thread.html#a98084a2c0d37fc6e6bdfca1161e56508" title="itc::sys::Thread::cancel" alt="" coords="249,112,407,141"/>
+<area shape="rect" id="node9" href="$classitc_1_1sys_1_1_thread.html#adc0a9bf2e0c382b5904075bdc14c9dd3" title="itc::sys::Thread::finish" alt="" coords="252,165,404,195"/>
+</map>
