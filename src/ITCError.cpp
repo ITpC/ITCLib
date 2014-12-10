@@ -99,6 +99,7 @@ static const char * ITCStrError(int err)
         case exceptions::KeyIsNotSet: return "The key isn't set";
         case exceptions::WrongFileFormat: return "Either the file format is wrong, the file is corrupt, or a password is incorrect";
         case exceptions::InvalidException: return "Invalid exception";
+        case exceptions::ApplicationException: return "Application runtime error";
         case exceptions::LuaScriptError: return "Error in the lua script";
         case exceptions::InitializationForbidden: return "Initialization is forbidden";
 
