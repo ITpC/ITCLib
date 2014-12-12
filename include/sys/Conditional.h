@@ -38,6 +38,7 @@
 #include <sys/Types.h>
 #include <sys/SyncLock.h>
 #include <sys/Mutex.h>
+#include <stdint.h>
 
 
 namespace itc
@@ -76,11 +77,10 @@ namespace itc
                 
                 gettimeofday(&now,NULL);
                 
-                
                 anAbstime.tv_nsec=now.tv_usec*1000UL+nsec;
                 uint64_t addsec=uint64_t(anAbstime.tv_nsec / 1000000000UL);
                 anAbstime.tv_sec=now.tv_sec+sec+addsec;
-                anAbstime.tv_nsec -= addsec*1000000000;
+                anAbstime.tv_nsec -= addsec*1000000000UL;
                 return pthread_cond_timedwait(&mCondition,mMutex.getMutexPtr(),&anAbstime);
             }
 
