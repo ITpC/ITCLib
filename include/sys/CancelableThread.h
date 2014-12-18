@@ -31,7 +31,7 @@
 #ifndef CLEANABLETHREAD_H_
 #    define CLEANABLETHREAD_H_
 
-#    include <boost/shared_ptr.hpp>
+#    include <memory>
 
 #    include <InterfaceCheck.h>
 #    include <abstract/Runnable.h>
@@ -68,7 +68,12 @@ public:
        );
         begin();
     }
-
+    
+    inline std::shared_ptr<TRunnable> getRunnable()
+    {
+        return mRunnable;
+    }
+    
     inline void run()
     {
         pthread_cleanup_push((void (*)(void*))cleanup_handler, this);
