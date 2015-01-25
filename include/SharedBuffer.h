@@ -97,7 +97,7 @@ public:
         if (i >= mSize)
             throw IndexOutOfRangeException(ENODATA);
         return mBuff.get()[i];
-    }
+    }    
 };
 }
 #endif	/* __SHAREDBUFFER_H__ */
