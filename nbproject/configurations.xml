@@ -22,6 +22,7 @@
           <itemPath>include/sys/ITCSemaphore.h</itemPath>
           <itemPath>include/sys/Mutex.h</itemPath>
           <itemPath>include/sys/Nanosleep.h</itemPath>
+          <itemPath>include/sys/PThread.h</itemPath>
           <itemPath>include/sys/PosixSemaphore.h</itemPath>
           <itemPath>include/sys/Semaphore.h</itemPath>
           <itemPath>include/sys/SyncLock.h</itemPath>
@@ -29,6 +30,7 @@
           <itemPath>include/sys/Types.h</itemPath>
           <itemPath>include/sys/prototypes.h</itemPath>
         </logicalFolder>
+        <itemPath>include/DateFormatter.h</itemPath>
         <itemPath>include/ErrConstants.h</itemPath>
         <itemPath>include/GAINTLock.h</itemPath>
         <itemPath>include/ITCError.h</itemPath>
@@ -83,6 +85,8 @@
         <archiverTool>
         </archiverTool>
       </compileType>
+      <item path="include/DateFormatter.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/ErrConstants.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/GAINTLock.h" ex="false" tool="3" flavor2="0">
@@ -128,6 +132,8 @@
       <item path="include/sys/Mutex.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Nanosleep.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/PThread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -179,6 +185,8 @@
         <archiverTool>
         </archiverTool>
       </compileType>
+      <item path="include/DateFormatter.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/ErrConstants.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/GAINTLock.h" ex="false" tool="3" flavor2="0">
@@ -224,6 +232,8 @@
       <item path="include/sys/Mutex.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Nanosleep.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/PThread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
       </item>

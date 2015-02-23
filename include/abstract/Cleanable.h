@@ -40,8 +40,7 @@ namespace itc {
             virtual void cleanup() = 0;
         protected:
 
-            virtual ~Cleanable() {
-            }
+            virtual ~Cleanable()=default;
         };
     }
 }

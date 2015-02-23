@@ -304,7 +304,7 @@ namespace itc
         /**
          * Semaphore class that can be used in non cancelable threads. It is safe on the cost 
          * of performance. No deadlocks, no thread hangs on wait. It throws exceptions on 
-         * errors and in case that the semaphore is invalidated by destroy() metod. 
+         * errors and in case of the semaphore is invalidated by destroy() metod. 
          * This class counts waiting threads as well. Very SLOW !!!!
          *
          * This class smells exactly as non cancelable threads too :) 
