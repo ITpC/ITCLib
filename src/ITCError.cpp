@@ -102,6 +102,8 @@ static const char * ITCStrError(int err)
         case exceptions::ApplicationException: return "Application runtime error";
         case exceptions::LuaScriptError: return "Error in the lua script";
         case exceptions::InitializationForbidden: return "Initialization is forbidden";
+        case exceptions::NoEPoll: return "epoll_create() error";
+        case exceptions::EPollCTLError: return "epoll_ctl() error";
 
         default:
             return "UNKNOWN ITC ERROR OR EXCEPTION";

@@ -90,6 +90,9 @@ namespace exceptions {
         BadSocketHints = 2103,
         BadIPAddress = 2104,
         MutexException = 2105,
+        
+        NoEPoll=2151,
+        EPollCTLError=2152,
 
         BufferOverflowAttempt = 2200,
         IndexOutOfRange = 2201,

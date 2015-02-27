@@ -53,7 +53,6 @@
                    projectFiles="true">
       <logicalFolder name="src" displayName="src" projectFiles="true">
         <itemPath>src/ITCError.cpp</itemPath>
-        <itemPath>src/Runnable.cpp</itemPath>
         <itemPath>src/Thread.cpp</itemPath>
         <itemPath>src/bzError.cpp</itemPath>
         <itemPath>src/globals.cpp</itemPath>
@@ -148,8 +147,6 @@
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/ITCError.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Runnable.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -248,8 +245,6 @@
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/ITCError.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Runnable.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
       </item>

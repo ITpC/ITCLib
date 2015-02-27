@@ -44,7 +44,7 @@ namespace itc {
             virtual void onCancel() = 0;
             virtual void shutdown() = 0;
         protected:
-            virtual ~IRunnable() = 0;
+            virtual ~IRunnable() = default;
         };
     }
 }

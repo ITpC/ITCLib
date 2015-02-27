@@ -100,11 +100,11 @@ public:
         {
             ptr->shutdown();
         }
-        getLog()->debug(__FILE__, __LINE__, "Calling cancel() for TID: %d\n", this->getThreadId());
+        getLog()->debug(__FILE__, __LINE__, "Calling cancel() for TID: %jx\n", this->getThreadId());
         cancel();
-        getLog()->debug(__FILE__, __LINE__, "Calling finish() for TID: %d\n", this->getThreadId());
+        getLog()->debug(__FILE__, __LINE__, "Calling finish() for TID: %jx\n", this->getThreadId());
         finish();
-        getLog()->debug(__FILE__, __LINE__, "finished TID: %d\n", this->getThreadId());
+        getLog()->debug(__FILE__, __LINE__, "finished TID: %jx\n", this->getThreadId());
     }
 };
 }

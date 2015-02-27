@@ -56,8 +56,5 @@ namespace itc {
             context->run();
             return NULL;
         }
-
-        Thread::~Thread() {
-        }
     }
 }

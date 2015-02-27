@@ -36,7 +36,6 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/src/ITCError.o \
-	${OBJECTDIR}/src/Runnable.o \
 	${OBJECTDIR}/src/Thread.o \
 	${OBJECTDIR}/src/bzError.o \
 	${OBJECTDIR}/src/globals.o
@@ -72,11 +71,6 @@ ${OBJECTDIR}/src/ITCError.o: src/ITCError.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Iinclude -I../utils/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/ITCError.o src/ITCError.cpp
-
-${OBJECTDIR}/src/Runnable.o: src/Runnable.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -Iinclude -I../utils/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Runnable.o src/Runnable.cpp
 
 ${OBJECTDIR}/src/Thread.o: src/Thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src

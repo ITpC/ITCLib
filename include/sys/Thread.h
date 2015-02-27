@@ -122,7 +122,7 @@ namespace itc {
 
 
         protected:
-            virtual ~Thread() = 0;
+            virtual ~Thread() = default;
             virtual void run() = 0;
 
             inline void begin() {
