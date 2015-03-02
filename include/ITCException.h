@@ -226,7 +226,7 @@ public:
 class ITCException : public std::exception {
 private:
     ITCErrno mErrno;
-    exceptions::Exception mExcept;
+//    exceptions::Exception mExcept;
     std::shared_ptr<std::string> mWhat;
 public:
 

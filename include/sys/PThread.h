@@ -173,15 +173,16 @@ namespace itc
             {
                 setState(CANCEL);
                 mTask.post();
-                SyncLock synchronize(mMutex);
                 ::itc::getLog()->debug(__FILE__, __LINE__, "Thread [%jx] calling PThread::~Pthread() for thread [%jx]",this->getCurrentThrId(),this->getThreadId());
                 if (RunnablePointer ptr = mRunnable.get())
                 {
                     ptr->shutdown();
                 }
                 ::itc::getLog()->debug(__FILE__, __LINE__, "Thread [%jx], PThread::~Pthread() -> Calling cancel() for thread: [%jx]", this->getCurrentThrId(), this->getThreadId());
+                mTask.post();
                 cancel();
                 ::itc::getLog()->debug(__FILE__, __LINE__, "Thread [%jx], PThread::~Pthread() -> Calling finish() for thread: [%jx]", this->getCurrentThrId(), this->getThreadId());
+                mTask.post();
                 finish();
                 ::itc::getLog()->debug(__FILE__, __LINE__, "Thread [%jx], PThread::~Pthread() -> finished thread: [%jx]", this->getCurrentThrId(), this->getThreadId());
             }

@@ -53,6 +53,7 @@
                    projectFiles="true">
       <logicalFolder name="src" displayName="src" projectFiles="true">
         <itemPath>src/ITCError.cpp</itemPath>
+        <itemPath>src/Runnable.cpp</itemPath>
         <itemPath>src/Thread.cpp</itemPath>
         <itemPath>src/bzError.cpp</itemPath>
         <itemPath>src/globals.cpp</itemPath>
@@ -79,7 +80,7 @@
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
           </incDir>
-          <commandLine>-g -pipe -Wall -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -march=native -mtune=native -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -mno-tls-direct-seg-refs -DBZ_NO_STDIO -DLOG_DEBUG -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1 -std=c++11</commandLine>
+          <commandLine>-g -pipe -Wall -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -march=native -mtune=native -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -DBZ_NO_STDIO -DLOG_DEBUG -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1 -std=c++11</commandLine>
         </ccTool>
         <archiverTool>
         </archiverTool>
@@ -147,6 +148,8 @@
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/ITCError.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Runnable.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -245,6 +248,8 @@
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/ITCError.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Runnable.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
       </item>

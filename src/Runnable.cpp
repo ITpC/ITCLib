@@ -29,23 +29,13 @@
  * 
  **/
 
-#ifndef RUNNABLE_H_
-#define RUNNABLE_H_
+#include <abstract/Runnable.h>
 
-#include <abstract/Cleanable.h>
-
-namespace itc {
-    namespace abstract {
-
-        /** use this one **/
-        class IRunnable {
-        public:
-            virtual void execute() = 0;
-            virtual void onCancel() = 0;
-            virtual void shutdown() = 0;
-        protected:
-            virtual ~IRunnable() = 0;
-        };
+namespace itc
+{
+    namespace abstract
+    {
+        IRunnable::~IRunnable(){}
     }
 }
-#endif /*RUNNABLE_H_*/
+
