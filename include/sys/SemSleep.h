@@ -104,7 +104,7 @@ namespace itc
         gettimeofday(&now,NULL);
 
         anAbstime.tv_nsec=0;
-        anAbstime.tv_sec=now.tv_sec+sec
+        anAbstime.tv_sec=now.tv_sec+sec;
 
         while(1)
         {
