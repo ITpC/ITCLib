@@ -96,6 +96,29 @@ namespace itc
           }
         }
       }
+      inline void sleep(uint64_t sec)
+      {
+        struct timespec anAbstime;
+        struct timeval now;
+
+        gettimeofday(&now,NULL);
+
+        anAbstime.tv_nsec=0;
+        anAbstime.tv_sec=now.tv_sec+sec
+
+        while(1)
+        {
+          try{
+            mSemaphore.timedWait(anAbstime);
+          }catch(const ITCException& e)
+          {
+            if(e.getErrno() == EINTR)
+              continue;
+            if(e.getErrno() == ETIMEDOUT)
+              return;
+          }
+        }
+      }
     };
   }
 }
