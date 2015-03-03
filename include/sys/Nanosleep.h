@@ -33,6 +33,7 @@
 #define __NANOSLEEP__H__
 #include <time.h>
 #include <sys/Conditional.h>
+#include <stdint.h>
 
 namespace itc {
     namespace sys {

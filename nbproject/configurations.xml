@@ -19,11 +19,11 @@
           <itemPath>include/sys/AtomicDigital.h</itemPath>
           <itemPath>include/sys/CancelableThread.h</itemPath>
           <itemPath>include/sys/Conditional.h</itemPath>
-          <itemPath>include/sys/ITCSemaphore.h</itemPath>
           <itemPath>include/sys/Mutex.h</itemPath>
           <itemPath>include/sys/Nanosleep.h</itemPath>
           <itemPath>include/sys/PThread.h</itemPath>
           <itemPath>include/sys/PosixSemaphore.h</itemPath>
+          <itemPath>include/sys/SemSleep.h</itemPath>
           <itemPath>include/sys/Semaphore.h</itemPath>
           <itemPath>include/sys/SyncLock.h</itemPath>
           <itemPath>include/sys/Thread.h</itemPath>
@@ -127,8 +127,6 @@
       </item>
       <item path="include/sys/Conditional.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/sys/ITCSemaphore.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/sys/Mutex.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Nanosleep.h" ex="false" tool="3" flavor2="0">
@@ -136,6 +134,8 @@
       <item path="include/sys/PThread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/SemSleep.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Semaphore.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -227,8 +227,6 @@
       </item>
       <item path="include/sys/Conditional.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/sys/ITCSemaphore.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/sys/Mutex.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Nanosleep.h" ex="false" tool="3" flavor2="0">
@@ -236,6 +234,8 @@
       <item path="include/sys/PThread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/SemSleep.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Semaphore.h" ex="false" tool="3" flavor2="0">
       </item>

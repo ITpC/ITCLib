@@ -33,14 +33,6 @@
 #define SEMAPHORE_H_
 
 #include <sys/PosixSemaphore.h>
-#include <sys/ITCSemaphore.h>
-namespace itc {
-    namespace sys {
-#if !defined(_MSC_VER) && (!defined(__MINGW32_VERSION))
-        typedef RawPosixSemaphore Semaphore;
-#else
-        typedef PosixSemaphore Semaphore;
-#endif
-    }
-}
+
+
 #endif /*SEMAPHORE_H_*/
