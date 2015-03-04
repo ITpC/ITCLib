@@ -53,71 +53,70 @@
 #endif
 
 namespace exceptions {
+  enum Exception {
+    Can_not_create_mutex = 2001,
+    Can_not_initialize_mutex = 2002,
+    Can_not_lock_mutex = 2003,
+    Can_not_unlock_mutex = 2004,
+    Can_not_destroy_mutex = 2006,
+    Can_not_copy_mutex = 2007,
 
-    enum Exception {
-        Can_not_create_mutex = 2001,
-        Can_not_initialize_mutex = 2002,
-        Can_not_lock_mutex = 2003,
-        Can_not_unlock_mutex = 2004,
-        Can_not_destroy_mutex = 2006,
-        Can_not_copy_mutex = 2007,
+    Can_not_copy_semaphore = 2014,
+    Can_not_initialize_semaphore = 2015,
+    Can_not_get_semaphore_value = 2016,
+    Can_not_wait_on_semaphore = 2017,
+    Can_not_post_on_semaphore = 2018,
+    Can_not_destroy_semaphore = 2019,
 
-        Can_not_copy_semaphore = 2014,
-        Can_not_initialize_semaphore = 2015,
-        Can_not_get_semaphore_value = 2016,
-        Can_not_wait_on_semaphore = 2017,
-        Can_not_post_on_semaphore = 2018,
-        Can_not_destroy_semaphore = 2019,
+    Can_not_create_thread = 2020,
 
-        Can_not_create_thread = 2020,
+    Can_not_create_reusable_object = 2030,
+    Can_not_create_key = 2038,
+    Can_not_create_conditional = 2039,
 
-        Can_not_create_reusable_object = 2030,
-        Can_not_create_key = 2038,
-        Can_not_create_conditional = 2039,
+    Can_not_open_socket = 2041,
+    Can_not_bind_socket = 2042,
+    Can_not_listen_on_socket = 2043,
 
-        Can_not_open_socket = 2041,
-        Can_not_bind_socket = 2042,
-        Can_not_listen_on_socket = 2043,
+    Can_not_open_queue = 2054,
 
-        Can_not_open_queue = 2054,
+    Timed_wait_out_of_range = 2062,
+    Timed_wait_deadlock = 2063,
 
-        Timed_wait_out_of_range = 2062,
-        Timed_wait_deadlock = 2063,
+    NetworkException = 2100,
+    InvalidSocketException = 2101,
+    GAI_Exception = 2102,
+    BadSocketHints = 2103,
+    BadIPAddress = 2104,
+    MutexException = 2105,
 
-        NetworkException = 2100,
-        InvalidSocketException = 2101,
-        GAI_Exception = 2102,
-        BadSocketHints = 2103,
-        BadIPAddress = 2104,
-        MutexException = 2105,
-        
-        NoEPoll=2151,
-        EPollCTLError=2152,
+    NoEPoll=2151,
+    EPollCTLError=2152,
 
-        BufferOverflowAttempt = 2200,
-        IndexOutOfRange = 2201,
-        NullPointerException = 2202,
-        InitializationForbidden = 2203,
+    BufferOverflowAttempt = 2200,
+    IndexOutOfRange = 2201,
+    NullPointerException = 2202,
+    InitializationForbidden = 2203,
 
-        Can_not_assign_runnable = 2300,
+    Can_not_assign_runnable = 2300,
 
-        bz2ConfigError = 2350,
-        bz2ParamError = 2351,
-        bz2MemError = 2352,
-        bz2InternalError = 2353,
-        bz2DataIntegrityError=2354,
-        
-        FileNotFound=2500,
-        CanNotWrite=2501,
-        FileIsAlreadyOpen=2502,
-        UnsupportedFileLength=2503,
-        KeyIsNotSet=2504,
-        WrongFileFormat=2505,
-        
-        LuaScriptError=2515,
-        ApplicationException=2998,
-        InvalidException = 2999
-    };
+    bz2ConfigError = 2350,
+    bz2ParamError = 2351,
+    bz2MemError = 2352,
+    bz2InternalError = 2353,
+    bz2DataIntegrityError=2354,
+
+    FileNotFound=2500,
+    CanNotWrite=2501,
+    FileIsAlreadyOpen=2502,
+    UnsupportedFileLength=2503,
+    KeyIsNotSet=2504,
+    WrongFileFormat=2505,
+
+    LuaScriptError=2515,
+    ApplicationException=2998,
+    InvalidException = 2999
+  };
 }
 
 

@@ -34,56 +34,70 @@
 
 #include <sys/Mutex.h>
 #include <cstdio>
+#include <ios>
+#include <fstream>
+#include <string>
 
 namespace itc
 {
    
-    namespace utils
+  namespace utils
+  {
+    class STDOutLogThreadSafeAdapter : public itc::utils::abstract::ILogOutputAdapter
     {
-        class STDOutLogThreadSafeAdapter : public itc::utils::abstract::ILogOutputAdapter
+    private:
+      sys::Mutex    mMutex;
+      std::string   mFilename;
+      std::ios_base::openmode mMode;
+      std::ofstream mLogFile;
+
+
+    public: 
+      explicit STDOutLogThreadSafeAdapter(const char* filename, const std::ios_base::openmode& mode=std::ofstream::app)
+      : itc::utils::abstract::ILogOutputAdapter(filename),
+        mMutex(), mFilename(filename),mMode(std::ofstream::out|mode),
+        mLogFile(mFilename,mMode)
+      {
+        itc::sys::SyncLock synch(mMutex);
+        if(!mLogFile.good())
         {
-        private:
-            sys::Mutex          mMutex;
-            FILE*               mLogFile;
-            
-        public:
-            
-            explicit STDOutLogThreadSafeAdapter(const char* filename, const char* wmode="a")
-            : itc::utils::abstract::ILogOutputAdapter(filename), mMutex(),mLogFile(NULL)
-            {
-                itc::sys::SyncLock synch(mMutex);
-                mLogFile=fopen(filename,wmode);
-                if(mLogFile==NULL)
-                {
-                    throw itc::utils::CanNotOpenTheLogException();
-                }
-            }
-            
-            explicit STDOutLogThreadSafeAdapter(const STDOutLogThreadSafeAdapter& p)
-            :   itc::utils::abstract::ILogOutputAdapter(NULL)
-            {
-                itc::sys::SyncLock synch(mMutex);
-                mLogFile=p.mLogFile;
-            }
-            
-            void post(const std::string& pMessage)
-            {
-                itc::sys::SyncLock sync(mMutex);
-                fprintf(mLogFile,"%s",pMessage.c_str());
-            }
-            
-            inline void flush()
-            {
-                itc::sys::SyncLock sync(mMutex);
-                fflush(mLogFile); 
-            }
-            
-            ~STDOutLogThreadSafeAdapter()
-            {
-                flush();
-            }
-        };
-    }
+          throw itc::utils::CanNotOpenTheLogException();
+        }
+      }
+
+      explicit STDOutLogThreadSafeAdapter(STDOutLogThreadSafeAdapter& p)
+      :   itc::utils::abstract::ILogOutputAdapter(NULL)
+      {
+        itc::sys::SyncLock synch(mMutex);
+        mFilename=p.mFilename;
+        mMode=p.mMode;
+        p.mLogFile.close();
+        mLogFile.open(mFilename,mMode);
+        if(!mLogFile.good())
+        {
+          throw itc::utils::CanNotOpenTheLogException();
+        }
+      }
+
+      void post(const std::string& pMessage)
+      {
+        itc::sys::SyncLock sync(mMutex);
+        mLogFile << pMessage;
+      }
+
+      inline void flush()
+      {
+        itc::sys::SyncLock sync(mMutex);
+        mLogFile.flush(); 
+      }
+
+      ~STDOutLogThreadSafeAdapter()
+      {
+        flush();
+        mLogFile.close();
+      }
+    };
+  }
 }
 
 #endif /*TSAFELOGOUTADAPTER_H_*/
