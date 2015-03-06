@@ -94,7 +94,7 @@ public:
         }
     }
 
-    virtual ~CancelableThread()
+    virtual ~CancelableThread() noexcept // gcc 4.7.4 compat
     {
         if (TRunnable *ptr = mRunnable.get())
         {
