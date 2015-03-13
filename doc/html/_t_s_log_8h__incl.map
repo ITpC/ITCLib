@@ -1,9 +1,0 @@
-<map id="include/TSLog.h" name="include/TSLog.h">
-<area shape="rect" id="node5" href="$_mutex_8h.html" title="sys/Mutex.h" alt="" coords="584,237,680,267"/>
-<area shape="rect" id="node31" href="$_sync_lock_8h.html" title="sys/SyncLock.h" alt="" coords="669,160,787,189"/>
-<area shape="rect" id="node38" href="$_log_out_buffer_8h.html" title="LogOutBuffer.h" alt="" coords="423,83,537,112"/>
-<area shape="rect" id="node49" href="$_std_text_log_formatter_8h.html" title="StdTextLogFormatter.h" alt="" coords="1096,83,1261,112"/>
-<area shape="rect" id="node64" href="$_t_safe_log_out_adapter_8h.html" title="TSafeLogOutAdapter.h" alt="" coords="821,83,987,112"/>
-<area shape="rect" id="node9" href="$_i_t_c_exception_8h.html" title="ITCException.h" alt="" coords="517,315,635,344"/>
-<area shape="rect" id="node25" href="$_i_t_c_error_8h.html" title="ITCError.h" alt="" coords="748,392,836,421"/>
-</map>

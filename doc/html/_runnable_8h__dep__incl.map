@@ -1,6 +1,0 @@
-<map id="include/abstract/Runnable.h" name="include/abstract/Runnable.h">
-<area shape="rect" id="node3" href="$_cancelable_thread_8h.html" title="include/sys/CancelableThread.h" alt="" coords="5,160,227,189"/>
-<area shape="rect" id="node5" href="$_thread_8h.html" title="include/sys/Thread.h" alt="" coords="153,83,305,112"/>
-<area shape="rect" id="node10" href="$_runnable_8cpp.html" title="src/Runnable.cpp" alt="" coords="329,83,460,112"/>
-<area shape="rect" id="node8" href="$_thread_8cpp.html" title="src/Thread.cpp" alt="" coords="251,160,368,189"/>
-</map>

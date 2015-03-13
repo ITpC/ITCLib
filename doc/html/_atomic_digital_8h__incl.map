@@ -1,6 +1,0 @@
-<map id="include/sys/AtomicDigital.h" name="include/sys/AtomicDigital.h">
-<area shape="rect" id="node9" href="$_sync_lock_8h.html" title="sys/SyncLock.h" alt="" coords="343,83,460,112"/>
-<area shape="rect" id="node11" href="$_mutex_8h.html" title="sys/Mutex.h" alt="" coords="353,160,449,189"/>
-<area shape="rect" id="node14" href="$_i_t_c_exception_8h.html" title="ITCException.h" alt="" coords="401,237,519,267"/>
-<area shape="rect" id="node31" href="$_i_t_c_error_8h.html" title="ITCError.h" alt="" coords="752,315,840,344"/>
-</map>

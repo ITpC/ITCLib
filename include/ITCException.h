@@ -114,8 +114,17 @@ namespace exceptions {
     WrongFileFormat=2505,
 
     LuaScriptError=2515,
-    ApplicationException=2998,
-    InvalidException = 2999
+    
+    MDBVersionMissmatch=2600,
+    MDBInvalid=2601,
+    MDBNotFound=2602,
+    MDBEAccess=2603,
+    MDBEAgain=2604,
+    MDBClosed=2605,
+    
+    ExternalLibraryException=2998,
+    InvalidException = 2999,
+    ApplicationException=3000
   };
 }
 

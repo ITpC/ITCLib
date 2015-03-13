@@ -1,4 +1,0 @@
-<map id="itc::sys::Sleep::usleep" name="itc::sys::Sleep::usleep">
-<area shape="rect" id="node3" href="$classitc_1_1sys_1_1_conditional.html#a4bddabcb4bf95a137e504a0afb1c97fb" title="itc::sys::Conditional\l::tryWait" alt="" coords="207,5,345,51"/>
-<area shape="rect" id="node5" href="$classitc_1_1sys_1_1_raw_mutex.html#a993bd6e3a7e911c355825190563a2971" title="itc::sys::RawMutex\l::getMutexPtr" alt="" coords="396,5,529,51"/>
-</map>

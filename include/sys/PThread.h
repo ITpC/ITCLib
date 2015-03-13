@@ -78,8 +78,8 @@ namespace itc
             friend void cleanup_handler(abstract::Cleanable*);
 
             Mutex        mMutex;
-            TaskType mRunnable;
-            Semaphore    mTask;
+            TaskType  mRunnable;
+            Semaphore     mTask;
             PThreadState mState;
 
             inline void setState(PThreadState state)

@@ -1,8 +1,0 @@
-<map id="include/sys/Conditional.h" name="include/sys/Conditional.h">
-<area shape="rect" id="node3" href="$_nanosleep_8h.html" title="include/sys/Nanosleep.h" alt="" coords="85,83,259,112"/>
-<area shape="rect" id="node5" href="$_i_t_c_semaphore_8h.html" title="include/sys/ITCSemaphore.h" alt="" coords="71,160,273,189"/>
-<area shape="rect" id="node7" href="$_semaphore_8h.html" title="include/sys/Semaphore.h" alt="" coords="83,237,261,267"/>
-<area shape="rect" id="node9" href="$_cancelable_thread_8h.html" title="include/sys/CancelableThread.h" alt="" coords="5,392,227,421"/>
-<area shape="rect" id="node11" href="$_thread_8h.html" title="include/sys/Thread.h" alt="" coords="153,315,305,344"/>
-<area shape="rect" id="node14" href="$_thread_8cpp.html" title="src/Thread.cpp" alt="" coords="251,392,368,421"/>
-</map>

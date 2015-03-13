@@ -1,4 +1,0 @@
-<map id="itc::sys::Sleep::usleep" name="itc::sys::Sleep::usleep">
-<area shape="rect" id="node3" href="$classitc_1_1sys_1_1_i_t_c_semaphore.html#a1799dd2e6b2313808a3090c2d78ca81c" title="itc::sys::ITCSemaphore\l::wait" alt="" coords="207,5,367,51"/>
-<area shape="rect" id="node5" href="$classitc_1_1sys_1_1_i_t_c_semaphore.html#a751a7c646a65d16a321890c61a499644" title="itc::sys::ITCSemaphore\l::tryWait" alt="" coords="417,5,577,51"/>
-</map>

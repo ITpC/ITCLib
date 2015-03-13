@@ -34,6 +34,7 @@
 
 #include <sys/Semaphore.h>
 #include <ITCException.h>
+#include <sys/time.h>
 
 namespace itc
 {

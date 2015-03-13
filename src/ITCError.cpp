@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2007, Pavel Kraynyukhov.
+ * Copyright (c) 2007-2015, Pavel Kraynyukhov.
  *  
  * Permission to use, copy, modify, and distribute this software and its
  * documentation for any purpose, without fee, and without a written agreement
@@ -98,12 +98,19 @@ static const char * ITCStrError(int err)
         case exceptions::UnsupportedFileLength: return "Unsupported file fength";
         case exceptions::KeyIsNotSet: return "The key isn't set";
         case exceptions::WrongFileFormat: return "Either the file format is wrong, the file is corrupt, or a password is incorrect";
+        case exceptions::ExternalLibraryException: return "an external library threw an exception or error a call to library function returned the error";
         case exceptions::InvalidException: return "Invalid exception";
         case exceptions::ApplicationException: return "Application runtime error";
         case exceptions::LuaScriptError: return "Error in the lua script";
         case exceptions::InitializationForbidden: return "Initialization is forbidden";
         case exceptions::NoEPoll: return "epoll_create() error";
         case exceptions::EPollCTLError: return "epoll_ctl() error";
+        case exceptions::MDBEAccess : return "LMDB this user does not have permission to access the environment files";
+        case exceptions::MDBEAgain : return "LMDB the environment was locked by another process";
+        case exceptions::MDBInvalid : return "LMDB the environment file headers are corrupted";
+        case exceptions::MDBNotFound : return "LMDB the directory specified by the path parameter doesn't exist";
+        case exceptions::MDBVersionMissmatch: return "LMDB  the version of the LMDB library doesn't match the version that created the database environment";
+        case exceptions::MDBClosed: return "LMDB: the database environment is already closed";
 
         default:
             return "UNKNOWN ITC ERROR OR EXCEPTION";
@@ -197,15 +204,13 @@ const char FAR * itcstrerror(int i)
 const char* itcstrerror(int i)
 #endif
 {
-	return (
-        (i < 0 ) ? gai_strerror(i) : (
-            (i>30000) ? lookupAppError(i) : (
-                (i>10000) ? WSAStrError(i) : ( 
-                    (i>3000) ? lookupAppError(i) : (
-                        (i>2000) ? ITCStrError(i) : strerror(i)
-                    )
-                )
-            )
+  return (
+    (i < 0 ) ? gai_strerror(i) : (
+      (i>30000) ? lookupAppError(i) : (
+        (i>10000) ? WSAStrError(i) : ( 
+          (i>2000) ? ITCStrError(i) : strerror(i)
         )
-	);
+      )
+    )
+  );
 }

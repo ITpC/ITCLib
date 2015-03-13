@@ -1,7 +1,0 @@
-<map id="include/sys/Nanosleep.h" name="include/sys/Nanosleep.h">
-<area shape="rect" id="node3" href="$_i_t_c_semaphore_8h.html" title="include/sys/ITCSemaphore.h" alt="" coords="71,83,273,112"/>
-<area shape="rect" id="node5" href="$_semaphore_8h.html" title="include/sys/Semaphore.h" alt="" coords="83,160,261,189"/>
-<area shape="rect" id="node7" href="$_cancelable_thread_8h.html" title="include/sys/CancelableThread.h" alt="" coords="5,315,227,344"/>
-<area shape="rect" id="node9" href="$_thread_8h.html" title="include/sys/Thread.h" alt="" coords="153,237,305,267"/>
-<area shape="rect" id="node12" href="$_thread_8cpp.html" title="src/Thread.cpp" alt="" coords="251,315,368,344"/>
-</map>

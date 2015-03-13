@@ -1,8 +1,0 @@
-<map id="include/globals.h" name="include/globals.h">
-<area shape="rect" id="node3" href="$_g_a_i_n_t_lock_8h.html" title="include/GAINTLock.h" alt="" coords="95,83,249,112"/>
-<area shape="rect" id="node5" href="$_posix_semaphore_8h.html" title="include/sys/PosixSemaphore.h" alt="" coords="65,160,279,189"/>
-<area shape="rect" id="node7" href="$_semaphore_8h.html" title="include/sys/Semaphore.h" alt="" coords="83,237,261,267"/>
-<area shape="rect" id="node9" href="$_cancelable_thread_8h.html" title="include/sys/CancelableThread.h" alt="" coords="5,392,227,421"/>
-<area shape="rect" id="node11" href="$_thread_8h.html" title="include/sys/Thread.h" alt="" coords="153,315,305,344"/>
-<area shape="rect" id="node14" href="$_thread_8cpp.html" title="src/Thread.cpp" alt="" coords="251,392,368,421"/>
-</map>

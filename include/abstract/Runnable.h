@@ -37,7 +37,12 @@
 namespace itc {
     namespace abstract {
 
-        /** use this one **/
+        /** 
+         * @brief Runnable interface. Inherit this interface to run your tasks
+         * within help of itc::sys::PThread and itc::sys::Cancelable<T> as a 
+         * thread
+         * 
+         **/
         class IRunnable {
         public:
             virtual void execute() = 0;

@@ -58,6 +58,7 @@ public:
         else
         {
             pthread_mutexattr_t aMutexAttr;
+            pthread_mutexattr_init(&aMutexAttr);
             pthread_mutexattr_settype(&aMutexAttr, mutex_attr);
             if (int ret = pthread_mutex_init(&mAtomicLock, &aMutexAttr))
             {

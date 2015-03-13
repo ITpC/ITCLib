@@ -1,5 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node3" href="$class_app_exception.html" title="A general purpose Exception for applications those depends on ITCLib or ITCFramework. There are no obligations to use this exceptions class. This class is about 45%&#45;48% slower, then std::bad_alloc or std::exception. NOTE: this class is the CRAP! Use TITCException template instead." alt="" coords="169,5,279,35"/>
-<area shape="rect" id="node5" href="$class_i_t_c_exception.html" title="General purpose exception class for ITCLib and ITCFramework." alt="" coords="171,59,277,88"/>
-<area shape="rect" id="node7" href="$class_t_i_t_c_exception.html" title="General purpose exceptions tamplate for ITCLib and ITCFramework it should be fast in cascade..." alt="" coords="137,112,311,141"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="itc::sys::Conditional::tryWait" name="itc::sys::Conditional::tryWait">
-<area shape="rect" id="node3" href="$classitc_1_1sys_1_1_sleep.html#ae652eff52eaa7d5a43d50d1266fbea21" title="itc::sys::Sleep::nsleep" alt="" coords="197,5,349,35"/>
-<area shape="rect" id="node5" href="$classitc_1_1sys_1_1_sleep.html#a224588c130a69ee81f7588809c234eef" title="itc::sys::Sleep::usleep" alt="" coords="197,59,349,88"/>
-<area shape="rect" id="node11" href="$classitc_1_1sys_1_1_sleep.html#ad39df9b911db9d6784ef81e850a222af" title="itc::sys::Sleep::msleep" alt="" coords="196,112,351,141"/>
-<area shape="rect" id="node13" href="$classitc_1_1sys_1_1_sleep.html#ac3e504eb8bb8c59c62008878653b8dd2" title="itc::sys::Sleep::sleep" alt="" coords="201,165,345,195"/>
-<area shape="rect" id="node7" href="$classitc_1_1sys_1_1_i_t_c_semaphore.html#a1799dd2e6b2313808a3090c2d78ca81c" title="itc::sys::ITCSemaphore\l::wait" alt="" coords="400,50,565,97"/>
-<area shape="rect" id="node9" href="$classitc_1_1sys_1_1_i_t_c_semaphore.html#a751a7c646a65d16a321890c61a499644" title="itc::sys::ITCSemaphore\l::tryWait" alt="" coords="613,50,779,97"/>
-</map>
