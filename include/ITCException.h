@@ -122,6 +122,8 @@ namespace exceptions {
     MDBEAgain=2604,
     MDBClosed=2605,
     
+    MPConfigSyntax=2700,
+    
     ExternalLibraryException=2998,
     InvalidException = 2999,
     ApplicationException=3000
@@ -273,40 +275,6 @@ public:
     }
 
     virtual ~ITCException() throw () {
-    }
-};
-
-/**
- * @brief A general purpose Exception for applications
- * those depends on ITCLib or ITCFramework. 
- * There are no obligations to use this exceptions class.
- * This class is about 45%-48% slower, then std::bad_alloc or 
- * std::exception.    
- * NOTE: this class is the CRAP! Use TITCException template instead. 
- **/
-class AppException : public std::exception {
-private:
-    const char* mFileName;
-    const char* mMessage;
-    const int mLine;
-    std::ostringstream mExceptionMessage;
-public:
-
-    AppException(const char* pFile, const int pLine, const char* pMsg) throw ()
-    : mFileName(pFile), mMessage(pMsg), mLine(pLine) {
-        mExceptionMessage << "Application Exception: " << mMessage << " in file " << mFileName << " at line " << mLine;
-    }
-
-    AppException(const AppException& ref) throw ()
-    : mFileName(ref.mFileName), mMessage(ref.mMessage), mLine(ref.mLine) {
-        mExceptionMessage << ref.mExceptionMessage.str();
-    }
-
-    virtual const char* what() const throw () {
-        return mExceptionMessage.str().c_str();
-    }
-
-    virtual ~AppException() throw () {
     }
 };
 

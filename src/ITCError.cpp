@@ -111,6 +111,7 @@ static const char * ITCStrError(int err)
         case exceptions::MDBNotFound : return "LMDB the directory specified by the path parameter doesn't exist";
         case exceptions::MDBVersionMissmatch: return "LMDB  the version of the LMDB library doesn't match the version that created the database environment";
         case exceptions::MDBClosed: return "LMDB: the database environment is already closed";
+        case exceptions::MPConfigSyntax: return "Syntaxis error in MessagePack config";
 
         default:
             return "UNKNOWN ITC ERROR OR EXCEPTION";
