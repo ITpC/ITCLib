@@ -30,30 +30,33 @@
  **/
 
 #ifndef __ITCException_H__
-#define __ITCException_H__
+#  define __ITCException_H__
 
-#include <pthread.h>
-#include <exception>
-#include <string>
-#include <cstring>
-#include <cerrno>
-#include <vector>
-#include <sstream>
-#include <iostream>
-#include <ITCError.h>
-#include <InterfaceCheck.h>
-#include <memory>
+#  include <pthread.h>
+#  include <exception>
+#  include <string>
+#  include <cstring>
+#  include <cerrno>
+#  include <vector>
+#  include <sstream>
+#  include <iostream>
+#  include <ITCError.h>
+#  include <InterfaceCheck.h>
+#  include <memory>
 
 // using namespace std::tr1;
 
-#ifdef PtW32Catch
-#define CATCH  PtW32Catch
-#else
-#define CATCH  catch(...)
-#endif
+#  ifdef PtW32Catch
+#    define CATCH  PtW32Catch
+#  else
+#    define CATCH  catch(...)
+#  endif
 
-namespace exceptions {
-  enum Exception {
+namespace exceptions
+{
+
+  enum Exception
+  {
     Can_not_create_mutex = 2001,
     Can_not_initialize_mutex = 2002,
     Can_not_lock_mutex = 2003,
@@ -90,8 +93,8 @@ namespace exceptions {
     BadIPAddress = 2104,
     MutexException = 2105,
 
-    NoEPoll=2151,
-    EPollCTLError=2152,
+    NoEPoll = 2151,
+    EPollCTLError = 2152,
 
     BufferOverflowAttempt = 2200,
     IndexOutOfRange = 2201,
@@ -104,29 +107,33 @@ namespace exceptions {
     bz2ParamError = 2351,
     bz2MemError = 2352,
     bz2InternalError = 2353,
-    bz2DataIntegrityError=2354,
+    bz2DataIntegrityError = 2354,
 
-    FileNotFound=2500,
-    CanNotWrite=2501,
-    FileIsAlreadyOpen=2502,
-    UnsupportedFileLength=2503,
-    KeyIsNotSet=2504,
-    WrongFileFormat=2505,
+    FileNotFound = 2500,
+    CanNotWrite = 2501,
+    FileIsAlreadyOpen = 2502,
+    UnsupportedFileLength = 2503,
+    KeyIsNotSet = 2504,
+    WrongFileFormat = 2505,
 
-    LuaScriptError=2515,
-    
-    MDBVersionMissmatch=2600,
-    MDBInvalid=2601,
-    MDBNotFound=2602,
-    MDBEAccess=2603,
-    MDBEAgain=2604,
-    MDBClosed=2605,
-    
-    MPConfigSyntax=2700,
-    
-    ExternalLibraryException=2998,
+    LuaScriptError = 2515,
+
+    MDBVersionMissmatch = 2600,
+    MDBInvalid = 2601,
+    MDBNotFound = 2602,
+    MDBEAccess = 2603,
+    MDBEAgain = 2604,
+    MDBClosed = 2605,
+
+    MPConfigSyntax = 2700,
+
+    Reflection = 2720,
+    UndefinedType = 2721,
+    InvalidTypecast = 2722,
+
+    ExternalLibraryException = 2998,
     InvalidException = 2999,
-    ApplicationException=3000
+    ApplicationException = 3000
   };
 }
 
@@ -135,47 +142,53 @@ namespace exceptions {
  * lookupAppError(size_t) must be defined in user application.
  **/
 
-#if defined(_MSC_VER)
+#  if defined(_MSC_VER)
 extern const char FAR * lookupAppError(size_t);
-#else
+#  else
 extern const char * lookupAppError(size_t);
-#endif
+#  endif
 
-#if defined(_MSC_VER)
+#  if defined(_MSC_VER)
 extern const char FAR * WSAStrError(int);
-#else
+#  else
 extern const char * WSAStrError(int);
-#endif
+#  endif
 
 
 
-#if defined(_MSC_VER)
+#  if defined(_MSC_VER)
 extern const char FAR * itcstrerror(int);
-#else
+#  else
 extern const char* itcstrerror(int);
-#endif
+#  endif
 
-struct ITCErrno {
-    int error;
-    exceptions::Exception msgno;
+struct ITCErrno
+{
+  int error;
+  exceptions::Exception msgno;
 
-    ITCErrno(const int err, const exceptions::Exception msg) : error(err), msgno(msg) {
-    }
+  ITCErrno(const int err, const exceptions::Exception msg) : error(err), msgno(msg)
+  {
+  }
 
-    ITCErrno(const ITCErrno & val) : error(val.error), msgno(val.msgno) {
-    }
+  ITCErrno(const ITCErrno & val) : error(val.error), msgno(val.msgno)
+  {
+  }
 
-    ITCErrno() : error(EINVAL), msgno(exceptions::InvalidException) {
-    }
+  ITCErrno() : error(EINVAL), msgno(exceptions::InvalidException)
+  {
+  }
 
-    inline ITCErrno operator=(const ITCErrno & mterr) {
-        errno = mterr.error;
-        msgno = mterr.msgno;
-        return (*this);
-    }
+  inline ITCErrno operator=(const ITCErrno & mterr)
+  {
+    errno = mterr.error;
+    msgno = mterr.msgno;
+    return(*this);
+  }
 
-    ~ITCErrno() {
-    }
+  ~ITCErrno()
+  {
+  }
 };
 
 /**
@@ -191,91 +204,104 @@ struct ITCErrno {
  **/
 
 template <
-    const exceptions::Exception Excpt = exceptions::InvalidException
-> class TITCException : public std::exception {
-private:
-    ITCErrno                mErrno;
-    std::shared_ptr<std::string> mWhat;
-    
-public:
+const exceptions::Exception Excpt = exceptions::InvalidException
+> class TITCException : public std::exception
+{
+ private:
+  ITCErrno mErrno;
+  std::shared_ptr<std::string> mWhat;
 
-/*    TITCException() throw () : mErrno(EINVAL, Excpt), mWhat(new std::string())
-    {
-    }
-*/
-    explicit TITCException(const int ErrVal = EINVAL) throw () : mErrno(ErrVal, Excpt), mWhat(new std::string())
-    {
-    }
+ public:
 
-    TITCException(const TITCException<Excpt>& ref) throw ()
-    : mErrno(ref.mErrno), mWhat(ref.mWhat) {
-    }
+    /*    TITCException() throw () : mErrno(EINVAL, Excpt), mWhat(new std::string())
+      {
+      }
+   */
+  explicit TITCException(const int ErrVal = EINVAL) throw() : mErrno(ErrVal, Excpt), mWhat(new std::string())
+  {
+  }
 
-    virtual const char* what() const throw () {
-        mWhat.get()->append("Exception - ").append(itcstrerror(mErrno.msgno)).append(", ").append(itcstrerror(mErrno.error));
-        return mWhat.get()->c_str();
-    }
+  TITCException(const TITCException<Excpt>& ref) throw()
+    : mErrno(ref.mErrno), mWhat(ref.mWhat)
+  {
+  }
 
-    inline int getErrno() const {
-        return mErrno.error;
-    }
+  virtual const char* what() const throw()
+  {
+    mWhat.get()->append("Exception - ").append(itcstrerror(mErrno.msgno)).append(", ").append(itcstrerror(mErrno.error));
+    return mWhat.get()->c_str();
+  }
 
-    inline exceptions::Exception getMsgno() const {
-        return mErrno.msgno;
-    }
+  inline int getErrno() const
+  {
+    return mErrno.error;
+  }
 
-    virtual ~TITCException() throw () {
-    }
+  inline exceptions::Exception getMsgno() const
+  {
+    return mErrno.msgno;
+  }
+
+  virtual ~TITCException() throw()
+  {
+  }
 };
-
 
 /**
  * @brief General purpose exception class for ITCLib and ITCFramework 
  *
  **/
-class ITCException : public std::exception {
-private:
-    ITCErrno mErrno;
-//    exceptions::Exception mExcept;
-    std::shared_ptr<std::string> mWhat;
-public:
+class ITCException : public std::exception
+{
+ private:
+  ITCErrno mErrno;
+  //    exceptions::Exception mExcept;
+  std::shared_ptr<std::string> mWhat;
+ public:
 
-    ITCException() throw ()
+  ITCException() throw()
     : mErrno(EINVAL, exceptions::InvalidException),
     mWhat(
     new std::string()
-    ) {
-    }
+    )
+  {
+  }
 
-    ITCException(
-            const int pErrVal = EINVAL,
-            const exceptions::Exception pExcept = exceptions::InvalidException
-            ) throw ()
+  ITCException(
+    const int pErrVal = EINVAL,
+    const exceptions::Exception pExcept = exceptions::InvalidException
+    ) throw()
     : mErrno(pErrVal, pExcept),
     mWhat(
     new std::string()
-    ) {
-    }
+    )
+  {
+  }
 
-    ITCException(const ITCException& ref)throw ()
-    : mErrno(ref.mErrno), mWhat(ref.mWhat) {
-    }
+  ITCException(const ITCException& ref)throw()
+    : mErrno(ref.mErrno), mWhat(ref.mWhat)
+  {
+  }
 
-    virtual const char* what() const throw () {
-        mWhat.get()->append("Exception - ").append(itcstrerror(mErrno.msgno)).append(", ").append(itcstrerror(mErrno.error));
-        return mWhat.get()->c_str();
-    }
+  virtual const char* what() const throw()
+  {
+    mWhat.get()->append("Exception - ").append(itcstrerror(mErrno.msgno)).append(", ").append(itcstrerror(mErrno.error));
+    return mWhat.get()->c_str();
+  }
 
-    inline int getErrno() const {
-        return mErrno.error;
-    }
+  inline int getErrno() const
+  {
+    return mErrno.error;
+  }
 
-    inline exceptions::Exception getMsgno() const {
-        return mErrno.msgno;
-    }
+  inline exceptions::Exception getMsgno() const
+  {
+    return mErrno.msgno;
+  }
 
-    virtual ~ITCException() throw () {
-    }
+  virtual ~ITCException() throw()
+  {
+  }
 };
 
 #endif
