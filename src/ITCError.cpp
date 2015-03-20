@@ -106,18 +106,31 @@ static const char * ITCStrError(int err)
     case exceptions::InitializationForbidden: return "Initialization is forbidden";
     case exceptions::NoEPoll: return "epoll_create() error";
     case exceptions::EPollCTLError: return "epoll_ctl() error";
-    case exceptions::MDBEAccess: return "LMDB this user does not have permission to access the environment files";
-    case exceptions::MDBEAgain: return "LMDB the environment was locked by another process";
-    case exceptions::MDBInvalid: return "LMDB the environment file headers are corrupted";
-    case exceptions::MDBNotFound: return "LMDB the directory specified by the path parameter doesn't exist";
-    case exceptions::MDBVersionMissmatch: return "LMDB  the version of the LMDB library doesn't match the version that created the database environment";
-    case exceptions::MDBClosed: return "LMDB: the database environment is already closed";
-    case exceptions::MPConfigSyntax: return "Syntaxis error in MessagePack config";
+    case exceptions::MDBEAccess: return "this user does not have permission to access the environment files";
+    case exceptions::MDBEAgain: return "the environment was locked by another process";
+    case exceptions::MDBInvalid: return "the environment file headers are corrupted";
+    case exceptions::MDBNotFound: return "the specified database doesn't exist in the environment and MDB_CREATE was not specified";
+    case exceptions::MDBVersionMissmatch: return "the version of the LMDB library doesn't match the version that created the database environment";
+    case exceptions::MDBClosed: return "the database environment is already closed";
+    case exceptions::MDBGeneral: return "LMDB general error";
+    case exceptions::MDBMapResized: return "another process wrote data beyond this MDB_env's mapsize and this environment's map must be resized as well. See mdb_env_set_mapsize().";
+    case exceptions::MDBPanic: return "a fatal error occurred earlier and the environment must be shut down.";
+    case exceptions::MDBReadersFull: return "a read-only transaction was requested and the reader lock table is full. See mdb_env_set_maxreaders().";
+    case exceptions::MDBTooMany: return "too many databases have been opened. See mdb_env_set_maxdbs().";
+    case exceptions::MDBEInval: return "an invalid parameter was specified, or the environment is already open.";
+    case exceptions::ConfigSyntax: return "Syntaxis error in config stream";
     case exceptions::Reflection: return "Error in config reflection";
     case exceptions::UndefinedType: return "Type name is undefined for this typecode";
-
+    case exceptions::ITCGeneral: return "ITCFramework general exception";
+    case exceptions::Can_not_begin_txn: return "Transaction may not begin";
+    case exceptions::MDBEnvWrong: return "Attempt to interact with extraneous LMDB environment";
+    case exceptions::MDBTxnNULL: return "Transaction handle is NULL";
+    case exceptions::MDBInvalParam: return "an invalid parameter was specified";
+    case exceptions::MDBMapFull: return "the database is full, see mdb_env_set_mapsize().";
+    case exceptions::MDBTxnFull: return "the transaction has too many dirty pages.";
+    case exceptions::MDBTEAccess: return "an attempt was made to write in a read-only transaction.";
     default:
-      return "UNKNOWN ITC ERROR OR EXCEPTION";
+      return "UNKNOWN ITC ERROR OR EXCEPTION, Exception code is not on the library";
   }
 }
 

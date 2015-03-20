@@ -92,6 +92,9 @@ namespace exceptions
     BadSocketHints = 2103,
     BadIPAddress = 2104,
     MutexException = 2105,
+    
+    ITCGeneral=2112,
+    Can_not_begin_txn=2113,
 
     NoEPoll = 2151,
     EPollCTLError = 2152,
@@ -124,9 +127,21 @@ namespace exceptions
     MDBEAccess = 2603,
     MDBEAgain = 2604,
     MDBClosed = 2605,
+    MDBPanic = 2606,
+    MDBGeneral = 2607,
+    MDBMapResized = 2608,
+    MDBReadersFull = 2609,
+    MDBTooMany = 2610,
+    MDBEInval = 2611,
+    MDBEnvWrong = 2612,
+    MDBTxnNULL = 2613,
+    MDBInvalParam = 2614,
+    MDBMapFull = 2615,
+    MDBTxnFull = 2616,
+    MDBTEAccess = 2617,
 
-    MPConfigSyntax = 2700,
-
+    ConfigSyntax = 2700,
+    
     Reflection = 2720,
     UndefinedType = 2721,
     InvalidTypecast = 2722,
