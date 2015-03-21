@@ -67,10 +67,8 @@ public:
         }
     }
 
-    explicit RawMutex(const RawMutex& ref)
-    {
-        throw TITCException<exceptions::Can_not_copy_mutex>(EINVAL);
-    }
+    explicit RawMutex(const RawMutex& ref)=delete;
+    explicit RawMutex(RawMutex& ref)=delete;
 
     ~RawMutex() {
         destroy();

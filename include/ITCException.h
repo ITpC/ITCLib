@@ -103,6 +103,7 @@ namespace exceptions
     IndexOutOfRange = 2201,
     NullPointerException = 2202,
     InitializationForbidden = 2203,
+    ImplementationForbidden = 2204,
 
     Can_not_assign_runnable = 2300,
 
@@ -139,12 +140,15 @@ namespace exceptions
     MDBMapFull = 2615,
     MDBTxnFull = 2616,
     MDBTEAccess = 2617,
+    MDBKeyNotFound = 2618,
 
     ConfigSyntax = 2700,
     
     Reflection = 2720,
     UndefinedType = 2721,
     InvalidTypecast = 2722,
+    
+    LPQStart = 2800,
 
     ExternalLibraryException = 2998,
     InvalidException = 2999,
