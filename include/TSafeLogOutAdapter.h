@@ -71,7 +71,6 @@ namespace itc
         itc::sys::SyncLock synch(mMutex);
         mFilename=p.mFilename;
         mMode=p.mMode;
-        p.mLogFile.close();
         mLogFile.open(mFilename,mMode);
         if(!mLogFile.good())
         {
