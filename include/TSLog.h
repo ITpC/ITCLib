@@ -76,7 +76,7 @@ namespace itc {
 #endif
 #endif
 #endif	
-
+  
     extern "C"
     {
         std::shared_ptr<CurrentLogType> getLog();
