@@ -222,11 +222,9 @@ namespace itc
                 throw ITCException(errno, exceptions::Can_not_initialize_semaphore);
         }
 
-        explicit RawPosixSemaphore(const RawPosixSemaphore&)
-        {
-            // it is a seak idea to copy semaphore.
-            throw ITCException(EINVAL, exceptions::Can_not_copy_semaphore);
-        }
+        explicit RawPosixSemaphore(const RawPosixSemaphore&)=delete;
+        explicit RawPosixSemaphore(RawPosixSemaphore&)=delete;
+
 
         inline void wait(void)
         {

@@ -6,11 +6,11 @@
  */
 
 #ifndef SCTP_H
-#define	SCTP_H
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netinet/sctp.h>
-#include <net/NSocket.h>
+#  define	SCTP_H
+#  include <sys/socket.h>
+#  include <netinet/in.h>
+#  include <netinet/sctp.h>
+#  include <net/NSocket.h>
 
 /**
  * OPTIONS of the SCTP for sysctl:
@@ -36,15 +36,17 @@
 
 namespace itc
 {
-    template <int options=0,int lqueuesize=0> class SCTPSocket 
-    {
-        private:
-            int listenSocket;
-            struct sockaddr_in server_addr;
-            
-            
 
-    };
+  /**
+   * abandoned due to lack of time. nothing here.
+   **/
+  template <int options = 0, int lqueuesize = 0 > class SCTPSocket
+  {
+   private:
+    int listenSocket;
+    struct sockaddr_in server_addr;
+
+  };
 }
 
 

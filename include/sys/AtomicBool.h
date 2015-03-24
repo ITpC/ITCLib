@@ -52,7 +52,7 @@ namespace itc
                 mBool=val;
             }
             
-            explicit  AtomicBool(AtomicBool& ref)
+            explicit  AtomicBool(AtomicBool& ref):mMutex()
             {
                 SyncLock syncL(mMutex);
                 mBool=bool(ref);

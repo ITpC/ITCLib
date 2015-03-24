@@ -130,9 +130,8 @@ namespace itc
                 ::itc::getLog()->debug(__FILE__, __LINE__, "Thread [%jx] <-  PThread::Pthread()", this->getCurrentThrId());;
             }
 
-            inline PThreadState getState()
+            const PThreadState getState() const
             {
-                SyncLock synchronize(mMutex);
                 return mState;
             }
 

@@ -132,6 +132,9 @@ static const char * ITCStrError(int err)
     case exceptions::LPQStart: return "Exception in persistent queue constructor. See related errors";
     case exceptions::MDBKeyNotFound: return "No such key in the database";
     case exceptions::ImplementationForbidden: return "Implementation of this method is forbidden due to architectural limitations";
+    case exceptions::PQIsOutOfSync: return "The persistent queue is out of sync. This should not be happen. File a bug report. Restart the queue.";
+    case exceptions::QueueOutOfSync: return "The queue is out of sync";
+    case exceptions::MDBWriteFailed: return "Can not write into database";
     default:
       return "UNKNOWN ITC ERROR OR EXCEPTION, Exception code is not on the library";
   }

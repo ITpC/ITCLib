@@ -82,6 +82,8 @@ namespace exceptions
     Can_not_listen_on_socket = 2043,
 
     Can_not_open_queue = 2054,
+    PQIsOutOfSync = 2055,
+    QueueOutOfSync = 2056,
 
     Timed_wait_out_of_range = 2062,
     Timed_wait_deadlock = 2063,
@@ -141,6 +143,7 @@ namespace exceptions
     MDBTxnFull = 2616,
     MDBTEAccess = 2617,
     MDBKeyNotFound = 2618,
+    MDBWriteFailed = 2619,
 
     ConfigSyntax = 2700,
     
@@ -198,9 +201,9 @@ struct ITCErrno
   {
   }
 
-  inline ITCErrno operator=(const ITCErrno & mterr)
+  inline ITCErrno& operator=(const ITCErrno & mterr)
   {
-    errno = mterr.error;
+    error = mterr.error;
     msgno = mterr.msgno;
     return(*this);
   }
