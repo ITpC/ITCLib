@@ -144,6 +144,7 @@ namespace exceptions
     MDBTEAccess = 2617,
     MDBKeyNotFound = 2618,
     MDBWriteFailed = 2619,
+    MDBWTxnAborted = 2620,
 
     ConfigSyntax = 2700,
     

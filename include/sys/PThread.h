@@ -168,7 +168,7 @@ namespace itc
                 }
             }
 
-            virtual ~PThread() noexcept // be 4.7.x compat
+            virtual ~PThread() noexcept 
             {
                 setState(CANCEL);
                 mTask.post();

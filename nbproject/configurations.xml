@@ -15,8 +15,6 @@
           <itemPath>include/net/SCTP.h</itemPath>
         </logicalFolder>
         <logicalFolder name="sys" displayName="sys" projectFiles="true">
-          <itemPath>include/sys/AtomicBool.h</itemPath>
-          <itemPath>include/sys/AtomicDigital.h</itemPath>
           <itemPath>include/sys/CancelableThread.h</itemPath>
           <itemPath>include/sys/Conditional.h</itemPath>
           <itemPath>include/sys/Mutex.h</itemPath>
@@ -119,10 +117,6 @@
       </item>
       <item path="include/net/SCTP.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/sys/AtomicBool.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/sys/AtomicDigital.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/sys/CancelableThread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Conditional.h" ex="false" tool="3" flavor2="0">
@@ -218,10 +212,6 @@
       <item path="include/net/NSocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/net/SCTP.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/sys/AtomicBool.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/sys/AtomicDigital.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/CancelableThread.h" ex="false" tool="3" flavor2="0">
       </item>

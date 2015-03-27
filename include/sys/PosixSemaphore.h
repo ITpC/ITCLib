@@ -44,11 +44,9 @@
 
 #    include <ITCException.h>
 #    include <sys/Types.h>
-#    include <sys/AtomicBool.h>
-#    include <sys/AtomicDigital.h>
 #    include <sys/prototypes.h>
 #    include <GAINTLock.h>
-
+#    include <atomic>
 namespace itc
 {
   namespace sys
@@ -213,7 +211,7 @@ namespace itc
     {
     private:
         sem_t semaphore;
-        bool ok;
+        std::atomic<bool> ok;
     public:
 
         explicit RawPosixSemaphore(ulong def_val = 0) : ok(true)
@@ -228,15 +226,15 @@ namespace itc
 
         inline void wait(void)
         {
-            if (sem_wait(&semaphore))
+            if(ok&&sem_wait(&semaphore))
             {
-                throw ITCException(errno, exceptions::Can_not_wait_on_semaphore);
+                throw TITCException<exceptions::Can_not_wait_on_semaphore>(errno);
             }
         }
 
         inline void post(void)
         {
-            if (sem_post(&semaphore))
+            if (ok&&sem_post(&semaphore))
             {
                 throw TITCException<exceptions::Can_not_post_on_semaphore > (errno);
             }
@@ -246,16 +244,16 @@ namespace itc
         {
             if (sem_timedwait(&semaphore, &timeout))
             {
-                throw ITCException(errno, exceptions::Can_not_wait_on_semaphore);
+                throw TITCException<exceptions::Can_not_wait_on_semaphore>(errno);
             }
             return;
         }
 
         inline void tryWait(void)
         {
-            if (sem_trywait(&semaphore))
+            if (ok&&sem_trywait(&semaphore))
             {
-                throw ITCException(errno, exceptions::Can_not_wait_on_semaphore);
+                throw TITCException<exceptions::Can_not_wait_on_semaphore>(errno);
             }
         }
 
@@ -263,9 +261,9 @@ namespace itc
         {
             register int value;
 
-            if (sem_getvalue(&semaphore, &value))
+            if (ok&&sem_getvalue(&semaphore, &value))
             {
-                throw ITCException(errno, exceptions::Can_not_get_semaphore_value);
+                throw TITCException<exceptions::Can_not_get_semaphore_value>(errno);
             }
             return value;
         }
@@ -278,22 +276,20 @@ namespace itc
          **/
         inline void destroy()
         {
-            GAINTLock sync; // Using GAINTLock to avoid race condition.
-            // Yes i know destroing of semaphores will be slow.
-            // However it will be safe ! Any other safe solutions are wellcome
-            if (ok)
-            {
-                ok = false;
-                if (sem_destroy(&semaphore))
-                {
-                    throw ITCException(errno, exceptions::Can_not_destroy_semaphore);
-                }
-            }
+          while(sem_destroy(&semaphore))
+          {
+            sched_yield();
+          }
         }
 
+        const bool isok() const
+        {
+          return ok;
+        }
+        
         ~RawPosixSemaphore()
         {
-            destroy();
+            destroy(); // we fucking do throw an exception here !! undefined behavior.
         }
     };
 #   endif

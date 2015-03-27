@@ -135,6 +135,7 @@ static const char * ITCStrError(int err)
     case exceptions::PQIsOutOfSync: return "The persistent queue is out of sync. This should not be happen. File a bug report. Restart the queue.";
     case exceptions::QueueOutOfSync: return "The queue is out of sync";
     case exceptions::MDBWriteFailed: return "Can not write into database";
+    case exceptions::MDBWTxnAborted: return "Transaction aborted";
     default:
       return "UNKNOWN ITC ERROR OR EXCEPTION, Exception code is not on the library";
   }
