@@ -32,11 +32,11 @@
 #ifndef TSAFELOGOUTADAPTER_H_
 #define TSAFELOGOUTADAPTER_H_
 
-#include <sys/Mutex.h>
 #include <cstdio>
 #include <ios>
 #include <fstream>
 #include <string>
+#include <mutex>
 
 namespace itc
 {
@@ -46,7 +46,7 @@ namespace itc
     class STDOutLogThreadSafeAdapter : public itc::utils::abstract::ILogOutputAdapter
     {
     private:
-      sys::Mutex    mMutex;
+      std::mutex    mMutex;
       std::string   mFilename;
       std::ios_base::openmode mMode;
       std::ofstream mLogFile;
@@ -58,7 +58,7 @@ namespace itc
         mMutex(), mFilename(filename),mMode(std::ofstream::out|mode),
         mLogFile(mFilename,mMode)
       {
-        itc::sys::SyncLock synch(mMutex);
+        std::lock_guard<std::mutex> synch(mMutex);
         if(!mLogFile.good())
         {
           throw itc::utils::CanNotOpenTheLogException();
@@ -68,7 +68,7 @@ namespace itc
       explicit STDOutLogThreadSafeAdapter(STDOutLogThreadSafeAdapter& p)
       :   itc::utils::abstract::ILogOutputAdapter(NULL)
       {
-        itc::sys::SyncLock synch(mMutex);
+        std::lock_guard<std::mutex> synch(mMutex);
         mFilename=p.mFilename;
         mMode=p.mMode;
         mLogFile.open(mFilename,mMode);
@@ -80,19 +80,20 @@ namespace itc
 
       void post(const std::string& pMessage)
       {
-        itc::sys::SyncLock sync(mMutex);
+        std::lock_guard<std::mutex> synch(mMutex);
         mLogFile << pMessage;
       }
 
       inline void flush()
       {
-        itc::sys::SyncLock sync(mMutex);
+        std::lock_guard<std::mutex> synch(mMutex);
         mLogFile.flush(); 
       }
 
       ~STDOutLogThreadSafeAdapter()
       {
         flush();
+        std::lock_guard<std::mutex> synch(mMutex);
         mLogFile.close();
       }
     };

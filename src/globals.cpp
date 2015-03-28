@@ -1,15 +1,15 @@
-#include <sys/Mutex.h>
+#include <mutex>
 
 namespace itc {
     namespace global {
-        itc::sys::Mutex gGAINTLock;
+        static std::mutex gGAINTLock;
     }
 }
 
 void accuireGAINTLock() {
-    itc::global::gGAINTLock.Lock();
+    itc::global::gGAINTLock.lock();
 }
 
 void releaseGAINTLock() {
-    itc::global::gGAINTLock.unLock();
+    itc::global::gGAINTLock.unlock();
 }
