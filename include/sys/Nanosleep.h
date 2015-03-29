@@ -88,7 +88,7 @@ namespace itc
         {
           try{
             mSemaphore.timedWait(anAbstime);
-          }catch(const ITCException& e)
+          }catch(const TITCException<exceptions::Can_not_wait_on_semaphore>& e)
           {
             if(e.getErrno() == EINTR)
               continue;

@@ -1,52 +1,35 @@
 /**
- * Copyright (c) 2007, Pavel Kraynyukhov.
- *  
- * Permission to use, copy, modify, and distribute this software and its
- * documentation for any purpose, without fee, and without a written agreement
- * is hereby granted under the terms of the General Public License version 2
- * (GPLv2), provided that the above copyright notice and this paragraph and the
- * following two paragraphs and the "LICENSE" file appear in all modified or
- * unmodified copies of the software "AS IS" and without any changes.
- *
- * IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE TO ANY PARTY FOR
- * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING
- * LOST PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS
- * DOCUMENTATION, EVEN IF THE COPYRIGHT HOLDER HAS BEEN ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * THE COPYRIGHT HOLDER SPECIFICALLY DISCLAIMS ANY WARRANTIES,
- * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
- * AND FITNESS FOR A PARTICULAR PURPOSE.  THE SOFTWARE PROVIDED HEREUNDER IS
- * ON AN "AS IS" BASIS, AND THE COPYRIGHT HOLDER HAS NO OBLIGATIONS TO
- * PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ * Copyright Pavel Kraynyukhov 2007 - 2015.
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See accompanying file LICENSE_1_0.txt or copy at
+ *          http://www.boost.org/LICENSE_1_0.txt)
  * 
+ * $Id: PosixSemaphore.h 101 2007-08-12 13:07:51Z acs/pk $
  * 
- * $Id: PosixSemaphore.h 101 2007-08-12 13:07:51Z acs $
- * 
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * EMail: pavel.kraynyukhov@gmail.com
  * 
  **/
 
+
 #ifndef __PosixSemaphore_H__
-#    define __PosixSemaphore_H__
+#  define __PosixSemaphore_H__
 
-#    include <errno.h>
-#    include <signal.h>
+#  include <errno.h>
+#  include <signal.h>
 
 
-#    include <pthread.h>
-#    include <semaphore.h>
-#    include <errno.h>
-#    include <time.h>
-#    include <string.h>
+#  include <pthread.h>
+#  include <semaphore.h>
+#  include <errno.h>
+#  include <time.h>
+#  include <string.h>
 
-#    include <ITCException.h>
-#    include <sys/Types.h>
-#    include <sys/prototypes.h>
-#    include <GAINTLock.h>
-#    include <atomic>
+#  include <ITCException.h>
+#  include <sys/Types.h>
+#  include <sys/prototypes.h>
+#  include <GAINTLock.h>
+#  include <atomic>
+
 namespace itc
 {
   namespace sys
@@ -103,8 +86,9 @@ namespace itc
      * 
      **/
 
-#   if defined(_MSC_VER) && (defined(__MINGW32_VERSION))
-#define __PTPS__
+#  if defined(_MSC_VER) && (defined(__MINGW32_VERSION))
+#    define __PTPS__
+
     /**
      * Like RawPosixSemaphore. Should be used with pthread for win32 (best pthread 
      * realisation ever). 
@@ -113,93 +97,94 @@ namespace itc
 
     class PosixSemaphore
     {
-    private:
-        sem_t semaphore;
-    public:
+     private:
+      sem_t semaphore;
+     public:
 
-        explicit PosixSemaphore(ulong def_val = 0)
+      explicit PosixSemaphore(ulong def_val = 0)
+      {
+        if(sem_init(&semaphore, 0, def_val))
+          throw ITCException(errno, exceptions::Can_not_initialize_semaphore);
+      }
+
+      explicit PosixSemaphore(const PosixSemaphore& ref)
+      {
+        // seak idea to make a copy of semaphore.
+        throw ITCException(errno, exceptions::Can_not_copy_semaphore);
+      }
+
+      inline void wait(void)
+      {
+        if(sem_wait(&semaphore) == -1)
         {
-            if (sem_init(&semaphore, 0, def_val))
-                throw ITCException(errno, exceptions::Can_not_initialize_semaphore);
+          throw ITCException(exceptions::Can_not_wait_on_semaphore, EINVAL);
+        }
+      }
+
+      inline void timedWait(const ::timespec& timeout)
+      {
+        if(sem_timedwait(&semaphore, &timeout) == -1)
+        {
+          throw ITCException(exceptions::Can_not_wait_on_semaphore, errno);
+        }
+      }
+
+      inline int tryWait(void)
+      {
+        register int ret = sem_trywait(&semaphore);
+
+        if(ret == -1)
+        {
+          if(errno == EAGAIN)
+          {
+            return EAGAIN;
+          }
+          throw ITCException(EINVAL, exceptions::Can_not_wait_on_semaphore);
         }
 
-        explicit PosixSemaphore(const PosixSemaphore& ref)
+        return 0;
+      }
+
+      inline void post(void)
+      {
+        if(sem_post(&semaphore) == -1)
         {
-            // seak idea to make a copy of semaphore.
-            throw ITCException(errno, exceptions::Can_not_copy_semaphore);
+          throw ITCException(exceptions::Can_not_wait_on_semaphore, errno);
+        }
+      }
+
+      inline int getValue(void)
+      {
+        register int value; // is on stack ... should be thread safe ...
+
+        if(sem_getvalue(&semaphore, &value))
+        {
+          throw ITCException(exceptions::Can_not_get_semaphore_value, errno);
         }
 
-        inline void wait(void)
+        return value;
+      }
+
+      inline void destroy()
+      {
+        while((sem_destroy(&semaphore) == -1) && (errno == EBUSY))
         {
-            if (sem_wait(&semaphore) == -1)
-            {
-                throw ITCException(exceptions::Can_not_wait_on_semaphore, EINVAL);
-            }
+          int value = 0;
+          if(sem_getvalue(&semaphore, &value) != -1)
+          {
+            sem_post_multiple(&semaphore, value); // Cancellation still required, wake all waiting threads !
+          }
         }
+      }
 
-        inline void timedWait(const ::timespec& timeout)
-        {
-            if (sem_timedwait(&semaphore, &timeout) == -1)
-            {
-                throw ITCException(exceptions::Can_not_wait_on_semaphore, errno);
-            }
-        }
-
-        inline int tryWait(void)
-        {
-            register int ret = sem_trywait(&semaphore);
-
-            if (ret == -1)
-            {
-                if (errno == EAGAIN)
-                {
-                    return EAGAIN;
-                }
-                throw ITCException(EINVAL, exceptions::Can_not_wait_on_semaphore);
-            }
-
-            return 0;
-        }
-
-        inline void post(void)
-        {
-            if (sem_post(&semaphore) == -1)
-            {
-                throw ITCException(exceptions::Can_not_wait_on_semaphore, errno);
-            }
-        }
-
-        inline int getValue(void)
-        {
-            register int value; // is on stack ... should be thread safe ...
-
-            if (sem_getvalue(&semaphore, &value))
-            {
-                throw ITCException(exceptions::Can_not_get_semaphore_value, errno);
-            }
-
-            return value;
-        }
-
-        inline void destroy()
-        {
-            while ((sem_destroy(&semaphore) == -1) && (errno == EBUSY))
-            {
-                int value = 0;
-                if (sem_getvalue(&semaphore, &value) != -1)
-                {
-                    sem_post_multiple(&semaphore, value); // Cancellation still required, wake all waiting threads !
-                }
-            }
-        }
-
-        ~PosixSemaphore()
-        {
-            destroy();
-        }
+      ~PosixSemaphore()
+      {
+        destroy();
+      }
     };
-#    else
-#define __RPS__
+#  else
+#    define __RPS__
+
     /**
      * This class is safe to use with the itc::sys::CancelableThread class. 
      * It is simple raw POSIX semaphores wrapper. Without pthread_cancel
@@ -209,97 +194,100 @@ namespace itc
      **/
     class RawPosixSemaphore
     {
-    private:
-        sem_t semaphore;
-        std::atomic<bool> ok;
-    public:
+     private:
+      sem_t semaphore;
+      std::atomic<bool> ok;
+     public:
 
-        explicit RawPosixSemaphore(ulong def_val = 0) : ok(true)
+      explicit RawPosixSemaphore(ulong def_val = 0) : ok(true)
+      {
+        if(sem_init(&semaphore, 0, def_val))
+          throw ITCException(errno, exceptions::Can_not_initialize_semaphore);
+      }
+
+      explicit RawPosixSemaphore(const RawPosixSemaphore&) = delete;
+      explicit RawPosixSemaphore(RawPosixSemaphore&) = delete;
+
+      inline void wait(void)
+      {
+        if(ok && sem_wait(&semaphore))
         {
-            if (sem_init(&semaphore, 0, def_val))
-                throw ITCException(errno, exceptions::Can_not_initialize_semaphore);
+          throw TITCException<exceptions::Can_not_wait_on_semaphore>(errno);
         }
+      }
 
-        explicit RawPosixSemaphore(const RawPosixSemaphore&)=delete;
-        explicit RawPosixSemaphore(RawPosixSemaphore&)=delete;
-
-
-        inline void wait(void)
+      inline void post(void)
+      {
+        if(ok && sem_post(&semaphore))
         {
-            if(ok&&sem_wait(&semaphore))
-            {
-                throw TITCException<exceptions::Can_not_wait_on_semaphore>(errno);
-            }
+          throw TITCException<exceptions::Can_not_post_on_semaphore > (errno);
         }
+      }
 
-        inline void post(void)
+      inline void timedWait(const ::timespec& timeout)
+      {
+        if(ok)
         {
-            if (ok&&sem_post(&semaphore))
-            {
-                throw TITCException<exceptions::Can_not_post_on_semaphore > (errno);
-            }
+           if(sem_timedwait(&semaphore, &timeout)==-1)
+             throw TITCException<exceptions::Can_not_wait_on_semaphore>(errno);
+        }else
+        {
+          throw TITCException<exceptions::InvalidSemaphore>(exceptions::Can_not_wait_on_semaphore);
         }
+        return;
+      }
 
-        inline void timedWait(const ::timespec& timeout)
+      inline void tryWait(void)
+      {
+        if(ok && sem_trywait(&semaphore))
         {
-            if (ok&&sem_timedwait(&semaphore, &timeout))
-            {
-                throw TITCException<exceptions::Can_not_wait_on_semaphore>(errno);
-            }
-            return;
+          throw TITCException<exceptions::Can_not_wait_on_semaphore>(errno);
         }
+      }
 
-        inline void tryWait(void)
-        {
-            if (ok&&sem_trywait(&semaphore))
-            {
-                throw TITCException<exceptions::Can_not_wait_on_semaphore>(errno);
-            }
-        }
+      inline int getValue(void)
+      {
+        register int value;
 
-        inline int getValue(void)
+        if(ok && sem_getvalue(&semaphore, &value))
         {
-            register int value;
+          throw TITCException<exceptions::Can_not_get_semaphore_value>(errno);
+        }
+        return value;
+      }
 
-            if (ok&&sem_getvalue(&semaphore, &value))
-            {
-                throw TITCException<exceptions::Can_not_get_semaphore_value>(errno);
-            }
-            return value;
-        }
+      /**
+       * In Linux and Solaris a cancelation has to be called before semaphore will be destroyed. 
+       * if semaphore is destroyed already you wont get any exceptions thrown.
+       * 
+       * @exception  ITCException(errno,exceptions::Can_not_destroy_semaphore);
+       **/
+      inline void destroy()
+      {
+        ok = false;
+        if(sem_destroy(&semaphore) != 0)
+          throw TITCException<exceptions::Can_not_destroy_semaphore>(errno);
+      }
 
-        /**
-         * In Linux and Solaris a cancelation has to be called before semaphore will be destroyed. 
-         * if semaphore is destroyed already you wont get any exceptions thrown.
-         * 
-         * @exception  ITCException(errno,exceptions::Can_not_destroy_semaphore);
-         **/
-        inline void destroy()
-        {
-          ok=false;
-          if(sem_destroy(&semaphore)!=0)
-            throw TITCException<exceptions::Can_not_destroy_semaphore>(errno);
-        }
+      const bool isok() const
+      {
+        return ok;
+      }
 
-        const bool isok() const
-        {
-          return ok;
-        }
-        
-        ~RawPosixSemaphore()
-        {
-            destroy(); // we fucking do throw an exception here !! undefined behavior.
-        }
+      ~RawPosixSemaphore()
+      {
+        destroy(); // we fucking do throw an exception here !! undefined behavior.
+      }
     };
-#   endif
+#  endif
 
-#if defined (__RPS__)
-  typedef RawPosixSemaphore Semaphore;
-#else 
-# if defined (__PTPS__)
+#  if defined (__RPS__)
+    typedef RawPosixSemaphore Semaphore;
+#  else 
+#    if defined (__PTPS__)
     typedef PosixSemaphore Semaphore;
-# endif
-#endif
+#    endif
+#  endif
   }
 }
 

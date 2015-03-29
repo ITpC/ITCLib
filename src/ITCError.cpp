@@ -118,6 +118,7 @@ static const char * ITCStrError(int err)
     case exceptions::MDBWriteFailed: return "Can not write into database";
     case exceptions::MDBWTxnAborted: return "Transaction aborted";
     case exceptions::QueueIsGoingDown: return "The queue is going down";
+    case exceptions::InvalidSemaphore: return "The semaphore is going to be destroyed, you can't use it anymore.";
     default:
       return "UNKNOWN ITC ERROR OR EXCEPTION, Exception code is not on the library";
   }

@@ -53,6 +53,7 @@ namespace exceptions
     Can_not_destroy_semaphore = 2019,
 
     Can_not_create_thread = 2020,
+    InvalidSemaphore = 2021,
 
     Can_not_create_reusable_object = 2030,
     Can_not_create_key = 2038,
