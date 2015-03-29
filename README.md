@@ -8,8 +8,12 @@ this librarary with clang 3.5.1 too. Actually I use clang for static code analys
 
 It is a tamplate library and will be kept this way whenever possible.
 
-The library includes following basic entities:threads, mutexes, semaphores, conditionals, advanced exception handling
-template. Some high level templates like Scoket which may be transformed at compile time to ServerSocket or ClientSocket
+The library includes following basic entities: threads, semaphores (mutexes, conditionals and atomics are replaced with those provided by STL),
+advanced exception handling template. The threads and semaphores will not be replaced with STL equivalents because:
+a) threads are not cancelable in STL, which is vital to proper POSIX semaphores handling (POSIX semaphores are the cancelation points)
+b) there are no semaphores provided by STL. Any surrogates like those based on conditionals, are of no use. POSIX semaphores are simply irreplaceable.
+
+There are some high level templates like Scoket which may be transformed at compile time to ServerSocket or ClientSocket
 just by typedefs (typedef itc::net::Socket<SRV_TCP_ANY_IF,100> ServerSocket;typedef itc::net::Socket<CLN_TCP_KA_TND> ClientSocket;);
 There are two high level thread classes: PThread and CancelableThread. The first one's purpose is to run within ThreadPool, the 
 second one's is to run standalone threads. This library also includes a thread safe log output adapter and simple formatter,
