@@ -16,11 +16,9 @@
         </logicalFolder>
         <logicalFolder name="sys" displayName="sys" projectFiles="true">
           <itemPath>include/sys/CancelableThread.h</itemPath>
-          <itemPath>include/sys/Conditional.h</itemPath>
           <itemPath>include/sys/Nanosleep.h</itemPath>
           <itemPath>include/sys/PThread.h</itemPath>
           <itemPath>include/sys/PosixSemaphore.h</itemPath>
-          <itemPath>include/sys/SemSleep.h</itemPath>
           <itemPath>include/sys/Semaphore.h</itemPath>
           <itemPath>include/sys/Thread.h</itemPath>
           <itemPath>include/sys/Types.h</itemPath>
@@ -49,7 +47,6 @@
                    projectFiles="true">
       <logicalFolder name="src" displayName="src" projectFiles="true">
         <itemPath>src/ITCError.cpp</itemPath>
-        <itemPath>src/Runnable.cpp</itemPath>
         <itemPath>src/Thread.cpp</itemPath>
         <itemPath>src/bzError.cpp</itemPath>
         <itemPath>src/globals.cpp</itemPath>
@@ -117,15 +114,11 @@
       </item>
       <item path="include/sys/CancelableThread.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/sys/Conditional.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/sys/Nanosleep.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/PThread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/sys/SemSleep.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Semaphore.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -136,8 +129,6 @@
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/ITCError.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Runnable.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -209,15 +200,11 @@
       </item>
       <item path="include/sys/CancelableThread.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/sys/Conditional.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/sys/Nanosleep.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/PThread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/sys/SemSleep.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Semaphore.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -228,8 +215,6 @@
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/ITCError.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Runnable.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
       </item>

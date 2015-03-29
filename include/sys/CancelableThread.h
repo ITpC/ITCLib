@@ -40,6 +40,7 @@
 #    include <sys/Semaphore.h>
 #    include <abstract/Cleanable.h>
 #    include <abstract/Runnable.h>
+#include <iostream>
 
 namespace itc
 {

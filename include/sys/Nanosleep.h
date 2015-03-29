@@ -21,7 +21,7 @@
  * PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  * 
  * 
- * $Id: Nanosleep.h 54 2007-05-22 08:36:14Z Pavel Kraynyukhov $
+ * $Id: SemSleep.h 54 2015-03-04 00:12:14Z Pavel Kraynyukhov $
  * 
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
@@ -29,39 +29,101 @@
  * 
  **/
 
-#ifndef __NANOSLEEP__H__
-#define __NANOSLEEP__H__
-#include <time.h>
-#include <sys/Conditional.h>
-#include <stdint.h>
+#ifndef SEMSLEEP_H
+#define	SEMSLEEP_H
 
-namespace itc {
-    namespace sys {
+#include <sys/Semaphore.h>
+#include <ITCException.h>
+#include <sys/time.h>
 
-        class Sleep {
-        private:
-            Conditional mConditional;
-        public:
+namespace itc
+{
+  namespace sys
+  {
+    class Nap{
+    private:
+      itc::sys::Semaphore mSemaphore;
+    public:
+      explicit Nap()
+      {
+      }
+      inline void nanosleep(uint64_t nsec)
+      {
+        struct timespec anAbstime;
+        struct timeval now;
 
-            explicit Sleep() {
-            }
+        gettimeofday(&now,NULL);
 
-            inline void nsleep(long nsec) {
-                mConditional.tryWait(0, nsec);
-            }
+        anAbstime.tv_nsec=now.tv_usec*1000UL+nsec;
+        uint64_t addsec=uint64_t(anAbstime.tv_nsec / 1000000000UL);
+        anAbstime.tv_sec=now.tv_sec+addsec;
+        anAbstime.tv_nsec -= addsec*1000000000UL;
 
-            inline void usleep(long usec) {
-                mConditional.tryWait(0, usec * 1000);
-            }
+        while(1)
+        {
+          try{
+            mSemaphore.timedWait(anAbstime);
+          }catch(const TITCException<exceptions::Can_not_wait_on_semaphore>& e)
+          {
+            if(e.getErrno() == EINTR)
+              continue;
+            if(e.getErrno() == ETIMEDOUT)
+              return;
+          }
+        }
+      }
+      inline void usleep(uint64_t usec)
+      {
+        struct timespec anAbstime;
+        struct timeval now;
 
-            inline void msleep(long msec) {
-                mConditional.tryWait(0, msec * 1000000L);
-            }
+        gettimeofday(&now,NULL);
 
-            inline void sleep(time_t sec) {
-                mConditional.tryWait(sec, 0L);
-            }
-        };
-    }
+        anAbstime.tv_nsec=(now.tv_usec+usec)*1000UL;
+        uint64_t addsec=uint64_t(anAbstime.tv_nsec / 1000000000UL);
+        anAbstime.tv_sec=now.tv_sec+addsec;
+        anAbstime.tv_nsec -= addsec*1000000000UL;
+
+        while(1)
+        {
+          try{
+            mSemaphore.timedWait(anAbstime);
+          }catch(const ITCException& e)
+          {
+            if(e.getErrno() == EINTR)
+              continue;
+            if(e.getErrno() == ETIMEDOUT)
+              return;
+          }
+        }
+      }
+      inline void sleep(uint64_t sec)
+      {
+        struct timespec anAbstime;
+        struct timeval now;
+
+        gettimeofday(&now,NULL);
+
+        anAbstime.tv_nsec=0;
+        anAbstime.tv_sec=now.tv_sec+sec;
+
+        while(1)
+        {
+          try{
+            mSemaphore.timedWait(anAbstime);
+          }catch(const TITCException<exceptions::Can_not_wait_on_semaphore>& e)
+          {
+            if(e.getErrno() == EINTR)
+              continue;
+            if(e.getErrno() == ETIMEDOUT)
+              return;
+          }
+        }
+      }
+    };
+  }
 }
-#endif
+
+
+#endif	/* SEMSLEEP_H */
+

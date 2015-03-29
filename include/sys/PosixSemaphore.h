@@ -77,7 +77,7 @@ namespace itc
      *  sem_count is defined as unsigned int and never drops below 0. No additional count 
      *  for threads waiting on semaphore. You can never get the value of threads waiting.      
      *  sem_destroy always return 0 and makes nothing more. Just return 0 !!!. 
-     *  There is no code for semaphore invalidation. conclusion - sux.
+     *  There is no code for semaphore invalidation. conclusion: it sux.
      * 
      * Pthread-win32 implementation is much better in this case. It has specified EBUSY and safe behavior 
      * for semaphores destroying. sem_getvalue returns negative value in case there are threads blocking on 
@@ -242,7 +242,7 @@ namespace itc
 
         inline void timedWait(const ::timespec& timeout)
         {
-            if (sem_timedwait(&semaphore, &timeout))
+            if (ok&&sem_timedwait(&semaphore, &timeout))
             {
                 throw TITCException<exceptions::Can_not_wait_on_semaphore>(errno);
             }
@@ -276,10 +276,9 @@ namespace itc
          **/
         inline void destroy()
         {
-          while(sem_destroy(&semaphore))
-          {
-            sched_yield();
-          }
+          ok=false;
+          if(sem_destroy(&semaphore)!=0)
+            throw TITCException<exceptions::Can_not_destroy_semaphore>(errno);
         }
 
         const bool isok() const

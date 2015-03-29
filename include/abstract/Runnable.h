@@ -33,6 +33,7 @@
 #define RUNNABLE_H_
 
 #include <abstract/Cleanable.h>
+#include <iostream>
 
 namespace itc {
     namespace abstract {
@@ -48,8 +49,9 @@ namespace itc {
             virtual void execute() = 0;
             virtual void onCancel() = 0;
             virtual void shutdown() = 0;
-        protected:
-            virtual ~IRunnable() = 0;
+           
+         protected:
+           ~IRunnable()=default;
         };
     }
 }
