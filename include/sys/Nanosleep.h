@@ -32,7 +32,7 @@
 #ifndef SEMSLEEP_H
 #define	SEMSLEEP_H
 
-#include <sys/Semaphore.h>
+#include <sys/PosixSemaphore.h>
 #include <ITCException.h>
 #include <sys/time.h>
 

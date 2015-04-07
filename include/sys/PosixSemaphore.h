@@ -199,10 +199,11 @@ namespace itc
       std::atomic<bool> ok;
      public:
 
-      explicit RawPosixSemaphore(ulong def_val = 0) : ok(true)
+      explicit RawPosixSemaphore(ulong def_val = 0) : ok(false)
       {
         if(sem_init(&semaphore, 0, def_val))
           throw ITCException(errno, exceptions::Can_not_initialize_semaphore);
+        ok=true;
       }
 
       explicit RawPosixSemaphore(const RawPosixSemaphore&) = delete;
@@ -247,7 +248,7 @@ namespace itc
 
       inline int getValue(void)
       {
-        register int value;
+        int value=0;
 
         if(ok && sem_getvalue(&semaphore, &value))
         {

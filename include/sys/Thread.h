@@ -24,7 +24,7 @@
 
 #  include <abstract/Cleanable.h>
 #  include <abstract/Runnable.h>
-#  include <sys/Semaphore.h>
+#  include <sys/PosixSemaphore.h>
 #  include <sys/prototypes.h>
 #  include <InterfaceCheck.h>
 
@@ -73,7 +73,7 @@ namespace itc
        */
       Thread() : start()
       {
-        register int ret = this->create();
+        int ret = this->create();
         if(ret) throw ITCException(ret, exceptions::Can_not_create_thread);
       }
 

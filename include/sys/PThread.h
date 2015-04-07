@@ -20,7 +20,7 @@
 #  include <InterfaceCheck.h>
 #  include <abstract/Runnable.h>
 #  include <sys/Thread.h>
-#  include <sys/Semaphore.h>
+#  include <sys/PosixSemaphore.h>
 #  include <abstract/Cleanable.h>
 #  include <abstract/Runnable.h>
 #  include <TSLog.h>

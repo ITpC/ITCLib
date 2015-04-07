@@ -37,7 +37,7 @@
 #    include <abstract/Runnable.h>
 
 #    include <sys/Thread.h>
-#    include <sys/Semaphore.h>
+#    include <sys/PosixSemaphore.h>
 #    include <abstract/Cleanable.h>
 #    include <abstract/Runnable.h>
 #include <iostream>
@@ -47,11 +47,11 @@ namespace itc
 namespace sys
 {
 
-template <typename TRunnable> class CancelableThread : public Thread, abstract::Cleanable
+template <typename TRunnable> class CancelableThread : public Thread, ::itc::abstract::Cleanable
 {
 private:
     friend void* invoke(Thread*);
-    friend void cleanup_handler(abstract::Cleanable*);
+    friend void cleanup_handler(::itc::abstract::Cleanable*);
 
     std::shared_ptr<TRunnable> mRunnable;
 
@@ -60,7 +60,7 @@ public:
     explicit CancelableThread(const std::shared_ptr<TRunnable>& ref)
     : Thread(), mRunnable(ref)
     {
-        typedef abstract::IRunnable RunnableInterface;
+        typedef ::itc::abstract::IRunnable RunnableInterface;
         STATIC_CHECKER3MSG(
            CheckRelationship(
              TRunnable, subclassof, RunnableInterface

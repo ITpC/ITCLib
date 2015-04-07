@@ -65,8 +65,11 @@ namespace itc
                 if(pFormat)
                 {
                     std::unique_ptr<char> buf(new char[pMaxMsgLength +1]);
-                    vsnprintf(buf.get(),pMaxMsgLength,pFormat,args);
-                    mPreparedRecord=buf.get();
+                    if(buf.get())
+                    {
+                      vsnprintf(buf.get(),pMaxMsgLength,pFormat,args);
+                      mPreparedRecord=buf.get();
+                    }
                 }
             }
 

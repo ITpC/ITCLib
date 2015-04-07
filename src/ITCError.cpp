@@ -119,6 +119,7 @@ static const char * ITCStrError(int err)
     case exceptions::MDBWTxnAborted: return "Transaction aborted";
     case exceptions::QueueIsGoingDown: return "The queue is going down";
     case exceptions::InvalidSemaphore: return "The semaphore is going to be destroyed, you can't use it anymore.";
+    case exceptions::BadRTC: return "Exception on rtc operation, see related error message";
     default:
       return "UNKNOWN ITC ERROR OR EXCEPTION, Exception code is not on the library";
   }

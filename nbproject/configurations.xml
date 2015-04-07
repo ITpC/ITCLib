@@ -19,10 +19,10 @@
           <itemPath>include/sys/Nanosleep.h</itemPath>
           <itemPath>include/sys/PThread.h</itemPath>
           <itemPath>include/sys/PosixSemaphore.h</itemPath>
-          <itemPath>include/sys/Semaphore.h</itemPath>
           <itemPath>include/sys/Thread.h</itemPath>
           <itemPath>include/sys/Types.h</itemPath>
           <itemPath>include/sys/prototypes.h</itemPath>
+          <itemPath>include/sys/synclock.h</itemPath>
         </logicalFolder>
         <itemPath>include/DateFormatter.h</itemPath>
         <itemPath>include/ErrConstants.h</itemPath>
@@ -62,18 +62,18 @@
   <confs>
     <conf name="Debug" type="3">
       <toolsSet>
-        <compilerSet>GNU|GNU</compilerSet>
+        <compilerSet>default</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <ccTool>
-          <standard>8</standard>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
           </incDir>
           <commandLine>-g -pipe -Wall -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -mtune=generic -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -DBZ_NO_STDIO -DLOG_DEBUG -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1 -std=c++11</commandLine>
+          <warningLevel>2</warningLevel>
         </ccTool>
         <archiverTool>
         </archiverTool>
@@ -120,13 +120,13 @@
       </item>
       <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/sys/Semaphore.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/sys/Thread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Types.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/ITCError.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -206,13 +206,13 @@
       </item>
       <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/sys/Semaphore.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/sys/Thread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Types.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/ITCError.cpp" ex="false" tool="1" flavor2="0">
       </item>

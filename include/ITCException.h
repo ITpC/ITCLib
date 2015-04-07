@@ -70,6 +70,7 @@ namespace exceptions
 
     Timed_wait_out_of_range = 2062,
     Timed_wait_deadlock = 2063,
+    BadRTC = 2064,
 
     NetworkException = 2100,
     InvalidSocketException = 2101,
