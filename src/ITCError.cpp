@@ -113,11 +113,9 @@ static const char * ITCStrError(int err)
     case exceptions::LPQStart: return "Exception in persistent queue constructor. See related errors";
     case exceptions::MDBKeyNotFound: return "No such key in the database";
     case exceptions::ImplementationForbidden: return "Implementation of this method is forbidden due to architectural limitations";
-    case exceptions::PQIsOutOfSync: return "The persistent queue is out of sync. This should not be happen. File a bug report. Restart the queue.";
-    case exceptions::QueueOutOfSync: return "The queue is out of sync";
+    case exceptions::BadData: return "Bad initialization data";
     case exceptions::MDBWriteFailed: return "Can not write into database";
     case exceptions::MDBWTxnAborted: return "Transaction aborted";
-    case exceptions::QueueIsGoingDown: return "The queue is going down";
     case exceptions::InvalidSemaphore: return "The semaphore is going to be destroyed, you can't use it anymore.";
     case exceptions::BadRTC: return "Exception on rtc operation, see related error message";
     default:
@@ -215,12 +213,14 @@ const char* itcstrerror(int i)
 #endif
 {
   return(
-    (i < 0) ? gai_strerror(i) : (
-    (i > 30000) ? lookupAppError(i) : (
-    (i > 10000) ? WSAStrError(i) : (
-    (i > 2000) ? ITCStrError(i) : strerror(i)
+    (i < -30780) ? lookupAppError(i) : (
+      (i < 0) ? gai_strerror(i) : (
+        (i > 30000 ) ? lookupAppError(i) : (
+          (i > 10000) ? WSAStrError(i) : (
+            (i > 2000) ? ITCStrError(i) : strerror(i)
+          )
+        )
+      )
     )
-    )
-    )
-    );
+  );
 }

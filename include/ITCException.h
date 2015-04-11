@@ -64,9 +64,7 @@ namespace exceptions
     Can_not_listen_on_socket = 2043,
 
     Can_not_open_queue = 2054,
-    PQIsOutOfSync = 2055,
-    QueueOutOfSync = 2056,
-    QueueIsGoingDown = 2057,
+    BadData = 2055,
 
     Timed_wait_out_of_range = 2062,
     Timed_wait_deadlock = 2063,
