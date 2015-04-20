@@ -54,15 +54,15 @@ namespace itc
      * lifecycle is determined by your purposes.
      * 
      **/
-    class PThread : public Thread, abstract::Cleanable
+    class PThread : public Thread, ::itc::abstract::Cleanable
     {
      public:
-      typedef abstract::IRunnable* RunnablePointer;
-      typedef std::shared_ptr<abstract::IRunnable> TaskType;
+      typedef ::itc::abstract::IRunnable* RunnablePointer;
+      typedef std::shared_ptr<::itc::abstract::IRunnable> TaskType;
 
      private:
       friend void* invoke(Thread*);
-      friend void cleanup_handler(abstract::Cleanable*);
+      friend void cleanup_handler(::itc::abstract::Cleanable*);
 
       std::mutex mMutex;
       TaskType mRunnable;

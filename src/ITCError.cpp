@@ -110,7 +110,8 @@ static const char * ITCStrError(int err)
     case exceptions::MDBMapFull: return "the database is full, see mdb_env_set_mapsize().";
     case exceptions::MDBTxnFull: return "the transaction has too many dirty pages.";
     case exceptions::MDBTEAccess: return "an attempt was made to write in a read-only transaction.";
-    case exceptions::LPQStart: return "Exception in persistent queue constructor. See related errors";
+    case exceptions::ProtocolViolation: return "Protocol violation";
+    case exceptions::WrongCertificate: return "Certificate verification exception, certificate signature does not checks";
     case exceptions::MDBKeyNotFound: return "No such key in the database";
     case exceptions::ImplementationForbidden: return "Implementation of this method is forbidden due to architectural limitations";
     case exceptions::BadData: return "Bad initialization data";

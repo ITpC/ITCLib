@@ -134,7 +134,8 @@ namespace exceptions
     UndefinedType = 2721,
     InvalidTypecast = 2722,
     
-    LPQStart = 2800,
+    ProtocolViolation = 2800,
+    WrongCertificate = 2801,
 
     ExternalLibraryException = 2998,
     InvalidException = 2999,

@@ -11,6 +11,7 @@
           <itemPath>include/abstract/Runnable.h</itemPath>
         </logicalFolder>
         <logicalFolder name="net" displayName="net" projectFiles="true">
+          <itemPath>include/net/IPv4AddrHelper.h</itemPath>
           <itemPath>include/net/NSocket.h</itemPath>
           <itemPath>include/net/SCTP.h</itemPath>
         </logicalFolder>
@@ -108,6 +109,8 @@
       </item>
       <item path="include/globals.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/net/IPv4AddrHelper.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/net/NSocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/net/SCTP.h" ex="false" tool="3" flavor2="0">
@@ -193,6 +196,8 @@
       <item path="include/abstract/Runnable.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/globals.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/net/IPv4AddrHelper.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/net/NSocket.h" ex="false" tool="3" flavor2="0">
       </item>
