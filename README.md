@@ -6,6 +6,11 @@ survived almost complete rewrite in 2007. Now is a time to rewrite again or may 
 new STL features of C++11. This version may be compiled with gcc 4.7.4,  4.8.4 and all in between; you can compile 
 this librarary with clang 3.5.1 too. Actually I use clang for static code analysis. 
 
+<a href="https://scan.coverity.com/projects/4961">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/4961/badge.svg"/>
+</a>
+
 It is a tamplate library and will be kept this way whenever possible. However there are and will be some files required to be compiled into object files. 
 
 The library includes following basic entities: threads, semaphores (mutexes, conditionals and atomics are replaced with those provided by STL),
@@ -27,3 +32,5 @@ for automatic scheduling.
 There are still some usless classes and files, those have to be removed. 
 
 The documentation may be generated with doxygen.
+
+
