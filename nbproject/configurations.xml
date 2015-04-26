@@ -19,9 +19,11 @@
           <itemPath>include/sys/CancelableThread.h</itemPath>
           <itemPath>include/sys/Nanosleep.h</itemPath>
           <itemPath>include/sys/PThread.h</itemPath>
+          <itemPath>include/sys/Poll.h</itemPath>
           <itemPath>include/sys/PosixSemaphore.h</itemPath>
           <itemPath>include/sys/Thread.h</itemPath>
           <itemPath>include/sys/Types.h</itemPath>
+          <itemPath>include/sys/ePoll.h</itemPath>
           <itemPath>include/sys/prototypes.h</itemPath>
           <itemPath>include/sys/synclock.h</itemPath>
         </logicalFolder>
@@ -121,11 +123,15 @@
       </item>
       <item path="include/sys/PThread.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/sys/Poll.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Thread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/ePoll.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -209,11 +215,15 @@
       </item>
       <item path="include/sys/PThread.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/sys/Poll.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Thread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/ePoll.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>

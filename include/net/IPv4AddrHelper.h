@@ -99,9 +99,9 @@ namespace itc
         sa.sin_family = AF_INET;
         sa.sin_addr.s_addr = addr;
         memset(sa.sin_zero, 0, 8);
-        char hostname[255];
-        memset(hostname, 0, 255);
-        int ret = getnameinfo((struct sockaddr*)&sa, sizeof(sa), hostname, 254, NULL, 0, NI_NAMEREQD);
+        char hostname[65];
+        memset(hostname, 0, 65);
+        int ret = getnameinfo((struct sockaddr*)&sa, sizeof(sa), hostname, 64, NULL, 0, NI_NAMEREQD);
 
         if(ret == 0)
         {

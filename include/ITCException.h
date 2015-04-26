@@ -65,6 +65,7 @@ namespace exceptions
 
     Can_not_open_queue = 2054,
     BadData = 2055,
+    QueueNotFound = 2056,
 
     Timed_wait_out_of_range = 2062,
     Timed_wait_deadlock = 2063,
