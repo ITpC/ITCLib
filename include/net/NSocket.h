@@ -130,7 +130,7 @@ namespace itc
         memcpy(&mAddr, &(ref.mAddr), mSockAL);
       }
 
-      inline const SockMemberAttr & operator=(const SockMemberAttr & ref)
+      const SockMemberAttr & operator=(const SockMemberAttr & ref)
       {
         mSocket = ref.mSocket;
         mPort = ref.mPort;
@@ -149,7 +149,7 @@ namespace itc
     {
      private:
 
-      inline void create(const char* address, struct addrinfo* hints, int port)
+      void create(const char* address, struct addrinfo* hints, int port)
       {
 #  if defined(_MSC_VER) || defined(__MINGW32_VERSION)
         static WORD wVersionRequested = MAKEWORD(2, 0);
@@ -236,7 +236,7 @@ namespace itc
                 }\
             }
 
-      inline void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_TCP_KA_TND>& fictive)
+      void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_TCP_KA_TND>& fictive)
       {
         struct addrinfo hints;
 
@@ -258,7 +258,7 @@ namespace itc
         Connect();
       }
 
-      inline void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_SCTP_KA_TND_UNI>& fictive)
+      void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_SCTP_KA_TND_UNI>& fictive)
       {
         struct addrinfo hints;
 
@@ -280,7 +280,7 @@ namespace itc
         Connect();
       }
 
-      inline void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_SCTP_KA_TND_MANY>& fictive)
+      void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_SCTP_KA_TND_MANY>& fictive)
       {
         struct addrinfo hints;
 
@@ -301,7 +301,7 @@ namespace itc
         setNagelOff(IPPROTO_SCTP);
       }
 
-      inline void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_TCP_KA_TD>& fictive)
+      void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_TCP_KA_TD>& fictive)
       {
         struct addrinfo hints;
 
@@ -321,7 +321,7 @@ namespace itc
         Connect();
       }
 
-      inline void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_TCP_NKA_TND>& fictive)
+      void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_TCP_NKA_TND>& fictive)
       {
         struct addrinfo hints;
 
@@ -342,7 +342,7 @@ namespace itc
         Connect();
       }
 
-      inline void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_TCP_NKA_TD>& fictive)
+      void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_TCP_NKA_TD>& fictive)
       {
         struct addrinfo hints;
 
@@ -361,7 +361,7 @@ namespace itc
         Connect();
       }
 
-      inline void open(const char* address, const int port, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
+      void open(const char* address, const int port, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
       {
         struct addrinfo hints;
 
@@ -380,7 +380,7 @@ namespace itc
         Listen();
       }
 
-      inline void open(const char* address, const int port, const itc::utils::SizeT2Type<SRV_SCTP_UNI>& fictive)
+      void open(const char* address, const int port, const itc::utils::SizeT2Type<SRV_SCTP_UNI>& fictive)
       {
         struct addrinfo hints;
 
@@ -396,7 +396,7 @@ namespace itc
         Listen();
       }
 
-      inline void open(const char* address, const int port, const itc::utils::SizeT2Type<SRV_SCTP_MANY>& fictive)
+      void open(const char* address, const int port, const itc::utils::SizeT2Type<SRV_SCTP_MANY>& fictive)
       {
         struct addrinfo hints;
 
@@ -412,12 +412,12 @@ namespace itc
         Listen();
       }
 
-      inline void open(const std::string& address, const int port)
+      void open(const std::string& address, const int port)
       {
         open(address.c_str(), port, mSockOptions);
       }
 
-      inline void open(const char* address, const int port)
+      void open(const char* address, const int port)
       {
         open(address, port, mSockOptions);
       }
@@ -453,7 +453,7 @@ namespace itc
         return bytes;
       }
 
-      inline void gpnm(std::string& out)
+      void gpnm(std::string& out)
       {
         if(mSocket != INVALID_SOCKET)
         {
@@ -472,7 +472,7 @@ namespace itc
         }
       }
 
-      inline void gpnm(uint32_t& out)
+      void gpnm(uint32_t& out)
       {
         if(mSocket != INVALID_SOCKET)
         {
@@ -490,102 +490,102 @@ namespace itc
           }
           out = addr2bytes(hbuf);
         }
-        throw ITCException(exceptions::NetworkException, exceptions::InvalidSocketException);
+        else throw ITCException(exceptions::NetworkException, exceptions::InvalidSocketException);
       }
 
-      inline void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
+      void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
       {
       }
 
-      inline void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<SRV_TCP_UNI_IF>& fictive)
+      void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<SRV_TCP_UNI_IF>& fictive)
       {
       }
 
-      inline void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<SRV_SCTP_UNI>& fictive)
+      void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<SRV_SCTP_UNI>& fictive)
       {
       }
 
-      inline void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<SRV_SCTP_MANY>& fictive)
+      void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<SRV_SCTP_MANY>& fictive)
       {
       }
 
-      inline void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<CLN_SCTP_KA_TND_UNI>& fictive)
-      {
-        gpnm(out);
-      }
-
-      inline void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
-      {
-      }
-
-      inline void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<SRV_TCP_UNI_IF>& fictive)
-      {
-      }
-
-      inline void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<SRV_SCTP_UNI>& fictive)
-      {
-      }
-
-      inline void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<SRV_SCTP_MANY>& fictive)
-      {
-      }
-
-      inline void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<CLN_TCP_NKA_TD>& fictive)
+      void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<CLN_SCTP_KA_TND_UNI>& fictive)
       {
         gpnm(out);
       }
 
-      inline void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<CLN_TCP_NKA_TND>& fictive)
+      void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
+      {
+      }
+
+      void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<SRV_TCP_UNI_IF>& fictive)
+      {
+      }
+
+      void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<SRV_SCTP_UNI>& fictive)
+      {
+      }
+
+      void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<SRV_SCTP_MANY>& fictive)
+      {
+      }
+
+      void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<CLN_TCP_NKA_TD>& fictive)
       {
         gpnm(out);
       }
 
-      inline void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<CLN_TCP_KA_TD>& fictive)
+      void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<CLN_TCP_NKA_TND>& fictive)
       {
         gpnm(out);
       }
 
-      inline void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<CLN_TCP_KA_TND>& fictive)
+      void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<CLN_TCP_KA_TD>& fictive)
       {
         gpnm(out);
       }
 
-      inline void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<CLN_UDP_KA>& fictive)
+      void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<CLN_TCP_KA_TND>& fictive)
       {
         gpnm(out);
       }
 
-      inline void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<CLN_UDP_NKA>& fictive)
+      void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<CLN_UDP_KA>& fictive)
       {
         gpnm(out);
       }
 
-      inline void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<CLN_TCP_NKA_TD>& fictive)
+      void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<CLN_UDP_NKA>& fictive)
       {
         gpnm(out);
       }
 
-      inline void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<CLN_TCP_NKA_TND>& fictive)
+      void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<CLN_TCP_NKA_TD>& fictive)
       {
         gpnm(out);
       }
 
-      inline void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<CLN_TCP_KA_TD>& fictive)
+      void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<CLN_TCP_NKA_TND>& fictive)
       {
         gpnm(out);
       }
 
-      inline void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<CLN_TCP_KA_TND>& fictive)
+      void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<CLN_TCP_KA_TD>& fictive)
       {
         gpnm(out);
       }
 
-      inline void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<CLN_UDP_KA>& fictive)
+      void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<CLN_TCP_KA_TND>& fictive)
       {
         gpnm(out);
       }
 
-      inline void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<CLN_UDP_NKA>& fictive)
+      void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<CLN_UDP_KA>& fictive)
+      {
+        gpnm(out);
+      }
+
+      void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<CLN_UDP_NKA>& fictive)
       {
         gpnm(out);
       }
@@ -600,7 +600,7 @@ namespace itc
        * @return 0 on success  errno on fail
        *
        **/
-      inline int accept(Socket<CLN_TCP_KA_TND>& ref, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
+      int accept(Socket<CLN_TCP_KA_TND>& ref, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
       {
         register int err = 0;
 
@@ -627,7 +627,7 @@ namespace itc
        * @return 0 on success  errno on fail
        *
        **/
-      inline int accept(std::shared_ptr< Socket<CLN_TCP_KA_TND> >& ref, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
+      int accept(std::shared_ptr< Socket<CLN_TCP_KA_TND> >& ref, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
       {
         register int err = 0;
 
@@ -644,7 +644,7 @@ namespace itc
         return err;
       }
 
-      inline int accept(Socket<CLN_SCTP_KA_TND_UNI>& ref, const itc::utils::SizeT2Type<SRV_SCTP_UNI>& fictive)
+      int accept(Socket<CLN_SCTP_KA_TND_UNI>& ref, const itc::utils::SizeT2Type<SRV_SCTP_UNI>& fictive)
       {
         register int err = 0;
 
@@ -661,7 +661,7 @@ namespace itc
         return err;
       }
 
-      inline int accept(Socket<CLN_SCTP_KA_TND_UNI>& ref, const itc::utils::SizeT2Type<SRV_SCTP_MANY>& fictive)
+      int accept(Socket<CLN_SCTP_KA_TND_UNI>& ref, const itc::utils::SizeT2Type<SRV_SCTP_MANY>& fictive)
       {
         return -1;
       }
@@ -676,7 +676,7 @@ namespace itc
        * @return 0 on success  errno on fail
        *
        **/
-      inline int accept(Socket<CLN_TCP_KA_TND>& ref, const itc::utils::SizeT2Type<SRV_TCP_UNI_IF>& fictive)
+      int accept(Socket<CLN_TCP_KA_TND>& ref, const itc::utils::SizeT2Type<SRV_TCP_UNI_IF>& fictive)
       {
         register int err = 0;
 
@@ -700,37 +700,37 @@ namespace itc
         this->close();
       }
 
-      inline int accept(Socket<CLN_TCP_NKA_TD>& ref)
+      int accept(Socket<CLN_TCP_NKA_TD>& ref)
       {
         return this->accept(ref, mSockOptions);
       }
 
-      inline int accept(Socket<CLN_TCP_KA_TND>& ref)
+      int accept(Socket<CLN_TCP_KA_TND>& ref)
       {
         return this->accept(ref, mSockOptions);
       }
 
-      inline int accept(std::shared_ptr< Socket<CLN_TCP_KA_TND> >& ref)
+      int accept(std::shared_ptr< Socket<CLN_TCP_KA_TND> >& ref)
       {
         return this->accept(ref, mSockOptions);
       }
 
-      inline int accept(Socket<CLN_TCP_KA_TD>& ref)
+      int accept(Socket<CLN_TCP_KA_TD>& ref)
       {
         return this->accept(ref, mSockOptions);
       }
 
-      inline int accept(Socket<CLN_TCP_NKA_TND>& ref)
+      int accept(Socket<CLN_TCP_NKA_TND>& ref)
       {
         return this->accept(ref, mSockOptions);
       }
 
-      inline void getpeeraddr(uint32_t& out)
+      void getpeeraddr(uint32_t& out)
       {
         this->getpeeraddr(out, mSockOptions);
       }
 
-      inline void getpeeraddr(std::string& out)
+      void getpeeraddr(std::string& out)
       {
         this->getpeeraddr(out, mSockOptions);
       }
@@ -742,12 +742,12 @@ namespace itc
        * @param   buffSize exact length of data to read
        * @return  length read
        */
-      inline int read(uint8_t* inBuffer, unsigned buffSize)
+      int read(uint8_t* inBuffer, unsigned buffSize)
       {
         register unsigned length = 0;
         register int nRead = 0;
 
-        if((buffSize == 0) || (inBuffer == 0))
+        if((buffSize == 0) || (inBuffer == nullptr))
           return 0;
 
         if(mSocket == INVALID_SOCKET)
@@ -785,7 +785,7 @@ namespace itc
        * @param   buffSize exact length of data to read
        * @return  length read
        */
-      inline int peek(uint8_t* inBuffer, unsigned buffSize)
+      int peek(uint8_t* inBuffer, unsigned buffSize)
       {
         register unsigned length = 0;
         register int nRead = 0;
@@ -827,7 +827,7 @@ namespace itc
        * @param   buffSize exact length of data to write
        * @return  bytes written
        */
-      inline int write(const uint8_t* outBuffer, unsigned buffSize)
+      int write(const uint8_t* outBuffer, unsigned buffSize)
       {
         register unsigned length = 0;
         register int nSent = 0;
@@ -909,22 +909,22 @@ namespace itc
         setfd(ref);
       }
 
-      inline const Socket & operator=(const Socket& ref)
+      const Socket & operator=(const Socket& ref)
       {
         return *((SockMemberAttr*)this) = (SockMemberAttr) ref;
       }
 
-      inline bool isValid() const
+      bool isValid() const
       {
         return(mSocket != INVALID_SOCKET);
       }
 
-      inline SOCKET getfd() const
+      SOCKET getfd() const
       {
         return mSocket;
       }
 
-      inline void setfd(const SOCKET& sock)
+      void setfd(const SOCKET& sock)
       {
         if(sock == INVALID_SOCKET)
         {
@@ -939,7 +939,7 @@ namespace itc
         }
       }
 
-      inline void close()
+      void close()
       {
         if(mSocket != INVALID_SOCKET)
         {
