@@ -63,4 +63,10 @@ namespace itc {
     }
 
 }
+# ifndef __LDEBUG__
+#define __LDEBUG__
+
+#define LDEBUG(args...) ::itc::getLog()->debug(__FILE__,__LINE__, args)
+
+#endif
 #endif /*__TSLOG_H__*/

@@ -91,7 +91,7 @@ namespace itc
       {
         while(ok2Run())
         {
-          ::itc::getLog()->debug(__FILE__, __LINE__, "Thread [%jx] -> PThread::mainLoop()", this->getThreadId());
+          ::itc::getLog()->trace(__FILE__, __LINE__, "Thread [%jx] -> PThread::mainLoop()", this->getThreadId());
           std::lock_guard<std::mutex> dosync(mMutex);
           if(mState != CANCEL) // double check
           {
@@ -102,7 +102,7 @@ namespace itc
             }
             mState = DONE;
           }
-          ::itc::getLog()->debug(__FILE__, __LINE__, "Thread [%jx] <- PThread::mainLoop()", this->getThreadId());
+          ::itc::getLog()->trace(__FILE__, __LINE__, "Thread [%jx] <- PThread::mainLoop()", this->getThreadId());
         }
       }
 
@@ -111,10 +111,10 @@ namespace itc
       explicit PThread()
         : Thread(), mMutex(), mState(STARTING)
       {
-        ::itc::getLog()->debug(__FILE__, __LINE__, "Thread [%jx] ->  PThread::Pthread()", this->getCurrentThrId());
+        ::itc::getLog()->trace(__FILE__, __LINE__, "Thread [%jx] ->  PThread::Pthread()", this->getCurrentThrId());
         std::lock_guard<std::mutex> dosync(mMutex);
         begin();
-        ::itc::getLog()->debug(__FILE__, __LINE__, "Thread [%jx] <-  PThread::Pthread()", this->getCurrentThrId());
+        ::itc::getLog()->trace(__FILE__, __LINE__, "Thread [%jx] <-  PThread::Pthread()", this->getCurrentThrId());
         ;
       }
 
@@ -160,18 +160,18 @@ namespace itc
       {
         setState(CANCEL);
         mTask.post();
-        ::itc::getLog()->debug(__FILE__, __LINE__, "Thread [%jx] calling PThread::~Pthread() for thread [%jx]", this->getCurrentThrId(), this->getThreadId());
+        ::itc::getLog()->trace(__FILE__, __LINE__, "Thread [%jx] calling PThread::~Pthread() for thread [%jx]", this->getCurrentThrId(), this->getThreadId());
         if(RunnablePointer ptr = mRunnable.get())
         {
           ptr->shutdown();
         }
-        ::itc::getLog()->debug(__FILE__, __LINE__, "Thread [%jx], PThread::~Pthread() -> Calling cancel() for thread: [%jx]", this->getCurrentThrId(), this->getThreadId());
+        ::itc::getLog()->trace(__FILE__, __LINE__, "Thread [%jx], PThread::~Pthread() -> Calling cancel() for thread: [%jx]", this->getCurrentThrId(), this->getThreadId());
         mTask.post();
         cancel();
-        ::itc::getLog()->debug(__FILE__, __LINE__, "Thread [%jx], PThread::~Pthread() -> Calling finish() for thread: [%jx]", this->getCurrentThrId(), this->getThreadId());
+        ::itc::getLog()->trace(__FILE__, __LINE__, "Thread [%jx], PThread::~Pthread() -> Calling finish() for thread: [%jx]", this->getCurrentThrId(), this->getThreadId());
         mTask.post();
         finish();
-        ::itc::getLog()->debug(__FILE__, __LINE__, "Thread [%jx], PThread::~Pthread() -> finished thread: [%jx]", this->getCurrentThrId(), this->getThreadId());
+        ::itc::getLog()->trace(__FILE__, __LINE__, "Thread [%jx], PThread::~Pthread() -> finished thread: [%jx]", this->getCurrentThrId(), this->getThreadId());
       }
     };
   }

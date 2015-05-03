@@ -46,104 +46,39 @@ namespace itc
     class Poll
     {
      private:
-      std::mutex mPollMutex;
       std::mutex mModMutex;
       std::atomic<nfds_t> mMaxFDs;
-      std::atomic<nfds_t> mWatchFDs;
-      std::atomic<bool> mModified;
       std::map<int, pollfd> mAll;
-      std::vector<pollfd> mFDs;
 
      public:
 
-      Poll(const size_t max)
-        :mPollMutex(), mModMutex(), mMaxFDs(max), mWatchFDs(0), mFDs(mMaxFDs)
+      explicit Poll(const size_t max)
+        :mModMutex(), mMaxFDs(max)
       {
-
       }
 
       void clear()
       {
         SyncLock sync1(mModMutex);
-        SyncLock sync2(mPollMutex);
-        mFDs.clear();
         mAll.clear();
       }
 
-      void poll(int ms, retvector& result)
+      void fill(std::vector<pollfd>& watchlist)
       {
-        SyncLock sync1(mPollMutex);
-        if(mModified)
+        SyncLock sync(mModMutex);
+        if(!mAll.empty())
         {
-          SyncLock sync2(mModMutex);
-          mFDs.clear();
-          mWatchFDs = 0;
           for(std::map<int, pollfd>::iterator it = mAll.begin();it != mAll.end();++it)
           {
-            mFDs.push_back(it->second);
-            ++mWatchFDs;
-          }
-          mModified = false;
-        }
-        int ret = ::poll(mFDs.data(), nfds_t(mWatchFDs), ms);
-        if(ret > 0)
-        {
-          for(size_t i = 0;i < mWatchFDs;++i)
-          {
-            if(mFDs[i].revents != 0)
-            {
-              result.push_back(pollFDEVENTPair(mFDs[i].fd, mFDs[i].revents));
-            }
-          }
-        }
-        else
-        {
-          if(ret == -1)
-          {
-            getLog()->error(__FILE__, __LINE__, "Poll:poll() error: %s", strerror(errno));
+            watchlist.push_back(it->second);
           }
         }
       }
-
-      void poll(retvector& result)
+      
+      const int poll(std::vector<pollfd>& cref, const int ms)
       {
-        std::atomic<int> ret(0);
-        
-        do{
-          SyncLock sync1(mPollMutex);
-          
-          if(mModified)
-          {
-            SyncLock sync2(mModMutex);
-            mFDs.clear();
-            mWatchFDs = 0;
-            for(std::map<int, pollfd>::iterator it = mAll.begin();it != mAll.end();++it)
-            {
-              mFDs.push_back(it->second);
-              ++mWatchFDs;
-            }
-            mModified = false;
-          }
-          ret = ::poll(mFDs.data(), nfds_t(mWatchFDs), 10); // renew list every 10 ms if necessary
-
-          if(ret > 0)
-          {
-            for(size_t i = 0;i < mWatchFDs;++i)
-            {
-              if(mFDs[i].revents != 0)
-              {
-                result.push_back(pollFDEVENTPair(mFDs[i].fd, mFDs[i].revents));
-              }
-            }
-          }
-          else
-          {
-            if(ret == -1)
-            {
-              getLog()->error(__FILE__, __LINE__, "Poll:poll() error: %s", strerror(errno));
-            }
-          }
-        }while(ret == 0);
+        if(cref.empty()) return 0;
+        else return ::poll(cref.data(),cref.size(),ms);
       }
 
       template <POLL_TYPE ptype = PTYPEPOLLIN> void poll_ctl_add(const int fd)
@@ -160,8 +95,6 @@ namespace itc
         if(it != mAll.end())
         {
           mAll.erase(it);
-          mModified = true;
-          mWatchFDs = mAll.size();
         }
       }
 
@@ -170,10 +103,11 @@ namespace itc
         SyncLock sync(mModMutex);
         if(mAll.size() < mMaxFDs)
         {
-          mAll[fd].fd = fd;
-          mAll[fd].events = events;
-          mModified = true;
-          mWatchFDs = mAll.size();
+          pollfd tmp;
+          tmp.fd=fd;
+          tmp.events=events;
+          tmp.revents=0;
+          mAll.insert(std::pair<int,pollfd>(fd,tmp));
         }
       }
 
@@ -183,8 +117,7 @@ namespace itc
         std::map<int, pollfd>::iterator it = mAll.find(fd);
         if(it != mAll.end())
         {
-          mAll[fd].fd = -fd;
-          mModified = true;
+          it->second.fd = -fd;
         }
       }
 
@@ -195,8 +128,7 @@ namespace itc
 
         if(it != mAll.end())
         {
-          mAll[fd].fd = fd;
-          mModified = true;
+          it->second.fd = fd;
         }
       }
 
@@ -219,10 +151,11 @@ namespace itc
       {
         if(mAll.size() < mMaxFDs)
         {
-          mAll[fd].fd = fd;
-          mAll[fd].events = events;
-          mModified = true;
-          mWatchFDs = mAll.size();
+          pollfd tmp;
+          tmp.fd=fd;
+          tmp.events=events;
+          tmp.revents=0;
+          mAll.insert(std::pair<int,pollfd>(fd,tmp));
         }
       }
     };

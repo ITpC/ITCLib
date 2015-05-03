@@ -462,7 +462,10 @@ namespace itc
           char hbuf[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
           saddrlen = sizeof(saddr);
-          ::getpeername(mSocket, &saddr, &saddrlen);
+          if(::getpeername(mSocket, &saddr, &saddrlen))
+          {
+            throw TITCException<exceptions::GAI_Exception>(errno);
+          }
 
           if(int error = ::getnameinfo(&saddr, saddrlen, hbuf, 16, NULL, 0, NI_NUMERICHOST))
           {
@@ -482,7 +485,10 @@ namespace itc
 
           saddrlen = sizeof(saddr);
 
-          ::getpeername(mSocket, &saddr, &saddrlen);
+          if(::getpeername(mSocket, &saddr, &saddrlen))
+          {
+            throw TITCException<exceptions::GAI_Exception>(errno);
+          }
 
           if(int error = ::getnameinfo(&saddr, saddrlen, hbuf, 16, NULL, 0, NI_NUMERICHOST))
           {
