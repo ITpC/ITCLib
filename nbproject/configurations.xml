@@ -28,7 +28,6 @@
           <itemPath>include/sys/synclock.h</itemPath>
         </logicalFolder>
         <itemPath>include/DateFormatter.h</itemPath>
-        <itemPath>include/ErrConstants.h</itemPath>
         <itemPath>include/GAINTLock.h</itemPath>
         <itemPath>include/ITCError.h</itemPath>
         <itemPath>include/ITCException.h</itemPath>
@@ -82,8 +81,6 @@
         </archiverTool>
       </compileType>
       <item path="include/DateFormatter.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/ErrConstants.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/GAINTLock.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -174,8 +171,6 @@
         </archiverTool>
       </compileType>
       <item path="include/DateFormatter.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/ErrConstants.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/GAINTLock.h" ex="false" tool="3" flavor2="0">
       </item>
