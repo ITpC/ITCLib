@@ -49,15 +49,19 @@ namespace itc {
                         );
             }
 
-            inline void post(const std::string& pLogMessage) {
+            void post(const std::string& pLogMessage) {
                 post(mThreadSafe, pLogMessage);
             }
 
-            inline void post(const char* pLogMessage) {
+            void post(const std::shared_ptr<std::vector<char>>& pLogMessage) {
+                post(mThreadSafe, pLogMessage);
+            }
+            
+            void post(const char* pLogMessage) {
                 post(mThreadSafe, pLogMessage);
             }
 
-            inline void flush() {
+            void flush() {
                 flush(mThreadSafe); // for external calls or destructor call.
             }
 
@@ -67,34 +71,40 @@ namespace itc {
 
         private:
 
-            inline void post(itc::utils::Bool2Type < true > threadsafe, const char* pLogMessage) {
+            void post(itc::utils::Bool2Type < true > threadsafe, const char* pLogMessage) {
                 std::lock_guard<std::mutex> sync(mMutex);
                 push(pLogMessage);
             }
 
-            inline void post(itc::utils::Bool2Type < true > threadsafe, const std::string& pLogMessage) {
+            void post(itc::utils::Bool2Type < true > threadsafe, const std::shared_ptr<std::vector<char>>& pLogMessage) 
+            {
                 std::lock_guard<std::mutex> sync(mMutex);
                 push(pLogMessage);
             }
 
-            inline void post(itc::utils::Bool2Type < false > threadsafe, const char* pLogMessage) {
+            void post(itc::utils::Bool2Type < true > threadsafe, const std::string& pLogMessage) {
+                std::lock_guard<std::mutex> sync(mMutex);
                 push(pLogMessage);
             }
 
-            inline void post(itc::utils::Bool2Type < false > threadsafe, const std::string& pLogMessage) {
+            void post(itc::utils::Bool2Type < false > threadsafe, const char* pLogMessage) {
                 push(pLogMessage);
             }
 
-            inline void flush(itc::utils::Bool2Type < true > threadsafe) {
+            void post(itc::utils::Bool2Type < false > threadsafe, const std::string& pLogMessage) {
+                push(pLogMessage);
+            }
+
+            void flush(itc::utils::Bool2Type < true > threadsafe) {
                 std::lock_guard<std::mutex> sync(mMutex);
                 pflush();
             }
 
-            inline void flush(itc::utils::Bool2Type < false > threadsafe) {
+            void flush(itc::utils::Bool2Type < false > threadsafe) {
                 pflush();
             }
 
-            inline void pflush() {
+            void pflush() {
                 size_t depth = mMessagesBuffer.size();
 
                 for (size_t i = 0; i < depth; i++) {
@@ -105,7 +115,7 @@ namespace itc {
                 mMessagesInBuff = 0;
             }
 
-            inline void push(const std::string& pLogMessage) {
+            void push(const std::string& pLogMessage) {
                 if (!pLogMessage.empty()) {
                     if (mMessagesInBuff >= mMaxRows) {
                         itc::utils::Bool2Type < false > notThreadSafe;
@@ -116,7 +126,7 @@ namespace itc {
                 }
             }
 
-            inline void push(const char* pLogMessage) {
+            void push(const char* pLogMessage) {
                 if (pLogMessage) {
                     std::string tmp(pLogMessage);
 
@@ -128,6 +138,21 @@ namespace itc {
                     mMessagesInBuff++;
                 }
             }
+            
+            void push(const std::shared_ptr<std::vector<char>>& pLogMessage) {
+                if (pLogMessage.get()) {
+                    std::string tmp(pLogMessage->size(),0);
+                    tmp.copy(pLogMessage->data(),pLogMessage->size());
+                    
+                    if (mMessagesInBuff >= mMaxRows) {
+                        itc::utils::Bool2Type < false > notThreadSafe;
+                        flush(notThreadSafe);
+                    }
+                    mMessagesBuffer.push_back(tmp);
+                    mMessagesInBuff++;
+                }
+            }
+
         };
     }
 }

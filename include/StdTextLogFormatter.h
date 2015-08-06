@@ -20,6 +20,7 @@
 #include <string>
 #include <memory>
 #include <mutex>
+#include <vector>
 
 #include <abstract/ILogFormatter.h>
 
@@ -31,12 +32,12 @@ namespace itc
         class StdTextLogFormatter : public itc::utils::abstract::ILogFormatter
         {
         private:
-            std::mutex     mMutex;
-            std::string    mPreparedRecord;
+            std::mutex           mMutex;
+            std::shared_ptr<std::vector<char>>    mPreparedRecord;
             
         public:
             explicit StdTextLogFormatter()
-            : ILogFormatter(),mMutex()
+            : ILogFormatter(),mMutex(),mPreparedRecord(std::make_shared<std::vector<char>>(0))
             {
                 std::lock_guard<std::mutex> sync(mMutex);
             }
@@ -47,33 +48,29 @@ namespace itc
                 
                 if(pFormat)
                 {
-                    std::unique_ptr<char> buf(new char[pMaxMsgLength+1]);
-                    memset(buf.get(),0,pMaxMsgLength);
-        
-                    va_list args;
-                    va_start(args,pFormat);
-                    vsnprintf(buf.get(),pMaxMsgLength,pFormat,args);
-                    va_end(args);
-                    mPreparedRecord=buf.get();
+                  mPreparedRecord->resize(pMaxMsgLength+1,0);
+                  memset(mPreparedRecord->data(),0,mPreparedRecord->size());
+
+                  va_list args;
+                  va_start(args,pFormat);
+                  vsnprintf(mPreparedRecord->data(),pMaxMsgLength,pFormat,args);
+                  va_end(args);
                 }
             }
 
-            inline void format(const size_t pMaxMsgLength, const char* pFormat, va_list args)
+            void format(const size_t pMaxMsgLength, const char* pFormat, va_list args)
             {
                 std::lock_guard<std::mutex> sync(mMutex);
                 
                 if(pFormat)
                 {
-                    std::unique_ptr<char> buf(new char[pMaxMsgLength +1]);
-                    if(buf.get())
-                    {
-                      vsnprintf(buf.get(),pMaxMsgLength,pFormat,args);
-                      mPreparedRecord=buf.get();
-                    }
+                  mPreparedRecord->resize(pMaxMsgLength+1,0);
+                  memset(mPreparedRecord->data(),0,mPreparedRecord->size());
+                  vsnprintf(mPreparedRecord->data(),pMaxMsgLength,pFormat,args);
                 }
             }
 
-            inline const std::string& getFormattedMessage()
+            const std::shared_ptr<std::vector<char>>& getFormattedMessage()
             {
                 std::lock_guard<std::mutex> sync(mMutex);
                 return mPreparedRecord;
