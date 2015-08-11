@@ -37,6 +37,8 @@
         <itemPath>include/TSLog.h</itemPath>
         <itemPath>include/TSafeLogOutAdapter.h</itemPath>
         <itemPath>include/globals.h</itemPath>
+        <itemPath>include/strbuff.h</itemPath>
+        <itemPath>include/strformat.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -111,6 +113,10 @@
       <item path="include/net/NSocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/net/SCTP.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/strbuff.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/strformat.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/CancelableThread.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -199,6 +205,10 @@
       <item path="include/net/NSocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/net/SCTP.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/strbuff.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/strformat.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/CancelableThread.h" ex="false" tool="3" flavor2="0">
       </item>

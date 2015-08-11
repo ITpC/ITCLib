@@ -27,55 +27,53 @@
 
 namespace itc
 {
-    namespace utils
+  namespace utils
+  {
+    
+    class StdTextLogFormatter : public itc::utils::abstract::ILogFormatter
     {
-        class StdTextLogFormatter : public itc::utils::abstract::ILogFormatter
+    private:
+      std::mutex mMutex;
+
+    public:
+      typedef itc::utils::abstract::ILogFormatter::shared_buff shared_buff;
+      
+      explicit StdTextLogFormatter()
+      : ILogFormatter(), mMutex()
+      {
+        std::lock_guard<std::mutex> sync(mMutex);
+      }
+
+      const std::shared_ptr<std::vector<char>> format(const size_t pMaxMsgLength, const char* pFormat, ...)
+      {
+        std::lock_guard<std::mutex> sync(mMutex);
+
+        if (pFormat)
         {
-        private:
-            std::mutex           mMutex;
-            std::shared_ptr<std::vector<char>>    mPreparedRecord;
-            
-        public:
-            explicit StdTextLogFormatter()
-            : ILogFormatter(),mMutex(),mPreparedRecord(std::make_shared<std::vector<char>>(0))
-            {
-                std::lock_guard<std::mutex> sync(mMutex);
-            }
-            
-            inline void format(const size_t pMaxMsgLength, const char* pFormat, ...)
-            {
-                std::lock_guard<std::mutex> sync(mMutex);
-                
-                if(pFormat)
-                {
-                  mPreparedRecord->resize(pMaxMsgLength+1,0);
-                  memset(mPreparedRecord->data(),0,mPreparedRecord->size());
+          shared_buff tmp(std::make_shared<std::vector<char>>(pMaxMsgLength + 1, 0));
 
-                  va_list args;
-                  va_start(args,pFormat);
-                  vsnprintf(mPreparedRecord->data(),pMaxMsgLength,pFormat,args);
-                  va_end(args);
-                }
-            }
+          va_list args;
+          va_start(args, pFormat);
+          vsnprintf(tmp->data(), pMaxMsgLength, pFormat, args);
+          va_end(args);
+          return tmp;
+        }
+        return std::make_shared<std::vector<char>>(0);
+      }
 
-            void format(const size_t pMaxMsgLength, const char* pFormat, va_list args)
-            {
-                std::lock_guard<std::mutex> sync(mMutex);
-                
-                if(pFormat)
-                {
-                  mPreparedRecord->resize(pMaxMsgLength+1,0);
-                  memset(mPreparedRecord->data(),0,mPreparedRecord->size());
-                  vsnprintf(mPreparedRecord->data(),pMaxMsgLength,pFormat,args);
-                }
-            }
+      const std::shared_ptr<std::vector<char>> format(const size_t pMaxMsgLength, const char* pFormat, va_list args)
+      {
+        std::lock_guard<std::mutex> sync(mMutex);
 
-            const std::shared_ptr<std::vector<char>>& getFormattedMessage()
-            {
-                std::lock_guard<std::mutex> sync(mMutex);
-                return mPreparedRecord;
-            }
-        };
-    }
+        if (pFormat)
+        {
+          shared_buff tmp(std::make_shared<std::vector<char>>(pMaxMsgLength + 1, 0));
+          vsnprintf(tmp->data(), pMaxMsgLength, pFormat, args);
+          return tmp;
+        }
+        return std::make_shared<std::vector<char>>(0);
+      }
+    };
+  }
 }
 #endif /*__STDTEXTLOGFORMATTER_H__*/
