@@ -33,7 +33,6 @@
         <itemPath>include/ITCException.h</itemPath>
         <itemPath>include/LogOutBuffer.h</itemPath>
         <itemPath>include/NullPointerException.h</itemPath>
-        <itemPath>include/SharedBuffer.h</itemPath>
         <itemPath>include/StdTextLogFormatter.h</itemPath>
         <itemPath>include/TSLog.h</itemPath>
         <itemPath>include/TSafeLogOutAdapter.h</itemPath>
@@ -92,8 +91,6 @@
       <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/NullPointerException.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/SharedBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/StdTextLogFormatter.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -182,8 +179,6 @@
       <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/NullPointerException.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/SharedBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/StdTextLogFormatter.h" ex="false" tool="3" flavor2="0">
       </item>

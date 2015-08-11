@@ -128,27 +128,23 @@ namespace itc {
 
             void push(const char* pLogMessage) {
                 if (pLogMessage) {
-                    std::string tmp(pLogMessage);
-
                     if (mMessagesInBuff >= mMaxRows) {
                         itc::utils::Bool2Type < false > notThreadSafe;
                         flush(notThreadSafe);
                     }
-                    mMessagesBuffer.push_back(tmp);
+                    mMessagesBuffer.push_back(pLogMessage);
                     mMessagesInBuff++;
                 }
             }
             
             void push(const std::shared_ptr<std::vector<char>>& pLogMessage) {
                 if (pLogMessage.get()) {
-                    std::string tmp(pLogMessage->size(),0);
-                    tmp.copy(pLogMessage->data(),pLogMessage->size());
                     
                     if (mMessagesInBuff >= mMaxRows) {
                         itc::utils::Bool2Type < false > notThreadSafe;
                         flush(notThreadSafe);
                     }
-                    mMessagesBuffer.push_back(tmp);
+                    mMessagesBuffer.push_back(std::string(pLogMessage->data(),pLogMessage->size()));
                     mMessagesInBuff++;
                 }
             }

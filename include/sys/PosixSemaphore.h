@@ -209,7 +209,7 @@ namespace itc
       explicit RawPosixSemaphore(const RawPosixSemaphore&) = delete;
       explicit RawPosixSemaphore(RawPosixSemaphore&) = delete;
 
-      inline void wait(void)
+      void wait(void)
       {
         if(ok && sem_wait(&semaphore))
         {
@@ -217,7 +217,7 @@ namespace itc
         }
       }
 
-      inline void post(void)
+      void post(void)
       {
         if(ok && sem_post(&semaphore))
         {
@@ -225,7 +225,7 @@ namespace itc
         }
       }
 
-      inline void timedWait(const ::timespec& timeout)
+      void timedWait(const ::timespec& timeout)
       {
         if(ok)
         {
@@ -238,7 +238,7 @@ namespace itc
         return;
       }
 
-      inline void tryWait(void)
+      void tryWait(void)
       {
         if(ok && sem_trywait(&semaphore))
         {
@@ -246,7 +246,7 @@ namespace itc
         }
       }
 
-      inline int getValue(void)
+      int getValue(void)
       {
         int value=0;
 
@@ -259,15 +259,11 @@ namespace itc
 
       /**
        * In Linux and Solaris a cancelation has to be called before semaphore will be destroyed. 
-       * if semaphore is destroyed already you wont get any exceptions thrown.
-       * 
-       * @exception  ITCException(errno,exceptions::Can_not_destroy_semaphore);
        **/
-      inline void destroy()
+      void destroy() noexcept
       {
         ok = false;
-        if(sem_destroy(&semaphore) != 0)
-          throw TITCException<exceptions::Can_not_destroy_semaphore>(errno);
+        sem_destroy(&semaphore); // No error code checked, semaphore may be not destroyed. There is no way you can handle error here.
       }
 
       const bool isok() const
@@ -275,9 +271,9 @@ namespace itc
         return ok;
       }
 
-      ~RawPosixSemaphore()
+      ~RawPosixSemaphore() noexcept
       {
-        destroy(); // we fucking do throw an exception here !! undefined behavior.
+        destroy(); 
       }
     };
 #  endif
