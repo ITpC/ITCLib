@@ -18,6 +18,7 @@
 #include <fstream>
 #include <string>
 #include <mutex>
+#include <sys/synclock.h>
 
 namespace itc
 {
@@ -34,12 +35,12 @@ namespace itc
 
 
     public: 
-      explicit STDOutLogThreadSafeAdapter(const char* filename, const std::ios_base::openmode& mode=std::ofstream::app)
+      explicit STDOutLogThreadSafeAdapter(const std::string& filename, const std::ios_base::openmode& mode=std::ofstream::app)
       : itc::utils::abstract::ILogOutputAdapter(filename),
         mMutex(), mFilename(filename),mMode(std::ofstream::out|mode),
         mLogFile(mFilename,mMode)
       {
-        std::lock_guard<std::mutex> synch(mMutex);
+        SyncLock sync(mMutex);
         if(!mLogFile.good())
         {
           throw itc::utils::CanNotOpenTheLogException();
@@ -47,7 +48,7 @@ namespace itc
       }
 
       explicit STDOutLogThreadSafeAdapter(STDOutLogThreadSafeAdapter& p)
-      :   itc::utils::abstract::ILogOutputAdapter(NULL)
+      : itc::utils::abstract::ILogOutputAdapter(NULL)
       {
         std::lock_guard<std::mutex> sync(mMutex);
         std::lock_guard<std::mutex> nsync(p.mMutex);
@@ -60,22 +61,28 @@ namespace itc
         }
       }
 
-      void post(const std::shared_ptr<std::vector<char>>& pMessage)
+      void post(const shared_char_vector& pMessage)
       {
-        std::lock_guard<std::mutex> synch(mMutex);
+        SyncLock sync(mMutex);
         mLogFile << pMessage->data();
       }
-      inline void flush()
+      
+      void flush()
       {
-        std::lock_guard<std::mutex> synch(mMutex);
-        mLogFile.flush(); 
+        SyncLock sync(mMutex);
+        pflush();
       }
 
       ~STDOutLogThreadSafeAdapter()
       {
-        flush();
-        std::lock_guard<std::mutex> synch(mMutex);
+        SyncLock sync(mMutex);
+        pflush();
         mLogFile.close();
+      }
+    private:
+      void pflush()
+      {
+        mLogFile.flush(); 
       }
     };
   }

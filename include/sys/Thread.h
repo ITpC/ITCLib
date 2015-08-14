@@ -12,23 +12,23 @@
 
 
 #ifndef	__THREAD_H__
-#  define	__THREAD_H__
+#define	__THREAD_H__
 
-#  include <pthread.h>
-#  include <sched.h>
+#include <pthread.h>
+#include <sched.h>
 
-#  include <memory>
+#include <memory>
 
-#  include <ITCException.h>
-#  include <sys/Types.h>
+#include <ITCException.h>
+#include <sys/Types.h>
 
-#  include <abstract/Cleanable.h>
-#  include <abstract/Runnable.h>
-#  include <sys/PosixSemaphore.h>
-#  include <sys/prototypes.h>
-#  include <InterfaceCheck.h>
-
-#  include <TSLog.h>
+#include <abstract/Cleanable.h>
+#include <abstract/Runnable.h>
+#include <sys/PosixSemaphore.h>
+#include <sys/prototypes.h>
+#include <InterfaceCheck.h>
+#include <sys/synclock.h>
+#include <TSLog.h>
 
 
 
@@ -60,12 +60,25 @@ namespace itc
      **/
     class Thread
     {
-     protected:
+    protected:
       friend void* invoke(Thread*);
-     private:
-      pthread_t TID;
+    private:
+      std::mutex mMutex;
       Semaphore start;
-     public:
+      std::atomic<pthread_t> TID;
+
+    private:
+      int create()
+      {
+        SyncLock sync(mMutex);
+        pthread_t tptr;
+        int ret=0;
+        ::pthread_create(&tptr, NULL, (thread_t) invoke, this);
+        TID=tptr;
+        return ret;
+      }
+
+    public:
 
       /**
        * Default constructor Thread::Thread()
@@ -74,56 +87,51 @@ namespace itc
       Thread() : start()
       {
         int ret = this->create();
-        if(ret) throw ITCException(ret, exceptions::Can_not_create_thread);
+        if (ret) throw TITCException<exceptions::Can_not_create_thread>(ret);
       }
 
-      inline int create()
-      {
-        return ::pthread_create(&TID, NULL, (thread_t) invoke, this);
-      }
-
-      inline int send_signal(int signo)
+      const int send_signal(int signo)
       {
         return ::pthread_kill(TID, signo);
       }
 
-      inline int cancel()
+      const int cancel()
       {
         return ::pthread_cancel(TID);
       }
 
-      inline int detach()
+      const int detach()
       {
         return ::pthread_detach(TID);
       }
 
-      inline pthread_t getThreadId() const
+      const pthread_t getThreadId()
       {
         return TID;
       }
 
-      inline pthread_t getCurrentThrId()
+      const pthread_t getCurrentThrId()
       {
         return ::pthread_self();
       }
 
-      inline void yield() const
+      void yield() const
       {
         YIELD();
       }
 
 
 
-     protected:
+    protected:
       virtual ~Thread() = default;
       virtual void run() = 0;
 
-      inline void begin()
+      void begin()
       {
         start.post();
       }
 
-      inline int finish()
+      int finish()
       {
         return ::pthread_join(TID, NULL);
       }

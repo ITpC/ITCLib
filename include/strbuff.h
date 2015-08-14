@@ -91,13 +91,13 @@ namespace itc
       mStrBuff.push_back(_val);
       return (*this);
     }
-    
+
     strbuff& append(const char* _val)
     {
-      mStrBuff.push_back(std::string(_val));
+      mStrBuff.push_back(_val);
       return (*this);
     }
-    
+
     template <typename T> strbuff& append(T _val)
     {
       static_assert(std::is_integral<T>::value||std::is_floating_point<T>::value, "Integral or floating pointer types are expected");

@@ -23,6 +23,7 @@
 #include <vector>
 
 #include <abstract/ILogFormatter.h>
+#include <sys/synclock.h>
 
 
 namespace itc
@@ -36,21 +37,21 @@ namespace itc
       std::mutex mMutex;
 
     public:
-      typedef itc::utils::abstract::ILogFormatter::shared_buff shared_buff;
+
       
       explicit StdTextLogFormatter()
       : ILogFormatter(), mMutex()
       {
-        std::lock_guard<std::mutex> sync(mMutex);
+        SyncLock sync(mMutex);
       }
 
       const std::shared_ptr<std::vector<char>> format(const size_t pMaxMsgLength, const char* pFormat, ...)
       {
-        std::lock_guard<std::mutex> sync(mMutex);
+        SyncLock sync(mMutex);
 
         if (pFormat)
         {
-          shared_buff tmp(std::make_shared<std::vector<char>>(pMaxMsgLength + 1, 0));
+          shared_char_vector tmp(std::make_shared<std::vector<char>>(pMaxMsgLength + 1, 0));
 
           va_list args;
           va_start(args, pFormat);
@@ -61,13 +62,13 @@ namespace itc
         return std::make_shared<std::vector<char>>(0);
       }
 
-      const std::shared_ptr<std::vector<char>> format(const size_t pMaxMsgLength, const char* pFormat, va_list args)
+      const shared_char_vector format(const size_t pMaxMsgLength, const char* pFormat, va_list args)
       {
-        std::lock_guard<std::mutex> sync(mMutex);
+        SyncLock sync(mMutex);
 
         if (pFormat)
         {
-          shared_buff tmp(std::make_shared<std::vector<char>>(pMaxMsgLength + 1, 0));
+          shared_char_vector tmp(std::make_shared<std::vector<char>>(pMaxMsgLength + 1, 0));
           vsnprintf(tmp->data(), pMaxMsgLength, pFormat, args);
           return tmp;
         }

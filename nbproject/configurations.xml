@@ -7,7 +7,9 @@
       <logicalFolder name="include" displayName="include" projectFiles="true">
         <logicalFolder name="abstract" displayName="abstract" projectFiles="true">
           <itemPath>include/abstract/Cleanable.h</itemPath>
+          <itemPath>include/abstract/ILogFormatter.h</itemPath>
           <itemPath>include/abstract/ITask.h</itemPath>
+          <itemPath>include/abstract/LoggerHelpers.h</itemPath>
           <itemPath>include/abstract/Runnable.h</itemPath>
         </logicalFolder>
         <logicalFolder name="net" displayName="net" projectFiles="true">
@@ -32,6 +34,7 @@
         <itemPath>include/ITCError.h</itemPath>
         <itemPath>include/ITCException.h</itemPath>
         <itemPath>include/LogOutBuffer.h</itemPath>
+        <itemPath>include/Logger.h</itemPath>
         <itemPath>include/NullPointerException.h</itemPath>
         <itemPath>include/StdTextLogFormatter.h</itemPath>
         <itemPath>include/TSLog.h</itemPath>
@@ -92,6 +95,8 @@
       </item>
       <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/Logger.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/NullPointerException.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/StdTextLogFormatter.h" ex="false" tool="3" flavor2="0">
@@ -102,7 +107,11 @@
       </item>
       <item path="include/abstract/Cleanable.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/abstract/ILogFormatter.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/abstract/ITask.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/LoggerHelpers.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/abstract/Runnable.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -184,6 +193,8 @@
       </item>
       <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/Logger.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/NullPointerException.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/StdTextLogFormatter.h" ex="false" tool="3" flavor2="0">
@@ -194,7 +205,11 @@
       </item>
       <item path="include/abstract/Cleanable.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/abstract/ILogFormatter.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/abstract/ITask.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/LoggerHelpers.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/abstract/Runnable.h" ex="false" tool="3" flavor2="0">
       </item>

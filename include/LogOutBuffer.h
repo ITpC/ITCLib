@@ -13,74 +13,61 @@
 #ifndef __LOGOUTBUFFER_H__
 #define __LOGOUTBUFFER_H__
 #include <string>
-#include <vector>
+#include <list>
 
-#include <InterfaceCheck.h>
 #include <abstract/LoggerHelpers.h>
-#include <Val2Type.h>
 #include <memory>
 #include <mutex>
+#include <sys/synclock.h>
 
 namespace itc
 {
   namespace utils
   {
-
-    template <typename OutAdapter, bool TSafe = true > class LogOutBuffer
+    template <typename OutAdapter> class LogOutBuffer
     {
     private:
-      typedef std::shared_ptr<std::vector<char>> shared_buff;
-      
       std::mutex mMutex;
       size_t mMaxRows;
+      size_t mRowsNow;
       std::shared_ptr<OutAdapter> mOutAdapter;
-
-      std::vector<shared_buff> mMessagesBuffer;
-      itc::utils::Bool2Type<TSafe> mThreadSafe;
+      std::list<shared_char_vector> mMessagesBuffer;
 
     public:
       typedef typename itc::utils::abstract::ILogOutputAdapter AbstractLogOutAdapter;
 
-      explicit LogOutBuffer(std::shared_ptr<OutAdapter>& pOutAdapter, const size_t pMaxRows = 1000)
-      : mMutex(), mMaxRows(pMaxRows), mOutAdapter(pOutAdapter)
+      explicit LogOutBuffer(const std::shared_ptr<OutAdapter>& pOutAdapter, const size_t pMaxRows = 1000)
+      : mMutex(), mMaxRows(pMaxRows), mRowsNow(0), mOutAdapter(pOutAdapter)
       {
-        STATIC_CHECKER3MSG(
-          CheckRelationship(
-          OutAdapter, subclassof, AbstractLogOutAdapter
-          ),
-          OutAdapter, _is_not_a_subclass_of_, AbstractLogOutAdapter
-          );
+        static_assert(
+          std::is_base_of<AbstractLogOutAdapter, OutAdapter>::value, 
+          "Wrong template parameter, - OutAdapter is not derived from AbstractLogOutAdapter"
+        );
       }
 
-      void post(const shared_buff& pLogMessage)
+      void post(const shared_char_vector& pLogMessage)
       {
-        std::lock_guard<std::mutex> sync(mMutex);
-        post(mThreadSafe, pLogMessage);
+        SyncLock sync(mMutex);
+        mMessagesBuffer.push_back(pLogMessage);
+        if(++mRowsNow >= mMaxRows)
+        {
+          pflush();
+          mRowsNow=0;
+        }
       }
 
       void flush()
       {
-        std::lock_guard<std::mutex> sync(mMutex);
-        flush(mThreadSafe); // for external calls or destructor call.
+        SyncLock sync(mMutex);
+        pflush();
       }
-
+      
       ~LogOutBuffer()
-      {
-        flush();
-      }
-
-    private:
-
-      void post(itc::utils::Bool2Type < true > threadsafe, const std::shared_ptr<std::vector<char>>&pLogMessage)
-      {
-        push(pLogMessage);
-      }
-
-      void flush(itc::utils::Bool2Type < true > threadsafe)
       {
         pflush();
       }
 
+    private:
       void pflush()
       {
         auto it=mMessagesBuffer.begin();
@@ -89,24 +76,9 @@ namespace itc
         {
           mOutAdapter.get()->post(*it);
         }
-        mMessagesBuffer.clear();
         mOutAdapter.get()->flush();
+        mMessagesBuffer.clear();
       }
-
-      void push(const std::shared_ptr<std::vector<char>>&pLogMessage)
-      {
-        if (pLogMessage.get())
-        {
-
-          if (mMessagesBuffer.size() >= mMaxRows)
-          {
-            itc::utils::Bool2Type < true> threadSafe;
-            flush(threadSafe);
-          }
-          mMessagesBuffer.push_back(pLogMessage);
-        }
-      }
-
     };
   }
 }

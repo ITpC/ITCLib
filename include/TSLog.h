@@ -25,48 +25,34 @@
 
 namespace itc {
 
-#if defined(TSAFE_LOG)
-    typedef itc::utils::Logger<itc::utils::STDOutLogThreadSafeAdapter, utils::StdTextLogFormatter, XDEBUG, true > PrimitiveDebugTSLog;
-    typedef itc::utils::Logger<itc::utils::STDOutLogThreadSafeAdapter, utils::StdTextLogFormatter, XTRACE, true > PrimitiveTraceTSLog;
-    typedef itc::utils::Logger<itc::utils::STDOutLogThreadSafeAdapter, utils::StdTextLogFormatter, XINFO, true > PrimitiveInfoTSLog;
-    typedef itc::utils::Logger<itc::utils::STDOutLogThreadSafeAdapter, utils::StdTextLogFormatter, XERROR, true > PrimitiveErrorTSLog;
-    typedef itc::utils::Logger<itc::utils::STDOutLogThreadSafeAdapter, utils::StdTextLogFormatter, XFATAL, true > PrimitiveFatalTSLog;
-#else
-    typedef itc::utils::Logger<itc::utils::STDOutLogThreadUnsafeAdapter, utils::StdTextLogFormatter, XDEBUG, true > PrimitiveDebugTSLog;
-    typedef itc::utils::Logger<itc::utils::STDOutLogThreadUnsafeAdapter, utils::StdTextLogFormatter, XTRACE, true > PrimitiveTraceTSLog;
-    typedef itc::utils::Logger<itc::utils::STDOutLogThreadUnsafeAdapter, utils::StdTextLogFormatter, XINFO, true > PrimitiveInfoTSLog;
-    typedef itc::utils::Logger<itc::utils::STDOutLogThreadUnsafeAdapter, utils::StdTextLogFormatter, XERROR, true > PrimitiveErrorTSLog;
-    typedef itc::utils::Logger<itc::utils::STDOutLogThreadUnsafeAdapter, utils::StdTextLogFormatter, XFATAL, true > PrimitiveFatalTSLog;
-#endif
+  typedef itc::utils::Logger<itc::utils::STDOutLogThreadSafeAdapter, utils::StdTextLogFormatter, XDEBUG> PrimitiveDebugLog;
+  typedef itc::utils::Logger<itc::utils::STDOutLogThreadSafeAdapter, utils::StdTextLogFormatter, XTRACE> PrimitiveTraceLog;
+  typedef itc::utils::Logger<itc::utils::STDOutLogThreadSafeAdapter, utils::StdTextLogFormatter, XINFO> PrimitiveInfoLog;
+  typedef itc::utils::Logger<itc::utils::STDOutLogThreadSafeAdapter, utils::StdTextLogFormatter, XERROR> PrimitiveErrorLog;
+  typedef itc::utils::Logger<itc::utils::STDOutLogThreadSafeAdapter, utils::StdTextLogFormatter, XFATAL> PrimitiveFatalLog;
 
 #if	defined(LOG_DEBUG)
-    typedef PrimitiveDebugTSLog CurrentLogType;
+    typedef PrimitiveDebugLog CurrentLogType;
 #else
 #if defined(LOG_TRACE)
-    typedef PrimitiveTraceTSLog CurrentLogType;
+    typedef PrimitiveTraceLog CurrentLogType;
 #else
 #if defined(LOG_INFO)
-    typedef PrimitiveInfoTSLog CurrentLogType;
+    typedef PrimitiveInfoLog CurrentLogType;
 #else
 #if defined(LOG_ERROR)
-    typedef PrimitiveErrorTSLog CurrentLogType;
+    typedef PrimitiveErrorLog CurrentLogType;
 #else
-    typedef PrimitiveFatalTSLog CurrentLogType;
+    typedef PrimitiveFatalLog CurrentLogType;
 #endif
 #endif
 #endif
 #endif	
   
-    extern "C"
-    {
-        std::shared_ptr<CurrentLogType> getLog();
-    }
+  extern "C"
+  {
+      std::shared_ptr<CurrentLogType> getLog();
+  }
 
 }
-# ifndef __LDEBUG__
-#define __LDEBUG__
-
-#define LDEBUG(args...) ::itc::getLog()->debug(__FILE__,__LINE__, args)
-
-#endif
 #endif /*__TSLOG_H__*/
