@@ -40,22 +40,22 @@ typedef int SOCKET;
 #    include <netinet/sctp.h>
 #  endif
 
-#  define CLIENT_SOCKET           (int)0x08000000ULL
-#  define SERVER_SOCKET           (int)0x80000000ULL
-#  define SRV_INADDR_A            (int)0x00000004ULL
+#  define CLIENT_SOCKET           (uint64_t)0x08000000ULL
+#  define SERVER_SOCKET           (uint64_t)0x80000000ULL
+#  define SRV_INADDR_A            (uint64_t)0x00000004ULL
 
-#  define OPT_IPPROTO_SCTP        (int)0x00000008ULL
-#  define OPT_IPPROTO_TCP         (int)0x00000010ULL
-#  define OPT_IPPROTO_UDP         (int)0x00000020ULL
+#  define OPT_IPPROTO_SCTP        (uint64_t)0x00000008ULL
+#  define OPT_IPPROTO_TCP         (uint64_t)0x00000010ULL
+#  define OPT_IPPROTO_UDP         (uint64_t)0x00000020ULL
 
-#  define OPT_KEEPALIVE           (int)0x00000040ULL
-#  define OPT_SCTP_NODELAY        (int)0x00000080ULL
-#  define OPT_TCP_NODELAY         (int)0x00000100ULL
+#  define OPT_KEEPALIVE           (uint64_t)0x00000040ULL
+#  define OPT_SCTP_NODELAY        (uint64_t)0x00000080ULL
+#  define OPT_TCP_NODELAY         (uint64_t)0x00000100ULL
 
-#  define OPT_SCTP_PR_SCTP_RTX    (int)0x00000200ULL
-#  define OPT_SCTP_SEQPACKET      (int)0x00000400ULL
-#  define OPT_SOCK_DAGRAM         (int)0x00000800ULL
-#  define OPT_SOCK_STREAM         (int)0x00001000ULL
+#  define OPT_SCTP_PR_SCTP_RTX    (uint64_t)0x00000200ULL
+#  define OPT_SCTP_SEQPACKET      (uint64_t)0x00000400ULL
+#  define OPT_SOCK_DAGRAM         (uint64_t)0x00000800ULL
+#  define OPT_SOCK_STREAM         (uint64_t)0x00001000ULL
 
 
 
@@ -144,7 +144,7 @@ namespace itc
      *@brief Socket template. BEWARE SCTP IS NOT WORKING AND NEVER TESTED DUE 
      * TO LACK OF TIME
      **/
-    template < size_t SockOptions, int ListenQueueLength = 0 > class Socket
+    template < uint64_t SockOptions, int ListenQueueLength = 0 > class Socket
     : public ::itc::abstract::ISocket, public SockMemberAttr
     {
      private:

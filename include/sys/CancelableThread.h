@@ -51,6 +51,9 @@ namespace itc
         getLog()->debug(__FILE__, __LINE__, "Started thread with Id: %jx", this->getThreadId());
       }
 
+      CancelableThread(const CancelableThread&) = delete;
+      CancelableThread(CancelableThread&) = delete;
+      
       const std::shared_ptr<TRunnable>& getRunnable() const
       {
         return mRunnable;

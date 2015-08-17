@@ -118,6 +118,9 @@ namespace itc
         ;
       }
 
+      PThread(const PThread&)=delete;
+      PThread(PThread&)=delete;
+      
       const PThreadState getState() const
       {
         return mState;

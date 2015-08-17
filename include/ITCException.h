@@ -38,6 +38,7 @@ namespace exceptions
 
   enum Exception
   {
+    SystemError = 2000,
     Can_not_create_mutex = 2001,
     Can_not_initialize_mutex = 2002,
     Can_not_lock_mutex = 2003,

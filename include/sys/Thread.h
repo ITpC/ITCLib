@@ -65,17 +65,13 @@ namespace itc
     private:
       std::mutex mMutex;
       Semaphore start;
-      std::atomic<pthread_t> TID;
+      pthread_t TID;
 
     private:
       int create()
       {
         SyncLock sync(mMutex);
-        pthread_t tptr;
-        int ret=0;
-        ::pthread_create(&tptr, NULL, (thread_t) invoke, this);
-        TID=tptr;
-        return ret;
+        return ::pthread_create(&TID, NULL, (thread_t) invoke, this);
       }
 
     public:
@@ -84,12 +80,15 @@ namespace itc
        * Default constructor Thread::Thread()
        * Creates a thread in wait state.
        */
-      Thread() : start()
+      explicit Thread() : start()
       {
         int ret = this->create();
         if (ret) throw TITCException<exceptions::Can_not_create_thread>(ret);
       }
 
+      Thread(const Thread&) = delete;
+      Thread(Thread&) = delete;
+      
       const int send_signal(int signo)
       {
         return ::pthread_kill(TID, signo);

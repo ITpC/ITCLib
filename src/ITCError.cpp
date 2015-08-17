@@ -30,6 +30,7 @@ static const char * ITCStrError(int err)
 {
   switch(err)
   {
+    case exceptions::SystemError: return "System error ";
     case exceptions::Can_not_create_mutex: return "Can't create mutex ";
     case exceptions::Can_not_initialize_mutex: return "Can't init mutex ";
     case exceptions::Can_not_lock_mutex: return "Can't lock mutex ";
