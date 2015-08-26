@@ -28,17 +28,18 @@
 #include <TSLog.h>
 #include <ITCException.h>
 #include <Val2Type.h>
+#include <abstract/IController.h>
 
 namespace itc
 {
   namespace sys
   {
     enum POLLTYPE{PTYPE_POLLIN,PTYPE_POLLOUT};
-
+    
     template <
       POLLTYPE PT_Value, 
       int mode=EPOLLONESHOT|EPOLLRDHUP|EPOLLPRI|EPOLLERR|EPOLLHUP> 
-    class ePoll
+    class ePoll 
     {
     public:
       typedef struct epoll_event            ePollEventType;
@@ -49,16 +50,15 @@ namespace itc
     private:
       std::mutex          mMutex;
       size_t              mMaxEvents;
-      ePollEvents         events;
       ePollEvents         revents;
-      bool                mDestroy;
+      std::atomic<bool>   mDestroy;
       int                 mPollFD;
       
       
     public:
      
-      explicit ePoll(const size_t& nevents)
-      : mMutex(),mMaxEvents(nevents),events(mMaxEvents),
+      explicit ePoll(const size_t& nevents=2000)
+      : mMutex(),mMaxEvents(nevents),
         revents(mMaxEvents),mDestroy(false)
       {
           SyncLock sync(mMutex);
@@ -69,6 +69,10 @@ namespace itc
           }
       }
 
+      ePoll()=delete;
+      ePoll(const ePoll&)=delete;
+      ePoll(ePoll&)=delete;
+      
       void add(const int& fd)
       {
         SyncLock sync(mMutex);
@@ -82,42 +86,55 @@ namespace itc
         return mPollFD;
       }
       
-      std::vector<FDEventPair> poll(const int ms)
+      void poll(std::vector<FDEventPair>& out, const int ms)
       {
         SyncLock sync(mMutex);
+        out.clear();
         if(!mDestroy)
         {
           revents.clear();
           int ret=epoll_wait(mPollFD, revents.data(), mMaxEvents ,ms);
           if(ret>0)
           {
-            std::vector<FDEventPair> tmp;
             for(size_t i=0; i<ret; ++i)
             {
-              int fd=revents[i].data.fd;
-              uint32_t levents=revents[i].events;
-              tmp.push_back(FDEventPair(fd,levents));
-              getLog()->debug(__FILE__,__LINE__,"An event %u for fd %d is recieved",levents,revents[i].data.fd);
+              int fd=revents.at(i).data.fd;
+              uint32_t events=revents[i].events;
+              
+              out.push_back(FDEventPair(fd,events));
+              getLog()->debug(__FILE__,__LINE__,"An event %u for fd %d is recieved",revents[i].events,revents[i].data.fd);
             }
-            return tmp;
           }
           else if(ret == -1)
           {
             ::itc::getLog()->error(__FILE__,__LINE__,"in ePoll()::poll() on epoll_wait(): %s",strerror(errno));
-            return std::vector<FDEventPair>(0);
           }
           else if(ret == 0)
           {
             ::itc::getLog()->error(__FILE__,__LINE__,"in ePoll()::poll() nothing to poll");
-            return std::vector<FDEventPair>(0);
           }
         }
       }
 
+      void del(const int& fd)
+      {
+        // inclompatible to kernels before 2.6.9, the event array is NULL here.
+        SyncLock sync(mMutex);
+        
+        if(!mDestroy)
+        {
+          if(epoll_ctl(mPollFD,EPOLL_CTL_DEL,fd,(epoll_event*)0)==-1)
+          {
+              throw TITCException<exceptions::EPollCTLError>(errno);
+          }
+        }
+      }
+      
       ~ePoll()
       {
-          SyncLock sync(mMutex);
-          mDestroy=true;
+        mDestroy=true;
+        SyncLock sync(mMutex);
+        close(mPollFD);
       }
 
     private:
@@ -148,18 +165,6 @@ namespace itc
           if(epoll_ctl(mPollFD,EPOLL_CTL_ADD,fd,&event)==-1)
           {
             throw TITCException<exceptions::EPollCTLError>(errno);
-          }
-        }
-      }
-
-      void del(const int& fd)
-      {
-        // inclompatible to kernels before 2.6.9, the event array is NULL here.
-        if(!mDestroy)
-        {
-          if(epoll_ctl(mPollFD,EPOLL_CTL_DEL,fd,(epoll_event*)0)==-1)
-          {
-              throw TITCException<exceptions::EPollCTLError>(errno);
           }
         }
       }

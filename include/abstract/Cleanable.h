@@ -39,12 +39,10 @@ namespace itc {
         public:
             virtual void cleanup() = 0;
         protected:
-
             virtual ~Cleanable()=default;
         };
     }
 }
 
-typedef void ((*localcleanfunc)(itc::abstract::Cleanable*));
 
 #endif /*CLEANABLE_H_*/

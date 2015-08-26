@@ -14,13 +14,15 @@
 #define CLEANABLETHREAD_H_
 
 #include <memory>
+#include <atomic>
 
 #include <InterfaceCheck.h>
 #include <abstract/Runnable.h>
 #include <sys/Thread.h>
 #include <sys/PosixSemaphore.h>
 #include <abstract/Cleanable.h>
-#include <mutex>
+
+
 
 namespace itc
 {
@@ -37,7 +39,8 @@ namespace itc
       friend void cleanup_handler(::itc::abstract::Cleanable*);
 
     public:
-
+      typedef std::weak_ptr<TRunnable> RunnableWeakPtr;
+      
       explicit CancelableThread(const std::shared_ptr<TRunnable>& ref)
       : Thread(), isfinished(false), mRunnable(ref)
       {
@@ -62,39 +65,43 @@ namespace itc
       void run()
       {
         pthread_cleanup_push((void (*)(void*))cleanup_handler, this);
-        if (TRunnable * ptr = mRunnable.get())
+        if (mRunnable.get() != nullptr)
         {
           pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
           pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, NULL);
-          ptr->execute();
+          mRunnable.get()->execute();
         }
         pthread_cleanup_pop(0);
       }
 
       void cleanup()
       {
-        if (TRunnable * ptr = mRunnable.get())
+        if (mRunnable.get() != nullptr)
         {
-          ptr->onCancel();
+          getLog()->debug(__FILE__, __LINE__, "Calling onCancel() for runnable %jx TID: %jx", mRunnable.get(), this->getThreadId());
+          mRunnable.get()->onCancel();
         }
       }
 
       virtual ~CancelableThread() noexcept // gcc 4.7.4 compat
       {
-        if(!isfinished) // destructor double call from std::shared_ptr. why ?????
-        {
+        //if(!isfinished) // there is attempts to call this constructor more then once. It seems that CancelableThread holding shared_ptr is split in two independent ones.
+        //{
           isfinished=true;
+        
           if (mRunnable.get() != nullptr)
           {
+            getLog()->debug(__FILE__, __LINE__, "Calling shutdown() for runnable %jx TID: %jx", mRunnable.get(), this->getThreadId());
             mRunnable.get()->shutdown();
           }
+
           getLog()->debug(__FILE__, __LINE__, "Calling cancel() for TID: %jx", this->getThreadId());
           cancel();
           getLog()->debug(__FILE__, __LINE__, "Calling finish() for TID: %jx", this->getThreadId());
           finish();
           getLog()->debug(__FILE__, __LINE__, "finished TID: %jx", this->getThreadId());
           getLog()->flush();
-        }
+        //}
       }
     };
   }

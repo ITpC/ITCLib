@@ -51,7 +51,7 @@ namespace itc {
   
   extern "C"
   {
-      std::shared_ptr<CurrentLogType> getLog();
+      const std::shared_ptr<CurrentLogType>& getLog();
   }
 
 }

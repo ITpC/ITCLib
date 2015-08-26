@@ -55,7 +55,7 @@ namespace itc
 
           va_list args;
           va_start(args, pFormat);
-          vsnprintf(tmp->data(), pMaxMsgLength, pFormat, args);
+          vsnprintf(tmp.get()->data(), pMaxMsgLength, pFormat, args);
           va_end(args);
           return tmp;
         }
@@ -69,7 +69,7 @@ namespace itc
         if (pFormat)
         {
           shared_char_vector tmp(std::make_shared<std::vector<char>>(pMaxMsgLength + 1, 0));
-          vsnprintf(tmp->data(), pMaxMsgLength, pFormat, args);
+          vsnprintf(tmp.get()->data(), pMaxMsgLength, pFormat, args);
           return tmp;
         }
         return std::make_shared<std::vector<char>>(0);

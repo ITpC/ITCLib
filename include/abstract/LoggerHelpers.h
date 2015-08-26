@@ -41,6 +41,7 @@ namespace itc
   namespace utils
   {
     typedef std::shared_ptr<std::vector<char>> shared_char_vector;
+    typedef std::weak_ptr<std::vector<char>> weak_char_vector;
     namespace abstract
     {
       class ILogOutputAdapter

@@ -771,7 +771,7 @@ namespace itc
           nRead = recv(mSocket, &inBuffer[length], buffSize - length, MSG_NOSIGNAL);
 #  endif
 #  if !defined(_MSC_VER) && !defined(__CYGWIN__)&& (!defined(_WIN32))
-          nRead = recv(mSocket, &inBuffer[length], buffSize - length, MSG_WAITALL);
+          nRead = ::recv(mSocket, static_cast<void*>(&(inBuffer[length])), buffSize - length, MSG_WAITALL);
 #  endif
           if(nRead <= 0)
           {
@@ -813,7 +813,7 @@ namespace itc
           nRead = recv(mSocket, &inBuffer[length], buffSize - length, MSG_NOSIGNAL | MSG_PEEK);
 #  endif
 #  if !defined(_MSC_VER) && !defined(__CYGWIN__) && (!defined(_WIN32))
-          nRead = recv(mSocket, &inBuffer[length], buffSize - length, MSG_WAITALL | MSG_PEEK);
+          nRead = ::recv(mSocket, static_cast<void*>(&(inBuffer[length])), buffSize - length, MSG_WAITALL | MSG_PEEK);
 #  endif
           if(nRead <= 0)
           {
@@ -859,6 +859,16 @@ namespace itc
           length += nSent;
         }while(length != buffSize);
         return nSent;
+      }
+      
+      /** 
+       * @brief exposing recv(2)
+       * 
+       **/
+      
+      size_t recv(void *buf, size_t len, int flags)
+      {
+        return recv(mSocket,buf,len,flags);
       }
 
       /**
