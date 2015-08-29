@@ -71,7 +71,7 @@ private:
     mOut.append(buff);
     return mOut;
   }
-  static std::string& to_string(const int val)
+  template <typename INTEGER>static std::string& to_string(const INTEGER& val)
   {
     mOut=boost::lexical_cast<std::string>(val);
     return mOut;
