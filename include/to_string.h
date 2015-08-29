@@ -56,8 +56,8 @@ private:
   
   template<const size_t precision> static std::string& to_string(const double& val)
   {
-    char buff[40]={};
-    snprintf(buff,39,std::string("%'."+boost::lexical_cast<std::string>(precision)+"f").c_str(),val);
+    char buff[3000]={};
+    snprintf(buff,3000,std::string("%'."+boost::lexical_cast<std::string>(precision)+"f").c_str(),val);
     mOut.clear();
     mOut.append(buff);
     return mOut;
@@ -65,8 +65,8 @@ private:
   
   template<const size_t precision> static std::string& to_string(const long double& val)
   {
-    char buff[71]={};
-    snprintf(buff,70,std::string("%'."+boost::lexical_cast<std::string>(precision)+"Lf").c_str(),val);
+    char buff[5000]={};
+    snprintf(buff,5000,std::string("%'."+boost::lexical_cast<std::string>(precision)+"Lf").c_str(),val);
     mOut.clear();
     mOut.append(buff);
     return mOut;
