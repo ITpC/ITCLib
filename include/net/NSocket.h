@@ -765,13 +765,13 @@ namespace itc
         {
           errno = 0;
 #  if defined(_MSC_VER) || (defined(__MINGW32_VERSION))
-          nRead = recv(mSocket, &inBuffer[length], buffSize - length, 0);
+          nRead = recv(static_cast<void*>(&(inBuffer[length])),  buffSize - length, 0);
 #  endif
 #  if !defined(_MSC_VER) && defined(__CYGWIN__)
-          nRead = recv(mSocket, &inBuffer[length], buffSize - length, MSG_NOSIGNAL);
+          nRead = recv(static_cast<void*>(&(inBuffer[length])),  buffSize - length, MSG_NOSIGNAL);
 #  endif
 #  if !defined(_MSC_VER) && !defined(__CYGWIN__)&& (!defined(_WIN32))
-          nRead = ::recv(mSocket, static_cast<void*>(&(inBuffer[length])), buffSize - length, MSG_WAITALL);
+          nRead = recv(static_cast<void*>(&(inBuffer[length])), buffSize - length, MSG_WAITALL);
 #  endif
           if(nRead <= 0)
           {
@@ -806,14 +806,14 @@ namespace itc
         {
           errno = 0;
 #  if defined(_MSC_VER) || (defined(__MINGW32_VERSION))
-          nRead = recv(mSocket, &inBuffer[length], buffSize - length, MSG_PEEK);
+          nRead = recv(static_cast<void*>(&(inBuffer[length])), buffSize - length, MSG_PEEK);
 #  endif
 
 #  if !defined(_MSC_VER) && defined(__CYGWIN__)
-          nRead = recv(mSocket, &inBuffer[length], buffSize - length, MSG_NOSIGNAL | MSG_PEEK);
+          nRead = recv(static_cast<void*>(&(inBuffer[length])), buffSize - length, MSG_NOSIGNAL | MSG_PEEK);
 #  endif
 #  if !defined(_MSC_VER) && !defined(__CYGWIN__) && (!defined(_WIN32))
-          nRead = ::recv(mSocket, static_cast<void*>(&(inBuffer[length])), buffSize - length, MSG_WAITALL | MSG_PEEK);
+          nRead = recv(static_cast<void*>(&(inBuffer[length])), buffSize - length, MSG_WAITALL | MSG_PEEK);
 #  endif
           if(nRead <= 0)
           {
@@ -866,11 +866,16 @@ namespace itc
        * 
        **/
       
-      size_t recv(void *buf, size_t len, int flags)
+      size_t recv(void *buf, size_t len, const int flags)
       {
-        return recv(mSocket,buf,len,flags);
+        return ::recv(mSocket,buf,len,flags);
       }
 
+      template <typename T> ssize_t recv(T* out,const int flags)
+      {
+        return ::recv(mSocket,static_cast<void*>(out),sizeof(T),flags);
+      }
+      
       /**
        * /brief read from a socket a packet that is sizeof(T) bytes large
        *

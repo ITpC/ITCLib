@@ -60,7 +60,7 @@ namespace itc
     }
     
 
-    template <typename...Args> void format(std::string& result, const std::string& fmt,  Args...args)
+    template <typename...Args> std::string& format(std::string& result, const std::string& fmt,  Args...args)
     {
       auto tpl(std::tie(args...));
       
@@ -94,6 +94,7 @@ namespace itc
         ++it;
       }
       mBuff.clear();
+      return result;
     }
   };
 }

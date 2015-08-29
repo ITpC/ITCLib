@@ -20,6 +20,7 @@
 #include <string>
 #include <string.h>
 #include <tuple>
+#include <boost/lexical_cast.hpp>
 
 namespace itc
 {
@@ -58,10 +59,9 @@ namespace itc
       
       result.resize(strsize+1,0);
       size_t i=0;
-      for(auto it=mStrBuff.begin();it!=mStrBuff.end();++it)
+      for(auto it=mStrBuff.begin();it!=mStrBuff.end();i+=it->length())
       {
         memcpy(&(result[i]),it->c_str(),it->length());
-        i+=it->length();
       }
     }    
 
@@ -102,7 +102,7 @@ namespace itc
     {
       static_assert(std::is_integral<T>::value||std::is_floating_point<T>::value, "Integral or floating pointer types are expected");
 
-      mStrBuff.push_back(std::to_string(_val));
+      mStrBuff.push_back(boost::lexical_cast<std::string>(_val));
       return (*this);
     }
     
