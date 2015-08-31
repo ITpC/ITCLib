@@ -98,6 +98,12 @@ namespace itc
       return (*this);
     }
 
+    strbuff& append(const long double& _val)
+    {
+      mStrBuff.push_back(std::to_string(_val));
+      return (*this);
+    }
+
     template <typename T> strbuff& append(T _val)
     {
       static_assert(std::is_integral<T>::value||std::is_floating_point<T>::value, "Integral or floating pointer types are expected");
