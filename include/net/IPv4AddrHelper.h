@@ -71,15 +71,14 @@ namespace itc
 
       /**
        * @brief converts the ip address from uint32_t network order representation
-       * into a c++ string. No DNS checks are involved. It is merely a conversion.
+       * into a c++ string. No DNS checks are involved. this is merely a conversion.
        * 
        * @param ipaddr network order representation of an IPv4 address.
        * @return std::string value representing a dot separated 4 octets of an IPv4 address .
        */
       const std::string ipv4toStr(const uint32_t& ipaddr)
       {
-        char addr[16];
-        memset(addr,0,16);
+        char addr[16]={};
         inet_ntop(AF_INET,&ipaddr,addr,16);
         return addr;
       }
@@ -93,7 +92,7 @@ namespace itc
        * @return std::string - a string represening the IPv4 address
        * @exception std::logic_error with getnameinfo error.
        */
-      const std::string n2str(const uint32_t& addr)
+      const std::string addr2name(const uint32_t& addr)
       {
         sockaddr_in sa;
         sa.sin_family = AF_INET;
