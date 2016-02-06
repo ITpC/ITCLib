@@ -22,7 +22,6 @@
 #  include <sstream>
 #  include <iostream>
 #  include <ITCError.h>
-#  include <InterfaceCheck.h>
 #  include <memory>
 
 // using namespace std::tr1;
