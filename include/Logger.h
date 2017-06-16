@@ -134,7 +134,7 @@ namespace itc
       void trace(Int2Type<XTRACE> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message)
       {
         TFormatter aFormatter;
-        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [TRACE] - %s:%d: %s\n", getCurrTimeStr(), pFilename, pLineNumber, message->data()));
+        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [%s] - %s:%d: %s\n", getCurrTimeStr(),mLogLevelStr, pFilename, pLineNumber, message->data()));
       }
 
       void trace(Int2Type<XINFO> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message) { }
@@ -147,13 +147,13 @@ namespace itc
       void debug(Int2Type<XTRACE> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message)
       {
         TFormatter aFormatter;
-        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [DEBUG] - %s:%d: %s\n", getCurrTimeStr(), pFilename, pLineNumber, message->data()));
+        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [%s] - %s:%d: %s\n", getCurrTimeStr(),mLogLevelStr, pFilename, pLineNumber, message->data()));
       }
 
       void debug(Int2Type<XDEBUG> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message)
       {
         TFormatter aFormatter;
-        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [DEBUG] - %s:%d: %s\n", getCurrTimeStr(), pFilename, pLineNumber, message->data()));
+        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [%s] - %s:%d: %s\n", getCurrTimeStr(),mLogLevelStr, pFilename, pLineNumber, message->data()));
       }
 
       void debug(Int2Type<XINFO> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message) { }
@@ -166,50 +166,50 @@ namespace itc
       void fatal(Int2Type<XTRACE> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message)
       {
         TFormatter aFormatter;
-        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [FATAL] - %s:%d: %s\n", getCurrTimeStr(), pFilename, pLineNumber, message->data()));
+        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [%s] - %s:%d: %s\n", getCurrTimeStr(),mLogLevelStr, pFilename, pLineNumber, message->data()));
       }
 
       void fatal(Int2Type<XFATAL> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message)
       {
         TFormatter aFormatter;
-        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [FATAL] - %s:%d: %s\n", getCurrTimeStr(), pFilename, pLineNumber, message->data()));
+        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [%s] - %s:%d: %s\n", getCurrTimeStr(),mLogLevelStr, pFilename, pLineNumber, message->data()));
       }
 
       void fatal(Int2Type<XINFO> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message)
       {
         TFormatter aFormatter;
-        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [FATAL] - %s:%d: %s\n", getCurrTimeStr(), pFilename, pLineNumber, message->data()));
+        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [%s] - %s:%d: %s\n", getCurrTimeStr(),mLogLevelStr, pFilename, pLineNumber, message->data()));
       }
 
       void fatal(Int2Type<XERROR> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message)
       {
         TFormatter aFormatter;
-        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [FATAL] - %s:%d: %s\n", getCurrTimeStr(), pFilename, pLineNumber, message->data()));
+        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [%s] - %s:%d: %s\n", getCurrTimeStr(),mLogLevelStr, pFilename, pLineNumber, message->data()));
       }
 
       void fatal(Int2Type<XDEBUG> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message)
       {
         TFormatter aFormatter;
-        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [FATAL] - %s:%d: %s\n", getCurrTimeStr(), pFilename, pLineNumber, message->data()));
+        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [%s] - %s:%d: %s\n", getCurrTimeStr(),mLogLevelStr, pFilename, pLineNumber, message->data()));
       }
       //-------------------
 
       void error(Int2Type<XTRACE> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message)
       {
         TFormatter aFormatter;
-        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [ERROR] - %s:%d: %s\n", getCurrTimeStr(), pFilename, pLineNumber, message->data()));
+        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [%s] - %s:%d: %s\n", getCurrTimeStr(),mLogLevelStr, pFilename, pLineNumber, message->data()));
       }
 
       void error(Int2Type<XERROR> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message)
       {
         TFormatter aFormatter;
-        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [ERROR] - %s:%d: %s\n", getCurrTimeStr(), pFilename, pLineNumber, message->data()));
+        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [%s] - %s:%d: %s\n", getCurrTimeStr(),mLogLevelStr, pFilename, pLineNumber, message->data()));
       }
 
       void error(Int2Type<XINFO> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message)
       {
         TFormatter aFormatter;
-        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [ERROR] - %s:%d: %s\n", getCurrTimeStr(), pFilename, pLineNumber, message->data()));
+        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [%s] - %s:%d: %s\n", getCurrTimeStr(),mLogLevelStr, pFilename, pLineNumber, message->data()));
       }
 
       void error(Int2Type<XFATAL> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message) { }
@@ -217,20 +217,20 @@ namespace itc
       void error(Int2Type<XDEBUG> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message)
       {
         TFormatter aFormatter;
-        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [ERROR] - %s:%d: %s\n", getCurrTimeStr(), pFilename, pLineNumber, message->data()));
+        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [%s] - %s:%d: %s\n", getCurrTimeStr(),mLogLevelStr, pFilename, pLineNumber, message->data()));
       }
       //-------------------
 
       void info(Int2Type<XTRACE> fictive, const shared_char_vector& message)
       {
         TFormatter aFormatter;
-        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [INFO] - %s\n", getCurrTimeStr(), message->data()));
+        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [%s] - %s\n", getCurrTimeStr(),mLogLevelStr, message->data()));
       }
 
       void info(Int2Type<XINFO> fictive, const shared_char_vector& message)
       {
         TFormatter aFormatter;
-        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [INFO] - %s\n", getCurrTimeStr(), message->data()));
+        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [%s] - %s\n", getCurrTimeStr(),mLogLevelStr, message->data()));
       }
 
       void info(Int2Type<XERROR> fictive, const shared_char_vector& message) { }
@@ -240,7 +240,7 @@ namespace itc
       void info(Int2Type<XDEBUG> fictive, const shared_char_vector& message)
       {
         TFormatter aFormatter;
-        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [INFO] - %s\n", getCurrTimeStr(), message->data()));
+        mOutBuffer.post(aFormatter.format(MAX_BUFF_SIZE, "%s - [%s] - %s\n", getCurrTimeStr(),mLogLevelStr, message->data()));
       }
 
       //-------------------
