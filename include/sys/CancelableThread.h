@@ -85,8 +85,8 @@ namespace itc
 
       virtual ~CancelableThread() noexcept // gcc 4.7.4 compat
       {
-        //if(!isfinished) // there is attempts to call this constructor more then once. It seems that CancelableThread holding shared_ptr is split in two independent ones.
-        //{
+        if(!isfinished) // there is an attempt to call this destructor more then once. It seems that CancelableThread holding shared_ptr is split in two independent ones.
+        {
           isfinished=true;
         
           if (mRunnable.get() != nullptr)
@@ -101,7 +101,7 @@ namespace itc
           finish();
           getLog()->debug(__FILE__, __LINE__, "finished TID: %jx", this->getThreadId());
           getLog()->flush();
-        //}
+        }
       }
     };
   }
