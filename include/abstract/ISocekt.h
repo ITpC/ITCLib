@@ -4,14 +4,14 @@
  * (See accompanying file LICENSE_1_0.txt or copy at
  *          http://www.boost.org/LICENSE_1_0.txt)
  * 
- * $Id: %<%NAME%>%.%<%EXTENSION%>% %<%DATE%>% %<%TIME%>% %<%USER%>%$
+ * $Id: ISocekt.h December 16, 2017 5:07 PM $
  * 
- * EMail: %<%EMAIL%>%
+ * Author: Pavel Kraynyukhov <pavel.kraynyukhov@gmail.com>
  * 
  **/
 
-#ifndef __ISOCKET_H__
-#  define __ISOCKET_H__
+#ifndef __ISOCEKT_H__
+#  define __ISOCEKT_H__
 
 namespace itc
 {
@@ -43,5 +43,5 @@ namespace itc
 }
 
 
-#endif /* __ISOCKET_H__ */
+#endif /* __ISOCEKT_H__ */
 
