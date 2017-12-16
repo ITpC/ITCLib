@@ -23,8 +23,7 @@ typedef int SOCKET;
 #  include <compat_types.h>
 #  include <ITCError.h>
 #  include <ITCException.h>
-#  include <boost/shared_ptr.hpp>
-#  include <boost/weak_ptr.hpp>
+#  include <memory>
 
 #  include <string>
 #  include <Val2Type.h>
@@ -37,8 +36,9 @@ typedef int SOCKET;
 #    include <sys/types.h>
 #    include <sys/socket.h>
 #    include <netinet/tcp.h>
-#    include <netinet/sctp.h>
 #  endif
+
+#include <abstract/ISocket.h>
 
 #  define CLIENT_SOCKET           (uint64_t)0x08000000ULL
 #  define SERVER_SOCKET           (uint64_t)0x80000000ULL
@@ -79,33 +79,7 @@ typedef int SOCKET;
 #  define CLN_SCTP_KA_TND_UNI  (CLIENT_SOCKET|OPT_SOCK_STREAM|OPT_IPPROTO_SCTP|OPT_KEEPALIVE|OPT_TCP_NODELAY)
 #  define CLN_SCTP_KA_TND_MANY  (CLIENT_SOCKET|OPT_SCTP_SEQPACKET|OPT_IPPROTO_SCTP|OPT_KEEPALIVE|OPT_TCP_NODELAY)
 
-namespace itc
-{
-  namespace abstract
-  {
-    /**
-     * @brief socket interface
-     **/
-    class ISocket
-    {
-     public:
-      virtual void open(const std::string& address, const int port) = 0;
-      virtual void open(const char* address, const int port) = 0;
-      virtual void getpeeraddr(uint32_t& out) = 0;
-      virtual void getpeeraddr(std::string& out) = 0;
-      virtual int read(uint8_t* inBuffer, unsigned buffSize) = 0;
-      virtual int peek(uint8_t* inBuffer, unsigned buffSize) = 0;
-      virtual int write(const uint8_t* outBuffer, unsigned buffSize) = 0;
-      virtual bool isValid() const = 0;
-      virtual SOCKET getfd() const = 0;
-      virtual void setfd(const SOCKET& sock) = 0;
-      virtual void close() = 0;
 
-     private:
-
-      ~ISocket()=default;
-    };
-  }
 
   namespace net
   {
