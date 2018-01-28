@@ -8,7 +8,7 @@
         <logicalFolder name="abstract" displayName="abstract" projectFiles="true">
           <itemPath>include/abstract/Cleanable.h</itemPath>
           <itemPath>include/abstract/ILogFormatter.h</itemPath>
-          <itemPath>include/abstract/ISocekt.h</itemPath>
+          <itemPath>include/abstract/ISocket.h</itemPath>
           <itemPath>include/abstract/ITask.h</itemPath>
           <itemPath>include/abstract/LoggerHelpers.h</itemPath>
           <itemPath>include/abstract/Runnable.h</itemPath>
@@ -21,11 +21,9 @@
           <itemPath>include/sys/CancelableThread.h</itemPath>
           <itemPath>include/sys/Nanosleep.h</itemPath>
           <itemPath>include/sys/PThread.h</itemPath>
-          <itemPath>include/sys/Poll.h</itemPath>
           <itemPath>include/sys/PosixSemaphore.h</itemPath>
           <itemPath>include/sys/Thread.h</itemPath>
           <itemPath>include/sys/Types.h</itemPath>
-          <itemPath>include/sys/ePoll.h</itemPath>
           <itemPath>include/sys/prototypes.h</itemPath>
           <itemPath>include/sys/synclock.h</itemPath>
         </logicalFolder>
@@ -69,6 +67,9 @@
                    kind="TEST_LOGICAL_FOLDER">
     </logicalFolder>
   </logicalFolder>
+  <sourceRootList>
+    <Elem>include/wrong</Elem>
+  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Debug" type="3">
@@ -84,7 +85,7 @@
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
           </incDir>
-          <commandLine>-g -pipe -Wall -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -mtune=generic -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -DBZ_NO_STDIO -DLOG_DEBUG -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1</commandLine>
+          <commandLine>-pipe -Wall -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -mtune=generic -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -DBZ_NO_STDIO -DLOG_DEBUG -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1</commandLine>
           <warningLevel>2</warningLevel>
         </ccTool>
         <archiverTool>
@@ -114,7 +115,7 @@
       </item>
       <item path="include/abstract/ILogFormatter.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/abstract/ISocekt.h" ex="false" tool="3" flavor2="0">
+      <item path="include/abstract/ISocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/abstract/ITask.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -138,15 +139,11 @@
       </item>
       <item path="include/sys/PThread.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/sys/Poll.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Thread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Types.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/sys/ePoll.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -212,7 +209,7 @@
       </item>
       <item path="include/abstract/ILogFormatter.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/abstract/ISocekt.h" ex="false" tool="3" flavor2="0">
+      <item path="include/abstract/ISocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/abstract/ITask.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -236,15 +233,11 @@
       </item>
       <item path="include/sys/PThread.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/sys/Poll.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Thread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Types.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/sys/ePoll.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>

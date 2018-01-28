@@ -8,6 +8,10 @@
  * 
  * EMail: pavel.kraynyukhov@gmail.com
  * 
+ * 
+ * NOTE: this whole infrustructure must be removed and cleaned off the procject
+ * because there is already a standard way to deal with system errors as 
+ * exceptions: std::system_error() (since c++11).
  **/
 
 #ifndef __ITCException_H__

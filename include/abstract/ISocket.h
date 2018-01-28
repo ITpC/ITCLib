@@ -4,7 +4,7 @@
  * (See accompanying file LICENSE_1_0.txt or copy at
  *          http://www.boost.org/LICENSE_1_0.txt)
  * 
- * $Id: ISocekt.h December 16, 2017 5:07 PM $
+ * $Id: ISocket.h December 16, 2017 5:07 PM $
  * 
  * Author: Pavel Kraynyukhov <pavel.kraynyukhov@gmail.com>
  * 
@@ -35,9 +35,7 @@ namespace itc
       virtual void setfd(const SOCKET& sock) = 0;
       virtual void close() = 0;
 
-     private:
-
-      ~ISocket()=default;
+      virtual ~ISocket()=default;
     };
   }
 }

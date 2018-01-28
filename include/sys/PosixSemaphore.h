@@ -91,7 +91,7 @@ namespace itc
 
     /**
      * Like RawPosixSemaphore. Should be used with pthread for win32 (best pthread 
-     * realisation ever). 
+     * realization ever). 
      * 
      **/
 
@@ -188,92 +188,90 @@ namespace itc
     /**
      * This class is safe to use with the itc::sys::CancelableThread class. 
      * It is simple raw POSIX semaphores wrapper. Without pthread_cancel
-     * you can expirience undefined behavior by destroying instances of this
+     * you can experience undefined behavior by destroying instances of this
      * class when other threads waiting on this semaphore.
+     * 
+     * Update: all other archs are broken now. Interface change.
      * 
      **/
     class RawPosixSemaphore
     {
      private:
-      sem_t semaphore;
-      std::atomic<bool> ok;
+      mutable sem_t semaphore;
+      // they say: do not use volatile. no sync here. RIGH! That is what i need.
+      // I do not need the sync, I need __sporadically__ correct value of this
+      // variable. This variable is changed outside of thread, 
+      // by calling destroy()
+      volatile bool valid; 
      public:
 
-      explicit RawPosixSemaphore(ulong def_val = 0) : ok(false)
+      explicit RawPosixSemaphore(ulong def_val = 0)
       {
         if(sem_init(&semaphore, 0, def_val))
           throw ITCException(errno, exceptions::Can_not_initialize_semaphore);
-        ok=true;
+        valid=true;
       }
 
       explicit RawPosixSemaphore(const RawPosixSemaphore&) = delete;
       explicit RawPosixSemaphore(RawPosixSemaphore&) = delete;
 
-      void wait(void)
+      const bool wait(void) const
       {
-        if(ok && sem_wait(&semaphore))
-        {
-          throw TITCException<exceptions::Can_not_wait_on_semaphore>(errno);
-        }
+        return valid&&(sem_wait(&semaphore) != -1);
       }
 
-      void post(void)
+      const bool post(void) const
       {
-        if(ok && sem_post(&semaphore))
-        {
-          throw TITCException<exceptions::Can_not_post_on_semaphore > (errno);
-        }
+        return valid&&(sem_post(&semaphore) != -1);
       }
 
-      void timedWait(const ::timespec& timeout)
+      const bool timedWait(const ::timespec& timeout) const
       {
-        if(ok)
-        {
-           if(sem_timedwait(&semaphore, &timeout)==-1)
-             throw TITCException<exceptions::Can_not_wait_on_semaphore>(errno);
-        }else
-        {
-          throw TITCException<exceptions::InvalidSemaphore>(exceptions::Can_not_wait_on_semaphore);
-        }
-        return;
+        return valid&&(sem_timedwait(&semaphore, &timeout) != -1);
       }
 
-      void tryWait(void)
+      const bool tryWait(void) const
       {
-        if(ok && sem_trywait(&semaphore))
-        {
-          throw TITCException<exceptions::Can_not_wait_on_semaphore>(errno);
-        }
+        return valid&&(sem_trywait(&semaphore) != -1);
       }
 
-      int getValue(void)
+      const bool getValue(int& value)
       {
-        int value=0;
-
-        if(ok && sem_getvalue(&semaphore, &value))
-        {
-          throw TITCException<exceptions::Can_not_get_semaphore_value>(errno);
-        }
-        return value;
+        return valid&&(sem_getvalue(&semaphore, &value) != -1);
       }
 
+      const bool isValid() const
+      {
+        return valid;
+      }
       /**
-       * In Linux and Solaris a cancelation has to be called before semaphore will be destroyed. 
+       * In Linux and Solaris a thread cancellation has to be called before 
+       * semaphore  will be destroyed. destroy() costs a lot and switches 
+       * thread context twice.
        **/
       void destroy() noexcept
       {
-        ok = false;
-        sem_destroy(&semaphore); // No error code checked, semaphore may be not destroyed. There is no way you can handle error here.
-      }
-
-      const bool isok() const
-      {
-        return ok;
+        if(valid)
+        {
+          valid=false;
+          sched_yield();
+          // an attempt to release all the waiting threads
+          // subscribers must check the return code
+          // limited to 1000 subscribers ...
+          for(auto i=0;i<1000;++i)
+          {
+            sem_post(&semaphore);
+            sched_yield();
+          }
+          // No error code checked, semaphore may be not destroyed. 
+          // There is no way you can handle error here. undefined behavior.
+          sem_destroy(&semaphore); 
+        }
       }
 
       ~RawPosixSemaphore() noexcept
       {
-        destroy(); 
+        destroy();
       }
     };
 #  endif

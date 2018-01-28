@@ -44,30 +44,19 @@ typedef int SOCKET;
 #  define SERVER_SOCKET           (uint64_t)0x80000000ULL
 #  define SRV_INADDR_A            (uint64_t)0x00000004ULL
 
-#  define OPT_IPPROTO_SCTP        (uint64_t)0x00000008ULL
 #  define OPT_IPPROTO_TCP         (uint64_t)0x00000010ULL
 #  define OPT_IPPROTO_UDP         (uint64_t)0x00000020ULL
 
 #  define OPT_KEEPALIVE           (uint64_t)0x00000040ULL
-#  define OPT_SCTP_NODELAY        (uint64_t)0x00000080ULL
 #  define OPT_TCP_NODELAY         (uint64_t)0x00000100ULL
 
-#  define OPT_SCTP_PR_SCTP_RTX    (uint64_t)0x00000200ULL
-#  define OPT_SCTP_SEQPACKET      (uint64_t)0x00000400ULL
 #  define OPT_SOCK_DAGRAM         (uint64_t)0x00000800ULL
 #  define OPT_SOCK_STREAM         (uint64_t)0x00001000ULL
 
 
-
-
-#  define CLN_SCTP_UNI    (CLIENT_SOCKET|OPT_SOCK_STREAM|OPT_IPPROTO_SCTP|OPT_SCTP_NODELAY)
-#  define CLN_SCTP_MANY   (CLIENT_SOCKET|OPT_SCTP_SEQPACKET|OPT_IPPROTO_SCTP|OPT_SCTP_NODELAY)
-
 #  define SRV_TCP_ANY_IF  (SERVER_SOCKET|OPT_SOCK_STREAM|OPT_IPPROTO_TCP|SRV_INADDR_A)
 #  define SRV_TCP_UNI_IF  (SERVER_SOCKET|OPT_SOCK_STREAM|OPT_IPPROTO_TCP)
 #  define SRV_UDP_NKA     (SERVER_SOCKET|OPT_SOCK_DAGRAM|OPT_IPPROTO_UDP)
-#  define SRV_SCTP_UNI    (SERVER_SOCKET|OPT_SOCK_STREAM|OPT_IPPROTO_SCTP|SRV_INADDR_A|OPT_SCTP_NODELAY)
-#  define SRV_SCTP_MANY   (SERVER_SOCKET|OPT_SCTP_SEQPACKET|OPT_IPPROTO_SCTP|SRV_INADDR_A|OPT_SCTP_NODELAY)
 
 #  define CLN_TCP_KA_TND  (CLIENT_SOCKET|OPT_SOCK_STREAM|OPT_IPPROTO_TCP|OPT_KEEPALIVE|OPT_TCP_NODELAY)
 #  define CLN_TCP_KA_TD   (CLIENT_SOCKET|OPT_SOCK_STREAM|OPT_IPPROTO_TCP|OPT_KEEPALIVE)
@@ -76,11 +65,9 @@ typedef int SOCKET;
 #  define CLN_UDP_KA      (CLIENT_SOCKET|OPT_SOCK_DAGRAM|OPT_IPPROTO_UDP|OPT_KEEPALIVE)
 #  define CLN_UDP_NKA     (CLIENT_SOCKET|OPT_SOCK_DAGRAM|OPT_IPPROTO_UDP)
 
-#  define CLN_SCTP_KA_TND_UNI  (CLIENT_SOCKET|OPT_SOCK_STREAM|OPT_IPPROTO_SCTP|OPT_KEEPALIVE|OPT_TCP_NODELAY)
-#  define CLN_SCTP_KA_TND_MANY  (CLIENT_SOCKET|OPT_SCTP_SEQPACKET|OPT_IPPROTO_SCTP|OPT_KEEPALIVE|OPT_TCP_NODELAY)
 
-
-
+namespace itc
+{
   namespace net
   {
     /**
@@ -112,11 +99,14 @@ typedef int SOCKET;
         memcpy(&mAddr, &(ref.mAddr), mSockAL);
         return *this;
       }
+      ~SockMemberAttr()
+      {
+        mSocket=-1;
+      }
     };
 
     /**
-     *@brief Socket template. BEWARE SCTP IS NOT WORKING AND NEVER TESTED DUE 
-     * TO LACK OF TIME
+     *@brief Socket template. 
      **/
     template < uint64_t SockOptions, int ListenQueueLength = 0 > class Socket
     : public ::itc::abstract::ISocket, public SockMemberAttr
@@ -184,7 +174,7 @@ typedef int SOCKET;
 
 #  define  ReuseAddr() {\
                 size_t on=1;\
-                if(setsockopt(mSocket,SOL_SOCKET,SO_REUSEADDR,&on,sizeof(on))==INVALID_SOCKET){ \
+                if(setsockopt(mSocket,SOL_SOCKET,SO_REUSEADDR|SO_REUSEPORT,&on,sizeof(on))==INVALID_SOCKET){ \
                     throw ITCException(errno,exceptions::NetworkException);\
                 }\
             }
@@ -222,7 +212,7 @@ typedef int SOCKET;
         memset(&hints, 0, sizeof(hints));
 
         hints.ai_flags = AI_CANONNAME;
-        hints.ai_family = PF_UNSPEC;
+        hints.ai_family = AF_UNSPEC;
         hints.ai_protocol = IPPROTO_TCP;
         hints.ai_socktype = SOCK_STREAM;
 
@@ -231,50 +221,7 @@ typedef int SOCKET;
         setNagelOff(IPPROTO_TCP);
         Connect();
       }
-
-      void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_SCTP_KA_TND_UNI>& fictive)
-      {
-        struct addrinfo hints;
-
-        if(address == NULL)
-        {
-          throw ITCException(exceptions::NetworkException, exceptions::BadIPAddress);
-        }
-
-        memset(&hints, 0, sizeof(hints));
-
-        hints.ai_flags = AI_CANONNAME;
-        hints.ai_family = PF_UNSPEC;
-        hints.ai_protocol = IPPROTO_SCTP;
-        hints.ai_socktype = SOCK_STREAM;
-
-        create(address, &hints, port);
-        setKeepAlive();
-        setNagelOff(IPPROTO_SCTP);
-        Connect();
-      }
-
-      void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_SCTP_KA_TND_MANY>& fictive)
-      {
-        struct addrinfo hints;
-
-        if(address == NULL)
-        {
-          throw ITCException(exceptions::NetworkException, exceptions::BadIPAddress);
-        }
-
-        memset(&hints, 0, sizeof(hints));
-
-        hints.ai_flags = AI_CANONNAME;
-        hints.ai_family = PF_UNSPEC;
-        hints.ai_protocol = IPPROTO_SCTP;
-        hints.ai_socktype = SOCK_SEQPACKET;
-
-        create(address, &hints, port);
-        setKeepAlive();
-        setNagelOff(IPPROTO_SCTP);
-      }
-
+      
       void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_TCP_KA_TD>& fictive)
       {
         struct addrinfo hints;
@@ -286,7 +233,7 @@ typedef int SOCKET;
 
         memset(&hints, 0, sizeof(hints));
 
-        hints.ai_family = PF_UNSPEC;
+        hints.ai_family = AF_UNSPEC;
         hints.ai_protocol = IPPROTO_TCP;
         hints.ai_socktype = SOCK_STREAM;
 
@@ -307,7 +254,7 @@ typedef int SOCKET;
         memset(&hints, 0, sizeof(hints));
 
         hints.ai_flags = AI_CANONNAME;
-        hints.ai_family = PF_UNSPEC;
+        hints.ai_family = AF_UNSPEC;
         hints.ai_protocol = IPPROTO_TCP;
         hints.ai_socktype = SOCK_STREAM;
 
@@ -327,7 +274,7 @@ typedef int SOCKET;
 
         memset(&hints, 0, sizeof(hints));
         hints.ai_flags = AI_CANONNAME;
-        hints.ai_family = PF_UNSPEC;
+        hints.ai_family = AF_UNSPEC;
         hints.ai_protocol = IPPROTO_TCP;
         hints.ai_socktype = SOCK_STREAM;
 
@@ -342,7 +289,7 @@ typedef int SOCKET;
         memset(&hints, 0, sizeof(hints));
 
         hints.ai_flags = AI_NUMERICSERV;
-        hints.ai_family = PF_UNSPEC;
+        hints.ai_family = AF_UNSPEC;
         hints.ai_protocol = IPPROTO_TCP;
         hints.ai_socktype = SOCK_STREAM;
 
@@ -354,37 +301,6 @@ typedef int SOCKET;
         Listen();
       }
 
-      void open(const char* address, const int port, const itc::utils::SizeT2Type<SRV_SCTP_UNI>& fictive)
-      {
-        struct addrinfo hints;
-
-        memset(&hints, 0, sizeof(hints));
-
-        hints.ai_flags = AI_NUMERICSERV;
-        hints.ai_family = PF_INET;
-        hints.ai_protocol = IPPROTO_SCTP;
-        hints.ai_socktype = SOCK_STREAM;
-
-        create(address, &hints, port);
-        Bind();
-        Listen();
-      }
-
-      void open(const char* address, const int port, const itc::utils::SizeT2Type<SRV_SCTP_MANY>& fictive)
-      {
-        struct addrinfo hints;
-
-        memset(&hints, 0, sizeof(hints));
-
-        hints.ai_flags = AI_NUMERICSERV;
-        hints.ai_family = PF_INET;
-        hints.ai_protocol = IPPROTO_SCTP;
-        hints.ai_socktype = SOCK_SEQPACKET;
-
-        create(address, &hints, port);
-        Bind();
-        Listen();
-      }
 
       void open(const std::string& address, const int port)
       {
@@ -429,6 +345,7 @@ typedef int SOCKET;
 
       void gpnm(std::string& out)
       {
+        again:
         if(mSocket != INVALID_SOCKET)
         {
           struct sockaddr saddr;
@@ -441,11 +358,18 @@ typedef int SOCKET;
             throw TITCException<exceptions::GAI_Exception>(errno);
           }
 
+          
           if(int error = ::getnameinfo(&saddr, saddrlen, hbuf, 16, NULL, 0, NI_NUMERICHOST))
           {
+            if(error == EAI_AGAIN)
+              goto again;
             throw ITCException(error, exceptions::GAI_Exception);
           }
           out = std::string(hbuf);
+          if(out.empty())
+            goto again;
+        }else{
+          throw ITCException(EINVAL, exceptions::GAI_Exception);
         }
       }
 
@@ -481,32 +405,12 @@ typedef int SOCKET;
       {
       }
 
-      void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<SRV_SCTP_UNI>& fictive)
-      {
-      }
-
-      void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<SRV_SCTP_MANY>& fictive)
-      {
-      }
-
-      void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<CLN_SCTP_KA_TND_UNI>& fictive)
-      {
-        gpnm(out);
-      }
 
       void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
       {
       }
 
       void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<SRV_TCP_UNI_IF>& fictive)
-      {
-      }
-
-      void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<SRV_SCTP_UNI>& fictive)
-      {
-      }
-
-      void getpeeraddr(uint32_t& out, const itc::utils::SizeT2Type<SRV_SCTP_MANY>& fictive)
       {
       }
 
@@ -571,7 +475,7 @@ typedef int SOCKET;
       }
 
       /**
-       * Accepts incomming connections and set the Socket with appropriate FD and sockaddr
+       * Accepts incoming connections and set the Socket with appropriate FD and sockaddr
        *
        * @note  This method is Serverside, MultiHost and TCP only.
        *           defined for KEEP_ALIVE and TCP_NODELAY options
@@ -598,7 +502,7 @@ typedef int SOCKET;
       }
 
       /**
-       * Accepts incomming connections and set the Socket with appropriate FD and sockaddr
+       * Accepts incoming connections and set the Socket with appropriate FD and sockaddr
        *
        * @note  This method is Serverside, MultiHost and TCP only.
        *           defined for KEEP_ALIVE and TCP_NODELAY options
@@ -623,8 +527,18 @@ typedef int SOCKET;
         }
         return err;
       }
-
-      int accept(Socket<CLN_SCTP_KA_TND_UNI>& ref, const itc::utils::SizeT2Type<SRV_SCTP_UNI>& fictive)
+/**========================**/
+/**
+       * Accepts incoming connections and set the Socket with appropriate FD and sockaddr
+       *
+       * @note  This method is Serverside, MultiHost and TCP only.
+       *           defined for KEEP_ALIVE option
+       * @param ref - Client socket casted to SockMemberAttr
+       * @param fictive - a fictive definition for compile time check of the server socket properties.
+       * @return 0 on success  errno on fail
+       *
+       **/
+      int accept(Socket<CLN_TCP_KA_TD>& ref, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
       {
         register int err = 0;
 
@@ -641,13 +555,35 @@ typedef int SOCKET;
         return err;
       }
 
-      int accept(Socket<CLN_SCTP_KA_TND_UNI>& ref, const itc::utils::SizeT2Type<SRV_SCTP_MANY>& fictive)
-      {
-        return -1;
-      }
-
       /**
-       * Accepts incomming connections and set the Socket with appropriate FD and sockaddr
+       * Accepts incoming connections and set the Socket with appropriate FD and sockaddr
+       *
+       * @note  This method is Serverside, MultiHost and TCP only.
+       *           defined for KEEP_ALIVE option
+       * @param ref - Client socket casted to SockMemberAttr
+       * @param fictive - a fictive definition for compile time check of the server socket properties.
+       * @return 0 on success  errno on fail
+       *
+       **/
+      int accept(std::shared_ptr< Socket<CLN_TCP_KA_TD> >& ref, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
+      {
+        register int err = 0;
+
+        ref.get()->mSocket = ::accept(mSocket, &(ref.get()->mAddr), &(ref.get()->mSockAL));
+
+        if(ref.get()->mSocket == INVALID_SOCKET)
+        {
+#  if defined(_MSC_VER)|| defined(__MINGW32_VERSION)
+          err = WSAGetLastError();
+#  else
+          err = errno;
+#  endif
+        }
+        return err;
+      }
+/**==========================*/
+      /**
+       * Accepts incoming connections and set the Socket with appropriate FD and sockaddr
        *
        * @note  This method is Serverside, UniHost and TCP only.
        *        defined for KEEP_ALIVE and TCP_NODELAY options
@@ -812,7 +748,7 @@ typedef int SOCKET;
         register unsigned length = 0;
         register int nSent = 0;
 
-        if((buffSize == 0) || (outBuffer == 0)) // isn't it better to throw an exception here and in 2 priveios cases ?
+        if((buffSize == 0) || (outBuffer == 0)) // isn't it better to throw an exception here and in 2 previous cases ?
           return 0;
 
         if(mSocket == INVALID_SOCKET)
@@ -820,10 +756,11 @@ typedef int SOCKET;
 
         do
         {
+          if((buffSize - length ) == 0) return length;
 #  if defined(__linux__) || defined(__FreeBSD__) || defined(__CYGWIN__)
-          nSent = send(mSocket, outBuffer, buffSize, MSG_NOSIGNAL);
+          nSent = send(mSocket, outBuffer+length, buffSize-length, MSG_NOSIGNAL);
 #  else
-          nSent = send(mSocket, outBuffer, buffSize, 0);
+          nSent = send(mSocket, outBuffer+length, buffSize-length, 0);
 #  endif
           if(nSent <= 0)
           {
@@ -832,7 +769,7 @@ typedef int SOCKET;
           }
           length += nSent;
         }while(length != buffSize);
-        return nSent;
+        return length;
       }
       
       /** 
@@ -904,7 +841,7 @@ typedef int SOCKET;
         setfd(ref);
       }
 
-      const Socket & operator=(const Socket& ref)
+      const Socket operator=(const Socket& ref)
       {
         return *((SockMemberAttr*)this) = (SockMemberAttr) ref;
       }
@@ -947,6 +884,6 @@ typedef int SOCKET;
       itc::utils::SizeT2Type<SockOptions> mSockOptions;
     };
   }
-}
+ }
 #endif
 

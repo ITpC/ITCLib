@@ -1,57 +1,35 @@
 /**
- * Copyright (c) 2007, Pavel Kraynyukhov.
+ * Copyright Pavel Kraynyukhov 2007 - 2018.
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See accompanying file LICENSE_1_0.txt or copy at
+ *          http://www.boost.org/LICENSE_1_0.txt)
  *  
- * Permission to use, copy, modify, and distribute this software and its
- * documentation for any purpose, without fee, and without a written agreement
- * is hereby granted under the terms of the General Public License version 2
- * (GPLv2), provided that the above copyright notice and this paragraph and the
- * following two paragraphs and the "LICENSE" file appear in all modified or
- * unmodified copies of the software "AS IS" and without any changes.
- *
- * IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE TO ANY PARTY FOR
- * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING
- * LOST PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS
- * DOCUMENTATION, EVEN IF THE COPYRIGHT HOLDER HAS BEEN ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * THE COPYRIGHT HOLDER SPECIFICALLY DISCLAIMS ANY WARRANTIES,
- * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
- * AND FITNESS FOR A PARTICULAR PURPOSE.  THE SOFTWARE PROVIDED HEREUNDER IS
- * ON AN "AS IS" BASIS, AND THE COPYRIGHT HOLDER HAS NO OBLIGATIONS TO
- * PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
- * 
- * 
  * $Id: Runnable.h 101 2007-08-12 13:07:51Z acs $
  * 
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * EMail: pavel.kraynyukhov@gmail.com
  * 
+ * 16.01.2018 - license bump.
  **/
 
 #ifndef RUNNABLE_H_
 #define RUNNABLE_H_
 
-#include <abstract/Cleanable.h>
-#include <iostream>
 
 namespace itc {
     namespace abstract {
 
         /** 
          * @brief Runnable interface. Inherit this interface to run your tasks
-         * within help of itc::sys::PThread and itc::sys::Cancelable<T> as a 
+         * with help of itc::sys::PThread and itc::sys::Cancelable<T> as a 
          * thread
          * 
          **/
         class IRunnable {
         public:
-            virtual void execute() = 0;
-            virtual void onCancel() = 0;
-            virtual void shutdown() = 0;
-           
-         protected:
-           ~IRunnable()=default;
+          virtual void execute() = 0;
+          virtual void onCancel() = 0;
+          virtual void shutdown() = 0;
+          virtual ~IRunnable(){};
         };
     }
 }

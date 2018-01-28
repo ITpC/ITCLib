@@ -38,19 +38,19 @@ namespace itc
   {
 
     /**
-     * @brief Implemantation of the thread intended to be used with the 
+     * @brief Implementation of the thread intended to be used with the 
      * ThreadPool. It executes a Runnable (implementation of the abstract::Runnable)
      * and stays on hold until the Runnable object is assigned with
-     * setRunnable(). The the instance of this class, keeps tracking the
-     * state of the executuion as defined in PThreadState.
-     * The objective of the PThread is to run a task onece and be returned to
+     * setRunnable(). The instance of this class, keeps tracking of the 
+     * execution state as defined in PThreadState.
+     * The objective of the PThread is to run a task once and be returned to
      * the ThreadPool.
      * 
      * Do not use this class to implement long running threads, those have 
      * implemented an endless loop inside the Runnable object.
      *
      * See itc::sys::CancelableThread if you wish to implement independent
-     * thread class, which is running outside of the ThreadPool and whos
+     * thread class, which is running outside of the ThreadPool and which
      * lifecycle is determined by your purposes.
      * 
      **/
