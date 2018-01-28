@@ -11,7 +11,7 @@ this librarary with clang 3.5.1 too. Actually I use clang for static code analys
        src="https://scan.coverity.com/projects/4961/badge.svg"/>
 </a>
 
-It is a tamplate library and will be kept this way whenever possible. However there are and will be some files required to be compiled into object files. 
+It is a template library and will be kept this way whenever possible. However there are and will be some files required to be compiled into object files. 
 
 The library includes following basic entities: threads, semaphores (mutexes, conditionals and atomics are replaced with those provided by STL),
 advanced exception handling template. The threads and semaphores will not be replaced with STL equivalents because:
