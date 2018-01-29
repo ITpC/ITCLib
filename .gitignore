@@ -1,4 +1,5 @@
-/build/
-/dist/
+build/
+dist/
 cov-int/
-nbproject/private
+nbproject/private/
+private.xml
