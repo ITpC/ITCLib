@@ -27,6 +27,7 @@ typedef int SOCKET;
 
 #  include <string>
 #  include <Val2Type.h>
+#  include <unistd.h>
 #  if (defined(_MSC_VER) || defined(__MINGW32_VERSION))
 #    include <winsock2.h>
 #    include <ws2tcpip.h>
@@ -833,6 +834,7 @@ namespace itc
         if(mSocket != INVALID_SOCKET)
         {
           shutdown(mSocket, SHUT_RDWR);
+          ::close(mSocket);
           mSocket = INVALID_SOCKET;
         }
       }
