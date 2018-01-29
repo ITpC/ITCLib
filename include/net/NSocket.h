@@ -36,6 +36,8 @@ typedef int SOCKET;
 #    include <sys/types.h>
 #    include <sys/socket.h>
 #    include <netinet/tcp.h>
+     #include <netinet/in.h>
+     #include <arpa/inet.h>
 #  endif
 
 #include <abstract/ISocket.h>
@@ -81,7 +83,7 @@ namespace itc
       socklen_t mSockAL; // sockaddr length
 
       explicit SockMemberAttr()
-        : mSocket(INVALID_SOCKET), mSockAL(sizeof(mAddr))
+        : mSocket(INVALID_SOCKET), mSockAL(sizeof(struct sockaddr))
       {
       }
 
@@ -312,64 +314,25 @@ namespace itc
         open(address, port, mSockOptions);
       }
 
-      uint32_t addr2bytes(const char* addr)
-      {
-        char *p = (char*) addr;
-        uint32_t bytes = 0;
-
-        char octets[4][4] = {
-          {0, 0, 0, 0},
-          {0, 0, 0, 0},
-          {0, 0, 0, 0},
-          {0, 0, 0, 0}
-        };
-
-        size_t it = 0;
-        size_t i = 0;
-        while(p && (*p))
-        {
-          if(*p != '.')
-          {
-            octets[it][i++] = *p;
-          }else
-          {
-            bytes = (bytes << 8) | atoi(octets[it]);
-            it++;
-            i = 0;
-          }
-          p++;
-        }
-        bytes = (bytes << 8) | atoi(octets[it]);
-        return bytes;
-      }
-
       void gpnm(std::string& out)
       {
-        again:
+        
         if(mSocket != INVALID_SOCKET)
         {
-          struct sockaddr saddr;
-          socklen_t saddrlen;
-          char hbuf[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+          struct sockaddr_in peer;
+          socklen_t paddrlen; 
 
-          saddrlen = sizeof(saddr);
-          if(::getpeername(mSocket, &saddr, &saddrlen))
+          paddrlen = sizeof(struct sockaddr);
+          if(::getpeername(mSocket, (struct sockaddr*)(&peer), &paddrlen))
           {
-            throw TITCException<exceptions::GAI_Exception>(errno);
+            out.resize(0);
+            throw std::system_error(errno,std::system_category(),"Socket::gpnm(string&) - exception on getpeername()");
           }
-
           
-          if(int error = ::getnameinfo(&saddr, saddrlen, hbuf, 16, NULL, 0, NI_NUMERICHOST))
-          {
-            if(error == EAI_AGAIN)
-              goto again;
-            throw ITCException(error, exceptions::GAI_Exception);
-          }
-          out = std::string(hbuf);
-          if(out.empty())
-            goto again;
+          out=inet_ntoa(peer.sin_addr);
+          
         }else{
-          throw ITCException(EINVAL, exceptions::GAI_Exception);
+          throw std::system_error(EINVAL, std::system_category(), "Socket::gpnm(string&) - this socket is invalid" );
         }
       }
 
@@ -377,24 +340,18 @@ namespace itc
       {
         if(mSocket != INVALID_SOCKET)
         {
-          struct sockaddr saddr;
+          struct sockaddr_in saddr;
           socklen_t saddrlen;
-          char hbuf[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
           saddrlen = sizeof(saddr);
 
-          if(::getpeername(mSocket, &saddr, &saddrlen))
+          if(::getpeername(mSocket, (struct sockaddr*)(&saddr), &saddrlen))
           {
-            throw TITCException<exceptions::GAI_Exception>(errno);
+            throw std::system_error(errno,std::system_category(),"Socket::gpnm(uint32_t&) - exception on getpeername()");
           }
 
-          if(int error = ::getnameinfo(&saddr, saddrlen, hbuf, 16, NULL, 0, NI_NUMERICHOST))
-          {
-            throw ITCException(error, exceptions::GAI_Exception);
-          }
-          out = addr2bytes(hbuf);
-        }
-        else throw ITCException(exceptions::NetworkException, exceptions::InvalidSocketException);
+          out = inet_lnaof(saddr.sin_addr);
+        } else throw ITCException(exceptions::NetworkException, exceptions::InvalidSocketException);
       }
 
       void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
