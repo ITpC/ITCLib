@@ -18,8 +18,8 @@
 #include <sched.h>
 
 #include <memory>
+#include <system_error>
 
-#include <ITCException.h>
 #include <sys/Types.h>
 
 #include <abstract/Cleanable.h>
@@ -83,7 +83,7 @@ namespace itc
       explicit Thread() : start()
       {
         int ret = this->create();
-        if (ret) throw TITCException<exceptions::Can_not_create_thread>(ret);
+        if (ret) throw std::system_error(ret,std::system_category(),"Can't create thread");
       }
 
       Thread(const Thread&) = delete;

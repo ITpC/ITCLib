@@ -32,8 +32,9 @@
 #ifndef SEMSLEEP_H
 #define	SEMSLEEP_H
 
+#include <system_error>
+
 #include <sys/PosixSemaphore.h>
-#include <ITCException.h>
 #include <sys/time.h>
 
 namespace itc
@@ -63,11 +64,11 @@ namespace itc
         {
           try{
             mSemaphore.timedWait(anAbstime);
-          }catch(const TITCException<exceptions::Can_not_wait_on_semaphore>& e)
+          }catch(const std::system_error& e)
           {
-            if(e.getErrno() == EINTR)
+            if(e.code().value() == EINTR)
               continue;
-            if(e.getErrno() == ETIMEDOUT)
+            if(e.code().value() == ETIMEDOUT)
               return;
           }
         }
@@ -88,11 +89,11 @@ namespace itc
         {
           try{
             mSemaphore.timedWait(anAbstime);
-          }catch(const TITCException<exceptions::Can_not_wait_on_semaphore>& e)
+          }catch(const std::system_error& e)
           {
-            if(e.getErrno() == EINTR)
+            if(e.code().value() == EINTR)
               continue;
-            if(e.getErrno() == ETIMEDOUT)
+            if(e.code().value() == ETIMEDOUT)
               return;
           }
         }
@@ -111,11 +112,11 @@ namespace itc
         {
           try{
             mSemaphore.timedWait(anAbstime);
-          }catch(const TITCException<exceptions::Can_not_wait_on_semaphore>& e)
+          }catch(const std::system_error& e)
           {
-            if(e.getErrno() == EINTR)
+            if(e.code().value() == EINTR)
               continue;
-            if(e.getErrno() == ETIMEDOUT)
+            if(e.code().value() == ETIMEDOUT)
               return;
           }
         }

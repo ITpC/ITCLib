@@ -28,9 +28,6 @@
           <itemPath>include/sys/synclock.h</itemPath>
         </logicalFolder>
         <itemPath>include/DateFormatter.h</itemPath>
-        <itemPath>include/GAINTLock.h</itemPath>
-        <itemPath>include/ITCError.h</itemPath>
-        <itemPath>include/ITCException.h</itemPath>
         <itemPath>include/LogOutBuffer.h</itemPath>
         <itemPath>include/Logger.h</itemPath>
         <itemPath>include/NullPointerException.h</itemPath>
@@ -50,10 +47,7 @@
                    displayName="Source Files"
                    projectFiles="true">
       <logicalFolder name="src" displayName="src" projectFiles="true">
-        <itemPath>src/ITCError.cpp</itemPath>
         <itemPath>src/Thread.cpp</itemPath>
-        <itemPath>src/bzError.cpp</itemPath>
-        <itemPath>src/globals.cpp</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -93,12 +87,6 @@
       </compileType>
       <item path="include/DateFormatter.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/GAINTLock.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/ITCError.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/ITCException.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/Logger.h" ex="false" tool="3" flavor2="0">
@@ -149,13 +137,7 @@
       </item>
       <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/ITCError.cpp" ex="false" tool="1" flavor2="0">
-      </item>
       <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/bzError.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/globals.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="3">
@@ -187,12 +169,6 @@
       </compileType>
       <item path="include/DateFormatter.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/GAINTLock.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/ITCError.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/ITCException.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/Logger.h" ex="false" tool="3" flavor2="0">
@@ -243,13 +219,7 @@
       </item>
       <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/ITCError.cpp" ex="false" tool="1" flavor2="0">
-      </item>
       <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/bzError.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/globals.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
   </confs>

@@ -17,6 +17,8 @@
 #  include <errno.h>
 #  include <signal.h>
 
+#  include <atomic>
+#  include <system_error>
 
 #  include <pthread.h>
 #  include <semaphore.h>
@@ -24,11 +26,12 @@
 #  include <time.h>
 #  include <string.h>
 
-#  include <ITCException.h>
+
 #  include <sys/Types.h>
 #  include <sys/prototypes.h>
-#  include <GAINTLock.h>
-#  include <atomic>
+
+
+
 
 namespace itc
 {
@@ -208,7 +211,7 @@ namespace itc
       explicit RawPosixSemaphore(ulong def_val = 0)
       {
         if(sem_init(&semaphore, 0, def_val))
-          throw ITCException(errno, exceptions::Can_not_initialize_semaphore);
+          throw std::system_error(errno, std::system_category(), "RawPosixSemaphore::RawPosixSemaphore(): semaphore initialization failed");
         valid=true;
       }
 

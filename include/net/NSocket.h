@@ -21,8 +21,7 @@ typedef int SOCKET;
 #  endif
 
 #  include <compat_types.h>
-#  include <ITCError.h>
-#  include <ITCException.h>
+
 #  include <memory>
 
 #  include <string>
@@ -127,14 +126,15 @@ namespace itc
 
         if(hints == NULL)
         {
-          throw ITCException(exceptions::NetworkException, exceptions::BadSocketHints);
+          throw std::system_error(EINVAL,std::system_category(),"Socket::create(): Invalid hints are provided");
+          //ITCException(exceptions::NetworkException, exceptions::BadSocketHints);
         }
 
 #  if defined(_MSC_VER) || defined(__MINGW32_VERSION)
         if(int err = WSAStartup(wVersionRequested, &wsaData))
         {
           WSACleanup();
-          throw ITCException(ret, exceptions::NetworkException);
+          throw std::system_error(ret, std::generic_category(),"Socket::create(): WSAStartup() error");
         }
 #  endif
 
@@ -142,16 +142,16 @@ namespace itc
 
         if(int ret = getaddrinfo(address, strport, hints, &res0))
         {
-          throw ITCException(ret, exceptions::GAI_Exception);
+          throw std::system_error(ret, std::system_category(), "Socket::create(): getaddrinfo() error");
         }
 
         if((mSocket = socket(res0->ai_family, res0->ai_socktype, res0->ai_protocol)) == INVALID_SOCKET)
         {
           freeaddrinfo(res0);
 #  if defined(_MSC_VER) || defined(__MINGW32_VERSION)
-          throw ITCException(WSAGetLastError(), exceptions::NetworkException);
+          throw std::system_error(WSAGetLastError(), std::generic_category(),"Socket::create() at socket() - can't create");
 #  else
-          throw ITCException(errno, exceptions::NetworkException);
+          throw std::system_error(errno, std::system_category(),"Socket::create() at socket() - can't create");
 #  endif
         }
         mSockAL = res0->ai_addrlen;
@@ -164,42 +164,42 @@ namespace itc
                 size_t on=1; \
                 if(setsockopt(mSocket,SOL_SOCKET,SO_KEEPALIVE,&on,sizeof(on))==INVALID_SOCKET) \
                 {\
-                        throw ITCException(errno, exceptions::NetworkException);\
+                        throw std::system_error(errno, std::system_category(), "Socket::setKeepAlive(), - can't set socket option");\
                 }\
             }
 
 #  define  setNagelOff(proto) {\
                 size_t on=1;\
                 if(setsockopt(mSocket,proto,TCP_NODELAY,&on,sizeof(on))==INVALID_SOCKET){ \
-                           throw ITCException(errno,exceptions::NetworkException);\
+                           throw std::system_error(errno, std::system_category(), "Socket::setNagelOff(), - can't set socket option");\
                 }\
             }
 
 #  define  ReuseAddr() {\
                 size_t on=1;\
                 if(setsockopt(mSocket,SOL_SOCKET,SO_REUSEADDR|SO_REUSEPORT,&on,sizeof(on))==INVALID_SOCKET){ \
-                    throw ITCException(errno,exceptions::NetworkException);\
+                    throw std::system_error(errno, std::system_category(), "Socket::ReuseAddr(), - can't set socket option");\
                 }\
             }
 
 #  define Connect() {\
                 if(connect(mSocket,&mAddr,mSockAL)==INVALID_SOCKET)\
                 {\
-                    throw ITCException(errno,exceptions::NetworkException);\
+                    throw std::system_error(errno, std::system_category(), "Socket::Connect(), - can't connect");\
                 }\
             }
 
 #  define Bind() {\
                 if(bind(mSocket,&mAddr,mSockAL)==INVALID_SOCKET)\
                 {\
-                    throw ITCException(errno,exceptions::NetworkException);\
+                    throw std::system_error(errno, std::system_category(), "Socket::Bind(), - can't bind socket");\
                 }\
             }
 
 #  define Listen() {\
                 if(listen(mSocket,ListenQueueLength)==INVALID_SOCKET)\
                 {\
-                    throw ITCException(errno,exceptions::NetworkException);\
+                    throw std::system_error(errno, std::system_category(), "Socket::Listen(), - can't listen on socket");\
                 }\
             }
 
@@ -209,7 +209,7 @@ namespace itc
 
         if(address == NULL)
         {
-          throw ITCException(exceptions::NetworkException, exceptions::BadIPAddress);
+          throw std::system_error(errno, std::system_category(), "Socket::open(), - bad IP address");
         }
 
         memset(&hints, 0, sizeof(hints));
@@ -231,7 +231,7 @@ namespace itc
 
         if(address == NULL)
         {
-          throw ITCException(exceptions::NetworkException, exceptions::BadIPAddress);
+          throw std::system_error(errno, std::system_category(), "Socket::open(), - bad IP address");
         }
 
         memset(&hints, 0, sizeof(hints));
@@ -251,7 +251,7 @@ namespace itc
 
         if(address == NULL)
         {
-          throw ITCException(exceptions::NetworkException, exceptions::BadIPAddress);
+          throw std::system_error(errno, std::system_category(), "Socket::open(), - bad IP address");
         }
 
         memset(&hints, 0, sizeof(hints));
@@ -272,7 +272,7 @@ namespace itc
 
         if(address == NULL)
         {
-          throw ITCException(exceptions::NetworkException, exceptions::BadIPAddress);
+          throw std::system_error(errno, std::system_category(), "Socket::open(), - bad IP address");
         }
 
         memset(&hints, 0, sizeof(hints));
@@ -352,7 +352,7 @@ namespace itc
           }
 
           out = inet_lnaof(saddr.sin_addr);
-        } else throw ITCException(exceptions::NetworkException, exceptions::InvalidSocketException);
+        } else throw std::system_error(errno, std::system_category(), "Socket::gpnm(), - Invalid server Socket");
       }
 
       void getpeeraddr(std::string& out, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
@@ -818,14 +818,14 @@ namespace itc
       {
         if(sock == INVALID_SOCKET)
         {
-          throw ITCException(exceptions::NetworkException, exceptions::InvalidSocketException);
+          throw std::system_error(errno, std::system_category(), "Socket::setfd(), - invalid socket");
         }
         mSocket = sock;
         if(::getsockname(mSocket, &mAddr, &mSockAL) == INVALID_SOCKET)
         {
           int error = errno;
           this->close();
-          throw ITCException(error, exceptions::NetworkException);
+          throw std::system_error(error, std::system_category(), "Socket::setfd():getsockname(), - invalid socket");
         }
       }
 
