@@ -30,7 +30,6 @@
         <itemPath>include/DateFormatter.h</itemPath>
         <itemPath>include/LogOutBuffer.h</itemPath>
         <itemPath>include/Logger.h</itemPath>
-        <itemPath>include/NullPointerException.h</itemPath>
         <itemPath>include/StdTextLogFormatter.h</itemPath>
         <itemPath>include/TSLog.h</itemPath>
         <itemPath>include/TSafeLogOutAdapter.h</itemPath>
@@ -75,6 +74,7 @@
       <compileType>
         <ccTool>
           <standard>11</standard>
+          <commandlineTool>g++</commandlineTool>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
@@ -90,8 +90,6 @@
       <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/Logger.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/NullPointerException.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/StdTextLogFormatter.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -172,8 +170,6 @@
       <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/Logger.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/NullPointerException.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/StdTextLogFormatter.h" ex="false" tool="3" flavor2="0">
       </item>

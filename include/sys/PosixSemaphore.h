@@ -228,9 +228,18 @@ namespace itc
         return valid&&(sem_post(&semaphore) != -1);
       }
 
-      const bool timedWait(const ::timespec& timeout) const
+      void justwait(const ::timespec& timeout)
       {
-        return valid&&(sem_timedwait(&semaphore, &timeout) != -1);
+        if(sem_timedwait(&semaphore, &timeout) == -1)
+          throw std::system_error(errno,std::system_category());
+      }
+      
+      const bool timedWait(const ::timespec& timeout) const noexcept
+      {
+        if(sem_timedwait(&semaphore, &timeout) == 0)
+          return valid&&true;
+        else 
+          return false;
       }
 
       const bool tryWait(void) const

@@ -18,6 +18,8 @@
 #include <fstream>
 #include <string>
 #include <mutex>
+#include <system_error>
+
 #include <sys/synclock.h>
 
 namespace itc
@@ -43,7 +45,7 @@ namespace itc
         SyncLock sync(mMutex);
         if(!mLogFile.good())
         {
-          throw itc::utils::CanNotOpenTheLogException();
+          throw std::system_error(errno,std::system_category(),"Can't open the log file");
         }
       }
 
@@ -57,7 +59,7 @@ namespace itc
         mLogFile.open(mFilename,mMode);
         if(!mLogFile.good())
         {
-          throw itc::utils::CanNotOpenTheLogException();
+          throw std::system_error(errno,std::system_category(),"Can't open the log file");
         }
       }
 

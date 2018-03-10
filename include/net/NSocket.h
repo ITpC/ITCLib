@@ -639,7 +639,7 @@ namespace itc
           nRead = recv(static_cast<void*>(&(inBuffer[length])),  buffSize - length, MSG_NOSIGNAL);
 #  endif
 #  if !defined(_MSC_VER) && !defined(__CYGWIN__)&& (!defined(_WIN32))
-          nRead = recv(static_cast<void*>(&(inBuffer[length])), buffSize - length, MSG_WAITALL);
+          nRead = recv(static_cast<void*>(&(inBuffer[length])), buffSize - length, MSG_WAITALL|MSG_NOSIGNAL);
 #  endif
           if(nRead <= 0)
           {
@@ -681,7 +681,7 @@ namespace itc
           nRead = recv(static_cast<void*>(&(inBuffer[length])), buffSize - length, MSG_NOSIGNAL | MSG_PEEK);
 #  endif
 #  if !defined(_MSC_VER) && !defined(__CYGWIN__) && (!defined(_WIN32))
-          nRead = recv(static_cast<void*>(&(inBuffer[length])), buffSize - length, MSG_WAITALL | MSG_PEEK);
+          nRead = recv(static_cast<void*>(&(inBuffer[length])), buffSize - length, MSG_WAITALL | MSG_PEEK|MSG_NOSIGNAL);
 #  endif
           if(nRead <= 0)
           {

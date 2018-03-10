@@ -45,9 +45,10 @@ namespace itc
     private:
       itc::sys::Semaphore mSemaphore;
     public:
-      explicit Nap()
-      {
-      }
+      explicit Nap()=default;
+      Nap(const Nap&)=delete;
+      Nap(Nap&)=delete;
+      
       inline void nanosleep(uint64_t nsec)
       {
         struct timespec anAbstime;
@@ -63,13 +64,18 @@ namespace itc
         while(1)
         {
           try{
-            mSemaphore.timedWait(anAbstime);
+            mSemaphore.justwait(anAbstime);
           }catch(const std::system_error& e)
           {
-            if(e.code().value() == EINTR)
-              continue;
-            if(e.code().value() == ETIMEDOUT)
-              return;
+            switch(e.code().value())
+            {
+              case EINTR:
+                continue;
+              case ETIMEDOUT:
+                return;
+              default:
+                throw;
+            }
           }
         }
       }
@@ -88,13 +94,18 @@ namespace itc
         while(1)
         {
           try{
-            mSemaphore.timedWait(anAbstime);
+            mSemaphore.justwait(anAbstime);
           }catch(const std::system_error& e)
           {
-            if(e.code().value() == EINTR)
-              continue;
-            if(e.code().value() == ETIMEDOUT)
-              return;
+            switch(e.code().value())
+            {
+              case EINTR:
+                continue;
+              case ETIMEDOUT:
+                return;
+              default:
+                throw;
+            }
           }
         }
       }
@@ -111,13 +122,18 @@ namespace itc
         while(1)
         {
           try{
-            mSemaphore.timedWait(anAbstime);
+            mSemaphore.justwait(anAbstime);
           }catch(const std::system_error& e)
           {
-            if(e.code().value() == EINTR)
-              continue;
-            if(e.code().value() == ETIMEDOUT)
-              return;
+            switch(e.code().value())
+            {
+              case EINTR:
+                continue;
+              case ETIMEDOUT:
+                return;
+              default:
+                throw;
+            }
           }
         }
       }
