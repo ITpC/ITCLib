@@ -22,7 +22,7 @@
 #include <sys/PosixSemaphore.h>
 #include <abstract/Cleanable.h>
 
-
+#include <execinfo.h>
 
 namespace itc
 {
@@ -49,9 +49,7 @@ namespace itc
           std::is_base_of<RunnableInterface, TRunnable>::value,
           "Wrong template parameter, - TRunnable is not derived from ::itc::abstract::IRunnable"
           );
-        getLog()->debug(__FILE__, __LINE__, "Starting thread with Id: %jx", this->getThreadId());
         begin();
-        getLog()->debug(__FILE__, __LINE__, "Started thread with Id: %jx", this->getThreadId());
       }
 
       CancelableThread(const CancelableThread&) = delete;
@@ -78,7 +76,6 @@ namespace itc
       {
         if (mRunnable.get() != nullptr)
         {
-          getLog()->debug(__FILE__, __LINE__, "Calling onCancel() for runnable %jx TID: %jx", mRunnable.get(), this->getThreadId());
           mRunnable.get()->onCancel();
         }
       }
@@ -91,15 +88,11 @@ namespace itc
         
           if (mRunnable.get() != nullptr)
           {
-            getLog()->debug(__FILE__, __LINE__, "Calling shutdown() for runnable %jx TID: %jx", mRunnable.get(), this->getThreadId());
             mRunnable.get()->shutdown();
           }
 
-          getLog()->debug(__FILE__, __LINE__, "Calling cancel() for TID: %jx", this->getThreadId());
           cancel();
-          getLog()->debug(__FILE__, __LINE__, "Calling finish() for TID: %jx", this->getThreadId());
           finish();
-          getLog()->debug(__FILE__, __LINE__, "finished TID: %jx", this->getThreadId());
           getLog()->flush();
         }
       }
