@@ -49,10 +49,8 @@ namespace itc {
 #endif
 #endif	
   
-  extern "C"
-  {
-      const std::shared_ptr<CurrentLogType>& getLog();
-  }
+const std::shared_ptr<CurrentLogType>& getLog();
+
 
 }
 #endif /*__TSLOG_H__*/
