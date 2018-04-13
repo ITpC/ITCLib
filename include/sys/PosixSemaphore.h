@@ -201,14 +201,15 @@ namespace itc
     {
      private:
       mutable sem_t semaphore;
-      // they say: do not use volatile. no sync here. RIGH! That is what i need.
-      // I do not need the sync, I need __sporadically__ correct value of this
+      // they say: do not use volatile. no sync here. RIGHT. That is what i need.
+      // I do not need the sync, I need __eventually__ correct value of this
       // variable. This variable is changed outside of thread, 
       // by calling destroy()
-      volatile bool valid; 
+      volatile bool valid;
      public:
+      
 
-      explicit RawPosixSemaphore(ulong def_val = 0)
+      explicit RawPosixSemaphore(ulong def_val = 0): valid(false)
       {
         if(sem_init(&semaphore, 0, def_val))
           throw std::system_error(errno, std::system_category(), "RawPosixSemaphore::RawPosixSemaphore(): semaphore initialization failed");
@@ -225,7 +226,7 @@ namespace itc
 
       const bool post(void) const
       {
-        return valid&&(sem_post(&semaphore) != -1);
+        return valid&&(sem_post(&semaphore) == 0);
       }
 
       void justwait(const ::timespec& timeout)
