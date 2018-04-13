@@ -444,7 +444,7 @@ namespace itc
        **/
       int accept(Socket<CLN_TCP_KA_TND>& ref, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
       {
-        register int err = 0;
+        int err = 0;
 
         ref.mSocket = ::accept(mSocket, &(ref.mAddr), &(ref.mSockAL));
 
@@ -471,7 +471,7 @@ namespace itc
        **/
       int accept(std::shared_ptr< Socket<CLN_TCP_KA_TND> >& ref, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
       {
-        register int err = 0;
+        int err = 0;
 
         ref.get()->mSocket = ::accept(mSocket, &(ref.get()->mAddr), &(ref.get()->mSockAL));
 
@@ -498,7 +498,7 @@ namespace itc
        **/
       int accept(Socket<CLN_TCP_KA_TD>& ref, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
       {
-        register int err = 0;
+        int err = 0;
 
         ref.mSocket = ::accept(mSocket, &(ref.mAddr), &(ref.mSockAL));
 
@@ -525,7 +525,7 @@ namespace itc
        **/
       int accept(std::shared_ptr< Socket<CLN_TCP_KA_TD> >& ref, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
       {
-        register int err = 0;
+        int err = 0;
 
         ref.get()->mSocket = ::accept(mSocket, &(ref.get()->mAddr), &(ref.get()->mSockAL));
 
@@ -552,7 +552,7 @@ namespace itc
        **/
       int accept(Socket<CLN_TCP_KA_TND>& ref, const itc::utils::SizeT2Type<SRV_TCP_UNI_IF>& fictive)
       {
-        register int err = 0;
+        int err = 0;
 
         ref.mSocket = ::accept(mSocket, &(ref.mAddr), &(ref.mSockAL));
 
@@ -618,8 +618,8 @@ namespace itc
        */
       int read(uint8_t* inBuffer, unsigned buffSize)
       {
-        register unsigned length = 0;
-        register int nRead = 0;
+        unsigned length = 0;
+        int nRead = 0;
 
         if((buffSize == 0) || (inBuffer == nullptr))
           return 0;
@@ -661,8 +661,8 @@ namespace itc
        */
       int peek(uint8_t* inBuffer, unsigned buffSize)
       {
-        register unsigned length = 0;
-        register int nRead = 0;
+        unsigned length = 0;
+        int nRead = 0;
 
         if((buffSize == 0) || (inBuffer == 0))
           return 0;
@@ -703,8 +703,8 @@ namespace itc
        */
       int write(const uint8_t* outBuffer, unsigned buffSize)
       {
-        register unsigned length = 0;
-        register int nSent = 0;
+        unsigned length = 0;
+        int nSent = 0;
 
         if((buffSize == 0) || (outBuffer == 0)) // isn't it better to throw an exception here and in 2 previous cases ?
           return 0;
