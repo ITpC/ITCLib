@@ -485,6 +485,23 @@ namespace itc
         }
         return err;
       }
+      
+      int accept(std::shared_ptr< Socket<CLN_TCP_NKA_TD> >& ref, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
+      {
+        int err = 0;
+
+        ref.get()->mSocket = ::accept(mSocket, &(ref.get()->mAddr), &(ref.get()->mSockAL));
+
+        if(ref.get()->mSocket == INVALID_SOCKET)
+        {
+#  if defined(_MSC_VER)|| defined(__MINGW32_VERSION)
+          err = WSAGetLastError();
+#  else
+          err = errno;
+#  endif
+        }
+        return err;
+      }
 /**========================**/
 /**
        * Accepts incoming connections and set the Socket with appropriate FD and sockaddr
@@ -497,6 +514,23 @@ namespace itc
        *
        **/
       int accept(Socket<CLN_TCP_KA_TD>& ref, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
+      {
+        int err = 0;
+
+        ref.mSocket = ::accept(mSocket, &(ref.mAddr), &(ref.mSockAL));
+
+        if(ref.mSocket == INVALID_SOCKET)
+        {
+#  if defined(_MSC_VER)|| defined(__MINGW32_VERSION)
+          err = WSAGetLastError();
+#  else
+          err = errno;
+#  endif
+        }
+        return err;
+      }
+      
+      int accept(Socket<CLN_TCP_NKA_TD>& ref, const itc::utils::SizeT2Type<SRV_TCP_ANY_IF>& fictive)
       {
         int err = 0;
 
@@ -585,6 +619,15 @@ namespace itc
       }
 
       int accept(std::shared_ptr< Socket<CLN_TCP_KA_TND> >& ref)
+      {
+        return this->accept(ref, mSockOptions);
+      }
+      
+      int accept(std::shared_ptr< Socket<CLN_TCP_KA_TD> >& ref)
+      {
+        return this->accept(ref, mSockOptions);
+      }
+      int accept(std::shared_ptr< Socket<CLN_TCP_NKA_TD> >& ref)
       {
         return this->accept(ref, mSockOptions);
       }
