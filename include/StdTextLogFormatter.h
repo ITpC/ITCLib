@@ -45,13 +45,13 @@ namespace itc
         SyncLock sync(mMutex);
       }
 
-      const std::shared_ptr<std::vector<char>> format(const size_t pMaxMsgLength, const char* pFormat, ...)
+      const shared_char_vector format(const size_t pMaxMsgLength, const char* pFormat, ...)
       {
         SyncLock sync(mMutex);
 
         if (pFormat)
         {
-          shared_char_vector tmp(std::make_shared<std::vector<char>>(pMaxMsgLength + 1, 0));
+          auto tmp=std::make_shared<std::vector<char>>(pMaxMsgLength + 1, 0);
 
           va_list args;
           va_start(args, pFormat);
@@ -68,7 +68,7 @@ namespace itc
 
         if (pFormat)
         {
-          shared_char_vector tmp(std::make_shared<std::vector<char>>(pMaxMsgLength + 1, 0));
+          auto tmp=std::make_shared<std::vector<char>>(pMaxMsgLength + 1, 0);
           vsnprintf(tmp.get()->data(), pMaxMsgLength, pFormat, args);
           return tmp;
         }
