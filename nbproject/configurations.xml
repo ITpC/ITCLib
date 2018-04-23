@@ -82,7 +82,7 @@
           <commandLine>-pipe -Wall -pthread -O2 -fPIC -march=native -mtune=native -mfpmath=sse -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -msse2avx</commandLine>
           <preprocessorList>
             <Elem>LOG_ERROR</Elem>
-            <Elem>MAX_BUFF_SIZE=256</Elem>
+            <Elem>MAX_BUFF_SIZE=512</Elem>
             <Elem>TSAFE_LOG=1</Elem>
           </preprocessorList>
           <warningLevel>2</warningLevel>
