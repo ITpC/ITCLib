@@ -79,7 +79,7 @@
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
           </incDir>
-          <commandLine>-pipe -Wall -pthread -O2 -fPIC -march=native -mtune=native -mfpmath=sse -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -msse2avx</commandLine>
+          <commandLine>-pipe -Wall -pthread -O2 -fPIC -march=native -mtune=generic -mfpmath=sse -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -msse2avx</commandLine>
           <preprocessorList>
             <Elem>LOG_ERROR</Elem>
             <Elem>MAX_BUFF_SIZE=512</Elem>
