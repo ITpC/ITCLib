@@ -13,6 +13,8 @@
 #ifndef CLEANABLETHREAD_H_
 #define CLEANABLETHREAD_H_
 
+#include <assert.h>
+
 #include <memory>
 #include <atomic>
 
@@ -31,16 +33,17 @@ namespace itc
 
     template <typename TRunnable> class CancelableThread : public Thread, ::itc::abstract::Cleanable
     {
+    public:
+      typedef std::weak_ptr<TRunnable> RunnableWeakPtr;
+      
     private:
       std::atomic<bool> isfinished;
       std::shared_ptr<TRunnable> mRunnable;
       
       friend void* invoke(Thread*);
       friend void cleanup_handler(::itc::abstract::Cleanable*);
-
-    public:
-      typedef std::weak_ptr<TRunnable> RunnableWeakPtr;
       
+    public:
       explicit CancelableThread(const std::shared_ptr<TRunnable>& ref)
       : Thread(), isfinished(false), mRunnable(ref)
       {
@@ -74,13 +77,18 @@ namespace itc
 
       void cleanup()
       {
-        if (mRunnable.get() != nullptr)
+        if(!isfinished)
         {
-          mRunnable.get()->onCancel();
+          isfinished=true;
+          if (mRunnable.get() != nullptr)
+          {
+            mRunnable.get()->onCancel();
+            mRunnable.reset();
+          }
         }
       }
 
-      virtual ~CancelableThread() noexcept // gcc 4.7.4 compat
+      ~CancelableThread() noexcept 
       {
         if(!isfinished) // there is an attempt to call this destructor more then once. It seems that CancelableThread holding shared_ptr is split in two independent ones.
         {
@@ -89,6 +97,8 @@ namespace itc
           if (mRunnable.get() != nullptr)
           {
             mRunnable.get()->shutdown();
+            mRunnable.reset();
+            assert(mRunnable.get() == nullptr);
           }
 
           cancel();
