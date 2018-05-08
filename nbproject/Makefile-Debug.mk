@@ -42,8 +42,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-pipe -Wall -pthread -O2 -fPIC -march=native -mtune=generic -mfpmath=sse -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -msse2avx
-CXXFLAGS=-pipe -Wall -pthread -O2 -fPIC -march=native -mtune=generic -mfpmath=sse -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -msse2avx
+CCFLAGS=-pipe -Wall -pthread -O2 -fPIC -march=native -mtune=native -mfpmath=sse -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -msse2avx
+CXXFLAGS=-pipe -Wall -pthread -O2 -fPIC -march=native -mtune=native -mfpmath=sse -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -msse2avx
 
 # Fortran Compiler Flags
 FFLAGS=
