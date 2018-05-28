@@ -14,9 +14,11 @@
 #  define	__SYNCLOCK_H__
 
 #include <mutex>
+#include <sys/atomic_mutex.h>
 
 typedef std::lock_guard<std::recursive_mutex> RSyncLock;
 typedef std::lock_guard<std::mutex> SyncLock;
+typedef std::lock_guard<itc::sys::AtomicMutex> AtomicLock;
 
 
 #endif	/* __SYNCLOCK_H__ */

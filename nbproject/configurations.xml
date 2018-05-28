@@ -24,6 +24,7 @@
           <itemPath>include/sys/PosixSemaphore.h</itemPath>
           <itemPath>include/sys/Thread.h</itemPath>
           <itemPath>include/sys/Types.h</itemPath>
+          <itemPath>include/sys/atomic_mutex.h</itemPath>
           <itemPath>include/sys/prototypes.h</itemPath>
           <itemPath>include/sys/synclock.h</itemPath>
         </logicalFolder>
@@ -136,6 +137,8 @@
       </item>
       <item path="include/sys/Types.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/sys/atomic_mutex.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
@@ -215,6 +218,8 @@
       <item path="include/sys/Thread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/atomic_mutex.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>
