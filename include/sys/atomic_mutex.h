@@ -36,13 +36,7 @@ namespace itc {
       }
       const bool try_lock()
       {
-        if(!mLock._M_i)
-        {
-          while(mLock.test_and_set(std::memory_order_acquire));
-          return true;
-        }else{
-          return false;
-        }
+        return !mLock.test_and_set(std::memory_order_acquire);
       }
     };   
   }
