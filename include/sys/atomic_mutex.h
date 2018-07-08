@@ -4,7 +4,7 @@
  * (See accompanying file LICENSE_1_0.txt or copy at
  *          http://www.boost.org/LICENSE_1_0.txt)
  * 
- * $Id$
+ * $Id: LAppS::include/atomic_mutex.h$
  * 
  * EMail: pavel.kraynyukhov@gmail.com
  * 
@@ -28,7 +28,7 @@ namespace itc {
       AtomicMutex(AtomicMutex&)=delete;
       void lock()
       {
-        while(mLock.test_and_set(std::memory_order_acquire)) sched_yield();
+        while(mLock.test_and_set(std::memory_order_acquire)) asm("pause");
       }
       void unlock()
       {
