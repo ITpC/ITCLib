@@ -351,7 +351,7 @@ namespace itc
             throw std::system_error(errno,std::system_category(),"Socket::gpnm(uint32_t&) - exception on getpeername()");
           }
 
-          out = inet_lnaof(saddr.sin_addr);
+          out = saddr.sin_addr.s_addr;
         } else throw std::system_error(errno, std::system_category(), "Socket::gpnm(), - Invalid server Socket");
       }
 
