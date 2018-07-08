@@ -77,30 +77,23 @@ namespace itc
 
       void cleanup()
       {
-        if(!isfinished)
+        if(!isfinished.load())
         {
-          isfinished=true;
+          isfinished.store(true);
           if (mRunnable.get() != nullptr)
           {
             mRunnable.get()->onCancel();
             mRunnable.reset();
+            assert(mRunnable.get() == nullptr);
           }
         }
       }
 
       ~CancelableThread() noexcept 
       {
-        if(!isfinished) // there is an attempt to call this destructor more then once. It seems that CancelableThread holding shared_ptr is split in two independent ones.
+        if(!isfinished.load()) // there is an attempt to call this destructor more then once. It seems that CancelableThread holding shared_ptr is split in two independent ones.
         {
-          isfinished=true;
-        
-          if (mRunnable.get() != nullptr)
-          {
-            mRunnable.get()->shutdown();
-            mRunnable.reset();
-            assert(mRunnable.get() == nullptr);
-          }
-
+          cleanup(); // cleanup first then call cancel
           cancel();
           finish();
           getLog()->flush();
