@@ -21,7 +21,7 @@ namespace itc {
     private:
       std::atomic_flag mLock;
     public:
-      explicit AtomicMutex():mLock(ATOMIC_FLAG_INIT)
+      explicit AtomicMutex():mLock{ATOMIC_FLAG_INIT}
       {
       }
       AtomicMutex(const AtomicMutex&)=delete;
