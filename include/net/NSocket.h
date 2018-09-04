@@ -202,7 +202,7 @@ namespace itc
                     throw std::system_error(errno, std::system_category(), "Socket::Listen(), - can't listen on socket");\
                 }\
             }
-
+     protected:
       void open(const char* address, const int port, const itc::utils::SizeT2Type<CLN_TCP_KA_TND>& fictive)
       {
         struct addrinfo hints;
@@ -314,7 +314,8 @@ namespace itc
       {
         open(address, port, mSockOptions);
       }
-
+      
+     private:
       void gpnm(std::string& out)
       {
         
