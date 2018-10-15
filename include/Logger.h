@@ -34,6 +34,8 @@
 #include <sys/time.h>
 #include <Date.h>
 
+#include <chrono>
+
 #define XDEBUG 0
 #define XTRACE 1
 #define XINFO 2
@@ -109,22 +111,29 @@ namespace itc
     private:
       static const char* getCurrTimeStr()
       {
-        static char tbuf[22];
-        Date aDate;
-        Time aTime = aDate.get();
+        auto clck=std::chrono::system_clock::now();
+        
+        auto seconds=std::chrono::duration_cast<std::chrono::seconds>(
+          std::chrono::time_point_cast<std::chrono::seconds>(clck).time_since_epoch()
+        ).count();
+        
+        size_t msec=std::chrono::duration_cast<std::chrono::milliseconds>(
+          std::chrono::time_point_cast<std::chrono::milliseconds>(clck).time_since_epoch()
+        ).count()-(seconds*1000);
+        
+        static char tbuf[21];
 
-        time_t sec = aTime.mTimestamp.tv_sec;
-        time_t msec = aTime.mTimestamp.tv_usec / 1000;
+        auto ts=std::chrono::system_clock::to_time_t(clck);
+        
+        struct tm* td = localtime(&ts);
 
-        struct tm* ts = localtime(&sec);
-
-        if (ts == NULL)
+        if (td == NULL)
         {
           throw std::bad_alloc();
         }
-        strftime(tbuf, 22, "%Y%m%d%H%M%S", ts);
+        
+        strftime(tbuf, 15, "%Y%m%d%H%M%S", td);
         snprintf(tbuf + 14, 6, ".%03jdZ", msec);
-        tbuf[21] = 0;
 
         return tbuf;
       }
