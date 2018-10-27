@@ -201,6 +201,7 @@ namespace itc
     {
      private:
       mutable sem_t semaphore;
+      
       // they say: do not use volatile. no sync here. RIGHT. That is what i need.
       // I do not need the sync, I need __eventually__ correct value of this
       // variable. This variable is changed outside of thread, 
