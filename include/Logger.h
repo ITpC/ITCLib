@@ -87,7 +87,7 @@ namespace itc
       : mMutex(), mOutAdapter(pOutAdapter), mOutBuffer(mOutAdapter),
       mLogLevelStr(LL2STR(LOGLEVEL)), mAppName(pAppName)
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
         
         static_assert(
           std::is_base_of<AbstractLogOutAdapter, TOutAdapter>::value, 
@@ -266,7 +266,7 @@ namespace itc
       public:
       void trace(const char* pFilename, const size_t pLineNumber, const char* format, ...)
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
         TFormatter aFormatter;
         
         va_list args;
@@ -279,7 +279,7 @@ namespace itc
 
       void debug(const char* pFilename, const size_t pLineNumber, const char* format, ...)
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
         TFormatter aFormatter;
 
         va_list args;
@@ -292,7 +292,7 @@ namespace itc
 
       void error(const char* pFilename, const size_t pLineNumber, const char* format, ...)
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
         TFormatter aFormatter;
 
         va_list args;
@@ -305,7 +305,7 @@ namespace itc
 
       void fatal(const char* pFilename, const size_t pLineNumber, const char* format, ...)
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
         TFormatter aFormatter;
 
         va_list args;
@@ -318,7 +318,7 @@ namespace itc
 
       void info(const char* pFilename, const size_t pLineNumber, const char* format, ...)
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
         TFormatter aFormatter;
 
         va_list args;
@@ -332,7 +332,7 @@ namespace itc
       
       void flush()
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
         mOutBuffer.flush();
       }
 

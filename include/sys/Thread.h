@@ -42,7 +42,7 @@ namespace itc
     void* invoke(itc::sys::Thread*);
 
     /**
-     * This class must be inherited by any other that requiers MT functionallity.
+     * This class must be inherited by any other that requires MT functionality.
      * There are 3 obligatory steps to make it proper:
      *      1. implement run() method
      *      2. use begin() method in constructor of derived class, or whenever you want to start thread
@@ -52,9 +52,9 @@ namespace itc
      * derived class when Thread::begin() method is called. Without call of begin(), thread will be not activated
      * and persist in sleep state. When thread::finish() called without former call of Thread::begin(),
      * then main thread will stay forever and wait till thread finish it self if Thread::detach() was not called
-     * in between. To keep it problemless follow the 3 steps above.
+     * in between. To keep it problem-less follow the 3 steps above.
      * 
-     * @exceptions Can_not_create_thread exception emmited if pthread_create fails, appropriate errno is provided 
+     * @exceptions Can_not_create_thread exception is thrown if pthread_create fails, appropriate errno is provided 
      * with exception.
      *   
      **/
@@ -63,14 +63,12 @@ namespace itc
     protected:
       friend void* invoke(Thread*);
     private:
-      std::mutex mMutex;
       Semaphore start;
       pthread_t TID;
 
     private:
       int create()
       {
-        SyncLock sync(mMutex);
         return ::pthread_create(&TID, NULL, (thread_t) invoke, this);
       }
 
@@ -118,8 +116,6 @@ namespace itc
       {
         YIELD();
       }
-
-
 
     protected:
       virtual ~Thread() = default;
