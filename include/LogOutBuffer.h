@@ -47,7 +47,7 @@ namespace itc
 
       void post(const shared_char_vector& pLogMessage)
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
         mMessagesBuffer.push_back(pLogMessage);
         if(++mRowsNow >= mMaxRows)
         {
@@ -58,7 +58,7 @@ namespace itc
 
       void flush()
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
         pflush();
       }
       

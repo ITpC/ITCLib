@@ -90,6 +90,7 @@ namespace itc
      **/
 
 #  if defined(_MSC_VER) && (defined(__MINGW32_VERSION))
+#if !defined(__PTPS__)
 #    define __PTPS__
 
     /**
@@ -185,7 +186,9 @@ namespace itc
         destroy();
       }
     };
+#endif
 #  else
+#if !defined(__RPS__)
 #    define __RPS__
 
     /**
@@ -201,20 +204,15 @@ namespace itc
     {
      private:
       mutable sem_t semaphore;
-      
-      // they say: do not use volatile. no sync here. RIGHT. That is what i need.
-      // I do not need the sync, I need __eventually__ correct value of this
-      // variable. This variable is changed outside of thread, 
-      // by calling destroy()
-      volatile bool valid;
+      mutable std::atomic<bool> valid;
      public:
       
 
-      explicit RawPosixSemaphore(ulong def_val = 0): valid(false)
+      explicit RawPosixSemaphore(ulong def_val = 0): valid{false}
       {
         if(sem_init(&semaphore, 0, def_val))
           throw std::system_error(errno, std::system_category(), "RawPosixSemaphore::RawPosixSemaphore(): semaphore initialization failed");
-        valid=true;
+        valid.store(true);
       }
 
       explicit RawPosixSemaphore(const RawPosixSemaphore&) = delete;
@@ -222,60 +220,62 @@ namespace itc
 
       const bool wait(void) const
       {
-        return valid&&(sem_wait(&semaphore) != -1);
+        return valid.load()&&(sem_wait(&semaphore) != -1);
       }
 
       const bool post(void) const
       {
-        return valid&&(sem_post(&semaphore) == 0);
+        return valid.load()&&(sem_post(&semaphore) == 0);
       }
 
       void justwait(const ::timespec& timeout)
       {
-        if(sem_timedwait(&semaphore, &timeout) == -1)
-          throw std::system_error(errno,std::system_category());
+        if(valid.load())
+        {
+          if(sem_timedwait(&semaphore, &timeout) == -1)
+            throw std::system_error(errno,std::system_category());
+        }else
+          throw std::system_error(EACCES,std::system_category(),"RawPosixSemaphore::justwait(): an attempt to access an invalid semaphore");
       }
       
-      const bool timedWait(const ::timespec& timeout) const noexcept
+      const bool timed_wait(const ::timespec& timeout) const noexcept
       {
-        if(sem_timedwait(&semaphore, &timeout) == 0)
-          return valid&&true;
-        else 
-          return false;
+        if(valid.load())
+        {
+          return (sem_timedwait(&semaphore, &timeout) == 0);
+        }
+        return false;
       }
 
-      const bool tryWait(void) const
+      const bool try_wait(void) const
       {
-        return valid&&(sem_trywait(&semaphore) != -1);
+        return valid.load()&&(sem_trywait(&semaphore) != -1);
       }
 
       const bool getValue(int& value)
       {
-        return valid&&(sem_getvalue(&semaphore, &value) != -1);
+        return valid.load()&&(sem_getvalue(&semaphore, &value) != -1);
       }
 
       const bool isValid() const
       {
-        return valid;
+        return valid.load();
       }
       /**
        * In Linux and Solaris a thread cancellation has to be called before 
-       * semaphore  will be destroyed. destroy() costs a lot and switches 
-       * thread context twice.
+       * semaphore  will be destroyed. destroy() costs a lot.
        **/
       void destroy() noexcept
       {
-        if(valid)
+        if(valid.load())
         {
-          valid=false;
-          sched_yield();
+          valid.store(false);
           // an attempt to release all the waiting threads
           // subscribers must check the return code
-          // limited to 1000 subscribers ...
-          for(auto i=0;i<1000;++i)
+          // limited to 10000 subscribers ...
+          for(auto i=0;i<10000;++i)
           {
             sem_post(&semaphore);
-            sched_yield();
           }
           // No error code checked, semaphore may be not destroyed. 
           // There is no way you can handle error here. undefined behavior.
@@ -289,6 +289,7 @@ namespace itc
       }
     };
 #  endif
+#endif
 
 #  if defined (__RPS__)
     typedef RawPosixSemaphore Semaphore;

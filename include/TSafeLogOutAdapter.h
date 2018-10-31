@@ -42,7 +42,7 @@ namespace itc
         mMutex(), mFilename(filename),mMode(std::ofstream::out|mode),
         mLogFile(mFilename,mMode)
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
         if(!mLogFile.good())
         {
           throw std::system_error(errno,std::system_category(),"Can't open the log file");
@@ -65,19 +65,19 @@ namespace itc
 
       void post(const shared_char_vector& pMessage)
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
         mLogFile << pMessage->data();
       }
       
       void flush()
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
         pflush();
       }
 
       ~STDOutLogThreadSafeAdapter()
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
         pflush();
         mLogFile.close();
       }

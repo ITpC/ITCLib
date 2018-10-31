@@ -42,12 +42,12 @@ namespace itc
       explicit StdTextLogFormatter()
       : ILogFormatter(), mMutex()
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
       }
 
       const shared_char_vector format(const size_t pMaxMsgLength, const char* pFormat, ...)
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
 
         if (pFormat)
         {
@@ -64,7 +64,7 @@ namespace itc
 
       const shared_char_vector format(const size_t pMaxMsgLength, const char* pFormat, va_list args)
       {
-        SyncLock sync(mMutex);
+        STDSyncLock sync(mMutex);
 
         if (pFormat)
         {
