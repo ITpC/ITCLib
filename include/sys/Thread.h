@@ -24,7 +24,7 @@
 
 #include <abstract/Cleanable.h>
 #include <abstract/Runnable.h>
-#include <sys/PosixSemaphore.h>
+#include <sys/semaphore.h>
 #include <sys/prototypes.h>
 #include <InterfaceCheck.h>
 #include <sys/synclock.h>
@@ -63,7 +63,8 @@ namespace itc
     protected:
       friend void* invoke(Thread*);
     private:
-      Semaphore start;
+      using semaphore=::itc::sys::semaphore<0>; // fallback to posix semaphore
+      semaphore start;
       pthread_t TID;
 
     private:

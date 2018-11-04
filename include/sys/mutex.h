@@ -21,9 +21,21 @@ namespace itc {
     class mutex
     {
     private:
+      std::atomic<bool>      valid;
       std::atomic<pthread_t> mLock;
+      
+      /*
+       * Linux sched_yield() works only for threads with SCHED_FIFO and SCHED_RR
+       * policies (real-time), therefore replacing with context switch made by
+       * nanosleep(3). 
+       */
+      inline void sched_yield()
+      {
+        static thread_local struct timespec pause{0,1};
+        nanosleep(&pause,nullptr);
+      }
     public:
-      explicit mutex():mLock{0}
+      explicit mutex():valid{true},mLock{0}
       {
       }
       mutex(const mutex&)=delete;
@@ -31,17 +43,20 @@ namespace itc {
       
       void lock()
       {
-        pthread_t unused=0;
-        while(!mLock.compare_exchange_strong(unused,pthread_self()))
+        if(valid.load())
         {
-          static thread_local const struct timespec pause{0,1000};
-
-          unused=0;
-          nanosleep(&pause,nullptr);
-        };
+          pthread_t unused=0;
+          while(!mLock.compare_exchange_strong(unused,pthread_self()))
+          {
+            this->sched_yield();
+            unused=0;
+          }
+        }else{
+          throw std::system_error(EOWNERDEAD,std::system_category(), "itc::mutex::lock() - This mutex is being destroyed");
+        }
       }
       
-      void unlock()
+      void unlock() // Do not check for validity. if mutex is not yet destroyed, let the thread to unlock it.
       {
         pthread_t current=pthread_self();
         
@@ -53,8 +68,16 @@ namespace itc {
       
       const bool try_lock()
       {
-        pthread_t unused=0;
-        return mLock.compare_exchange_strong(unused,pthread_self());
+        if(valid.load())
+        {
+          pthread_t unused=0;
+          return mLock.compare_exchange_strong(unused,pthread_self());
+        }
+        return false;
+      }
+      ~mutex()
+      {
+        valid.store(false);
       }
     };
   }

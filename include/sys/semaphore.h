@@ -25,15 +25,22 @@ namespace itc
 {
   namespace sys
   {
-    class semaphore
+    /**
+     * User-land semaphore with fallback to POSIX semaphore on max attempts 
+     * to decrement a semaphore's counter in wait()
+     **/
+    template <const size_t max_attempts_before_fallback=25> class semaphore
     {
      private:
       mutable std::atomic<int64_t>  counter;
-      std::atomic<bool>             mayRun;
+      mutable std::atomic<size_t>   pending;
+      std::atomic<bool>             valid;
+      POSIXSemaphore                fallback;
+      
       
      public:
       
-      explicit semaphore() : counter{0},mayRun{true}
+      explicit semaphore() : counter{0},valid{true}
       {
       }
       
@@ -43,12 +50,28 @@ namespace itc
       const bool post() const
       {
         ++counter;
-        return mayRun.load();
+        
+        if(pending.load() >0)
+          fallback.post();
+        
+        return valid.load();
+      }
+      
+      const bool timed_wait(const struct timespec waiton) const
+      {
+        if(try_wait())
+          return true;
+        else{
+          ++pending;
+          fallback.timed_wait(waiton);
+          --pending;
+          return try_wait();
+        }
       }
       
       const bool try_wait() const
       {
-        if(mayRun.load())
+        if(valid.load())
         {
           if(counter.fetch_sub(1)>0)
             return true;
@@ -58,36 +81,45 @@ namespace itc
             return false;
           }
         }else{
-          throw std::system_error(ENOENT,std::system_category(),"Semaphore is destroyed");
+          throw std::system_error(EOWNERDEAD,std::system_category(),"This semaphore is being destroyed");
         }
       }
       
       void wait()
       {
-        static thread_local const struct timespec pause{0,100000};
-        
+        size_t attempts=0;
         while(!try_wait())
         {
-          nanosleep(&pause,nullptr);
+          if(++attempts >= max_attempts_before_fallback)
+          {
+            ++pending;
+            fallback.wait();
+            --pending;
+            attempts=0;
+          }
         }
       }
       
-      void destroy()
+      void destroy() noexcept
       {
-        mayRun.store(false);
+        valid.store(false);
+        // release all pending (worst case scenario: counter(0), pending(0), 100 waiting threads);
+        
+        pending.store(pending.load()+100);
+        counter.store( (counter.fetch_add(100)>0) ? counter.fetch_add(100) : 100);
       }
       
       const int64_t sub(const size_t value)
       {
-        if(mayRun.load())
+        if(valid.load())
         {
           return counter.fetch_sub(value);
         }else{
-          throw std::system_error(ENOENT,std::system_category(),"Semaphore is destroyed");
+          throw std::system_error(EOWNERDEAD,std::system_category(),"This semaphore is being destroyed");
         }
       }
       
-      ~semaphore()
+      ~semaphore() noexcept
       {
         destroy();
       }

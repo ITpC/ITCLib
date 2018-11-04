@@ -33,109 +33,52 @@
 #define	SEMSLEEP_H
 
 #include <system_error>
-
-#include <sys/PosixSemaphore.h>
 #include <sys/time.h>
 
 namespace itc
 {
   namespace sys
   {
-    class Nap{
-    private:
-      itc::sys::Semaphore mSemaphore;
+    class Nap
+    {
     public:
       explicit Nap()=default;
       Nap(const Nap&)=delete;
       Nap(Nap&)=delete;
       
-      inline void nanosleep(uint64_t nsec)
+      void nanosleep(const uint32_t nsec)
       {
-        struct timespec anAbstime;
-        struct timeval now;
-
-        gettimeofday(&now,NULL);
-
-        anAbstime.tv_nsec=now.tv_usec*1000UL+nsec;
-        uint64_t addsec=uint64_t(anAbstime.tv_nsec / 1000000000UL);
-        anAbstime.tv_sec=now.tv_sec+addsec;
-        anAbstime.tv_nsec -= addsec*1000000000UL;
-
-        while(1)
+        struct timespec pause{0,nsec};
+        struct timespec save{0,0};
+        
+        if(nsec >= 1000000000)
         {
-          try{
-            mSemaphore.justwait(anAbstime);
-          }catch(const std::system_error& e)
+          pause.tv_sec=nsec/1000000000;
+          pause.tv_nsec=pause.tv_sec*1000000000-nsec;
+        }
+        
+        while(::nanosleep(&pause,&save) == -1)
+        {
+          if(errno == EINTR)
           {
-            switch(e.code().value())
-            {
-              case EINTR:
-                continue;
-              case ETIMEDOUT:
-                return;
-              default:
-                throw;
-            }
+            pause.tv_sec=save.tv_sec;
+            pause.tv_nsec=save.tv_nsec;
+            save={0,0};
+            continue;
+          }else{
+            break;
           }
         }
       }
-      inline void usleep(uint64_t usec)
+      
+      void usleep(const uint32_t usec)
       {
-        struct timespec anAbstime;
-        struct timeval now;
-
-        gettimeofday(&now,NULL);
-
-        anAbstime.tv_nsec=(now.tv_usec+usec)*1000UL;
-        uint64_t addsec=uint64_t(anAbstime.tv_nsec / 1000000000UL);
-        anAbstime.tv_sec=now.tv_sec+addsec;
-        anAbstime.tv_nsec -= addsec*1000000000UL;
-
-        while(1)
-        {
-          try{
-            mSemaphore.justwait(anAbstime);
-          }catch(const std::system_error& e)
-          {
-            switch(e.code().value())
-            {
-              case EINTR:
-                continue;
-              case ETIMEDOUT:
-                return;
-              default:
-                throw;
-            }
-          }
-        }
+        this->nanosleep(usec*1000);
       }
-      inline void sleep(uint64_t sec)
+      
+      void sleep(const uint32_t sec)
       {
-        struct timespec anAbstime;
-        struct timeval now;
-
-        gettimeofday(&now,NULL);
-
-        anAbstime.tv_nsec=0;
-        anAbstime.tv_sec=now.tv_sec+sec;
-
-        while(1)
-        {
-          try{
-            mSemaphore.justwait(anAbstime);
-          }catch(const std::system_error& e)
-          {
-            switch(e.code().value())
-            {
-              case EINTR:
-                continue;
-              case ETIMEDOUT:
-                return;
-              default:
-                throw;
-            }
-          }
-        }
+        this->nanosleep(sec*1000000000);
       }
     };
   }

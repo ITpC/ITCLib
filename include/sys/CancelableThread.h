@@ -70,7 +70,12 @@ namespace itc
         {
           pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
           pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, NULL);
-          mRunnable.get()->execute();
+          try{
+            mRunnable.get()->execute();
+          }catch(const std::exception& e)
+          {
+            itc::getLog()->error(__FILE__,__LINE__,"Exception in itc::abstract::IRunnable::execute(): %s",e.what());
+          }
         }
         pthread_cleanup_pop(0);
       }
@@ -93,7 +98,12 @@ namespace itc
       {
         if(!isfinished.load()) // there is an attempt to call this destructor more then once. It seems that CancelableThread holding shared_ptr is split in two independent ones.
         {
-          cleanup(); // cleanup first then call cancel
+          try{
+            cleanup(); // cleanup first then call cancel
+          }catch(const std::exception& e)
+          {
+            itc::getLog()->error(__FILE__,__LINE__,"Exception in itc::abstract::IRunnable::~Specific_Destructor(): %s",e.what());
+          }
           cancel();
           finish();
           getLog()->flush();

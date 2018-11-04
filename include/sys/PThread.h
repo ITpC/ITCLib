@@ -20,7 +20,7 @@
 #  include <InterfaceCheck.h>
 #  include <abstract/Runnable.h>
 #  include <sys/Thread.h>
-#  include <sys/PosixSemaphore.h>
+#  include <sys/semaphore.h>
 #  include <abstract/Cleanable.h>
 #  include <abstract/Runnable.h>
 #  include <TSLog.h>
@@ -61,12 +61,13 @@ namespace itc
       typedef std::shared_ptr<::itc::abstract::IRunnable> TaskType;
 
      private:
+      using semaphore=::itc::sys::semaphore<0>; // fallback to posix semaphore
       friend void* invoke(Thread*);
       friend void cleanup_handler(::itc::abstract::Cleanable*);
 
       std::mutex mMutex;
       TaskType mRunnable;
-      Semaphore mTask;
+      semaphore mTask;
       PThreadState mState;
 
       inline void setState(PThreadState state)
@@ -75,13 +76,18 @@ namespace itc
         mState = state;
       }
 
-      inline bool ok2Run()
+      const bool ok2Run()
       {
-        mTask.wait();
-        if(getState() != CANCEL)
-        {
-          return true;
-        }else
+        try{
+          mTask.wait();
+          if(getState() != CANCEL)
+          {
+            return true;
+          }else
+          {
+            return false;
+          }
+        }catch(...)
         {
           return false;
         }

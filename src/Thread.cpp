@@ -52,8 +52,13 @@ namespace itc {
             sigaddset(&nset, SIGTERM);
             pthread_sigmask(SIG_BLOCK, &nset, NULL);
 #endif
-            context->start.wait();
-            context->run();
+            try{
+              context->start.wait();
+              context->run();
+            }catch(const std::exception& e)
+            {
+              itc::getLog()->fatal(__FILE__,__LINE__,"Thread::invoke() has failed because of an exception: %s",e.what());
+            }
             return NULL;
         }
     }
