@@ -23,7 +23,7 @@ AS=as
 # Macros
 CND_PLATFORM=GNU-Linux
 CND_DLIB_EXT=so
-CND_CONF=Debug
+CND_CONF=Release.SSE2
 CND_DISTDIR=dist
 CND_BUILDDIR=build
 
@@ -42,8 +42,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-pipe -Wall -pthread -O2 -fPIC -march=native -mtune=native -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fno-omit-frame-pointer
-CXXFLAGS=-pipe -Wall -pthread -O2 -fPIC -march=native -mtune=native -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fno-omit-frame-pointer
+CCFLAGS=-pipe -Wall -pthread -O2 -fPIC -march=native -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fno-omit-frame-pointer
+CXXFLAGS=-pipe -Wall -pthread -O2 -fPIC -march=native -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fno-omit-frame-pointer
 
 # Fortran Compiler Flags
 FFLAGS=
