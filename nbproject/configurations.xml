@@ -81,7 +81,7 @@
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
           </incDir>
-          <commandLine>-pipe -Wall -pthread -O2 -fPIC -march=native -mtune=native -mfpmath=sse -mssse3 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fno-omit-frame-pointer</commandLine>
+          <commandLine>-pipe -Wall -pthread -O2 -fPIC -march=native -mtune=native -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fno-omit-frame-pointer</commandLine>
           <preprocessorList>
             <Elem>LOG_ERROR</Elem>
             <Elem>MAX_BUFF_SIZE=512</Elem>
@@ -231,6 +231,88 @@
       <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release.SSE2" type="3">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>true</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <standard>11</standard>
+          <commandlineTool>g++</commandlineTool>
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>../utils/include</pElem>
+          </incDir>
+          <commandLine>-pipe -Wall -pthread -O2 -fPIC -march=native -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fno-omit-frame-pointer</commandLine>
+          <preprocessorList>
+            <Elem>LOG_ERROR</Elem>
+            <Elem>MAX_BUFF_SIZE=512</Elem>
+            <Elem>TSAFE_LOG=1</Elem>
+          </preprocessorList>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+      <item path="include/DateFormatter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/Logger.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/StdTextLogFormatter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/TSLog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/TSafeLogOutAdapter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/Cleanable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/ILogFormatter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/ISocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/ITask.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/LoggerHelpers.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/Runnable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/globals.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/net/IPv4AddrHelper.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/net/NSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/strbuff.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/strformat.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/CancelableThread.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/Nanosleep.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/PThread.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/Thread.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/Types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/mutex.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/semaphore.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Thread.cpp" ex="false" tool="1" flavor2="11">
       </item>
     </conf>
   </confs>

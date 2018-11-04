@@ -22,6 +22,14 @@ CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/libitclib.a
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
 CND_PACKAGE_NAME_Release=ITCLib.tar
 CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/ITCLib.tar
+# Release.SSE2 configuration
+CND_PLATFORM_Release.SSE2=GNU-Linux
+CND_ARTIFACT_DIR_Release.SSE2=dist/Release.SSE2/GNU-Linux
+CND_ARTIFACT_NAME_Release.SSE2=libitclib.a
+CND_ARTIFACT_PATH_Release.SSE2=dist/Release.SSE2/GNU-Linux/libitclib.a
+CND_PACKAGE_DIR_Release.SSE2=dist/Release.SSE2/GNU-Linux/package
+CND_PACKAGE_NAME_Release.SSE2=ITCLib.tar
+CND_PACKAGE_PATH_Release.SSE2=dist/Release.SSE2/GNU-Linux/package/ITCLib.tar
 #
 # include compiler specific variables
 #
