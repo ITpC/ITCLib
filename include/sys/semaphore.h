@@ -17,9 +17,10 @@
 
 #include <atomic>
 #include <system_error>
-#include <time.h>
+
 
 #include <sys/PosixSemaphore.h>
+#include <sys/sched_yield.h>
 
 namespace itc
 {
@@ -93,7 +94,8 @@ namespace itc
           if(++attempts >= max_attempts_before_fallback)
           {
             ++pending;
-            fallback.wait();
+            if(!fallback.wait())
+              throw std::system_error(EOWNERDEAD,std::system_category(),"This semaphore is being destroyed");
             --pending;
             attempts=0;
           }
@@ -107,6 +109,9 @@ namespace itc
         
         pending.store(pending.load()+100);
         counter.store( (counter.fetch_add(100)>0) ? counter.fetch_add(100) : 100);
+        fallback.destroy();
+        // yield to give all the threads chance to stop waiting.
+        itc::sys::sched_yield(255);
       }
       
       const int64_t sub(const size_t value)
