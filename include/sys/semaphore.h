@@ -40,7 +40,7 @@ namespace itc
       
      public:
       
-      explicit semaphore() : counter{0},valid{true}
+      explicit semaphore() : counter{0},pending{0},valid{true},fallback()
       {
       }
       
