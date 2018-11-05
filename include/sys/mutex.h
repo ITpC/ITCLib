@@ -13,7 +13,7 @@
 #ifndef __USERLAND_MUTEX_H__
 #define __USERLAND_MUTEX_H__
 #include <atomic>
-#include <time.h>
+#include <sys/sched_yield.h>
 
 namespace itc {
   namespace sys {
@@ -24,16 +24,6 @@ namespace itc {
       std::atomic<bool>      valid;
       std::atomic<pthread_t> mLock;
       
-      /*
-       * Linux sched_yield() works only for threads with SCHED_FIFO and SCHED_RR
-       * policies (real-time), therefore replacing with context switch made by
-       * nanosleep(3). 
-       */
-      inline void sched_yield()
-      {
-        static thread_local struct timespec pause{0,1};
-        nanosleep(&pause,nullptr);
-      }
     public:
       explicit mutex():valid{true},mLock{0}
       {
@@ -48,7 +38,7 @@ namespace itc {
           pthread_t unused=0;
           while(!mLock.compare_exchange_strong(unused,pthread_self()))
           {
-            this->sched_yield();
+            itc::sys::sched_yield();
             unused=0;
           }
         }else{

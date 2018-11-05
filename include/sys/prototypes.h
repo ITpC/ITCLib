@@ -34,10 +34,16 @@
 #ifndef PROTOTYPES_H_
 #define PROTOTYPES_H_
 
+#include <sys/sched_yield.h>
+
 #if defined(__FreeBSD__)
-#define YIELD	pthread_yield 
+  #define YIELD	pthread_yield 
 #else
-#define YIELD	sched_yield
+  #ifdef __linux__
+    #define YIELD	itc::sys::sched_yield
+  #else
+    #define YIELD sched_yield
+  #endif
 #endif
 
 #endif /*PROTOTYPES_H_*/
