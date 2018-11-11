@@ -94,8 +94,11 @@ namespace itc
           if(++attempts >= max_attempts_before_fallback)
           {
             ++pending;
-            if(!fallback.wait())
+            if((!fallback.wait())||(!valid.load()))
+            {
+              --pending;
               throw std::system_error(EOWNERDEAD,std::system_category(),"This semaphore is being destroyed");
+            }
             --pending;
             attempts=0;
           }
@@ -104,14 +107,16 @@ namespace itc
       
       void destroy() noexcept
       {
-        valid.store(false);
-        // release all pending (worst case scenario: counter(0), pending(0), 100 waiting threads);
+        if(valid.load())
+        {
+          valid.store(false);
+          // release pending (up to 1000 threads);
+          // Can't simply increase counter and fallback.post() pending times, because of ABA problem.
+          counter.fetch_add(1000);
+          for(size_t i=0;i<1000;++i) fallback.post();
         
-        pending.store(pending.load()+100);
-        counter.store( (counter.fetch_add(100)>0) ? counter.fetch_add(100) : 100);
-        fallback.destroy();
-        // yield to give all the threads chance to stop waiting.
-        itc::sys::sched_yield(255);
+          fallback.destroy();
+        }
       }
       
       const int64_t sub(const size_t value)
