@@ -129,6 +129,11 @@ namespace itc
         }
       }
       
+      const int64_t get_value() const noexcept
+      {
+        return counter.load();
+      }
+      
       ~semaphore() noexcept
       {
         destroy();
