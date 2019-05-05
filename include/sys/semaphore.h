@@ -78,7 +78,7 @@ namespace itc
             return true;
           else 
           {
-            counter.fetch_sub(1);
+            counter.fetch_add(1);
             return false;
           }
         }else{
