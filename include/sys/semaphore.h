@@ -63,9 +63,9 @@ namespace itc
         if(try_wait())
           return true;
         else{
-          ++pending;
+          pending.fetch_add(1);
           fallback.timed_wait(waiton);
-          --pending;
+          pending.fetch_sub(1);
           return try_wait();
         }
       }
@@ -78,7 +78,7 @@ namespace itc
             return true;
           else 
           {
-            ++counter;
+            counter.fetch_sub(1);
             return false;
           }
         }else{
@@ -93,13 +93,13 @@ namespace itc
         {
           if(++attempts >= max_attempts_before_fallback)
           {
-            ++pending;
+            pending.fetch_add(1);
             if((!fallback.wait())||(!valid.load()))
             {
-              --pending;
+              pending.fetch_sub(1);
               throw std::system_error(EOWNERDEAD,std::system_category(),"This semaphore is being destroyed");
             }
-            --pending;
+            pending.fetch_sub(1);
             attempts=0;
           }
         }
@@ -127,6 +127,11 @@ namespace itc
         }else{
           throw std::system_error(EOWNERDEAD,std::system_category(),"This semaphore is being destroyed");
         }
+      }
+      
+      const int64_t get_value() const noexcept
+      {
+        return counter.load();
       }
       
       ~semaphore() noexcept

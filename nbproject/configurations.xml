@@ -27,6 +27,7 @@
           <itemPath>include/sys/mutex.h</itemPath>
           <itemPath>include/sys/prototypes.h</itemPath>
           <itemPath>include/sys/semaphore.h</itemPath>
+          <itemPath>include/sys/spinlock.h</itemPath>
           <itemPath>include/sys/synclock.h</itemPath>
         </logicalFolder>
         <itemPath>include/DateFormatter.h</itemPath>
@@ -144,6 +145,8 @@
       </item>
       <item path="include/sys/semaphore.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/sys/spinlock.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
@@ -228,6 +231,8 @@
       </item>
       <item path="include/sys/semaphore.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/sys/spinlock.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
@@ -309,6 +314,8 @@
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/semaphore.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/sys/spinlock.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
       </item>
