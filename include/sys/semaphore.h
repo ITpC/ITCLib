@@ -50,12 +50,17 @@ namespace itc
       
       const bool post() const
       {
-        ++counter;
-        
-        if(pending.load() >0)
-          fallback.post();
-        
-        return valid.load();
+        if(valid.load())
+        {
+          ++counter;
+
+          if(pending.load() >0)
+            fallback.post();
+
+          return valid.load();
+        }else{
+          throw std::system_error(EOWNERDEAD,std::system_category(),"This semaphore is being destroyed");
+        }
       }
       
       const bool timed_wait(const struct timespec waiton) const
