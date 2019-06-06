@@ -52,7 +52,7 @@ namespace itc
       {
         if(valid.load())
         {
-          ++counter;
+          counter.fetch_add(1);
 
           if(pending.load() >0)
             fallback.post();
