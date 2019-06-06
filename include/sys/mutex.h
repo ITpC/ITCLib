@@ -25,6 +25,7 @@ namespace itc {
     private:
       std::atomic<bool>      valid;
       std::atomic<pthread_t> mLock;
+      Nap                    mNap;
       
     public:
       explicit mutex():valid{true},mLock{0}
@@ -43,8 +44,7 @@ namespace itc {
           while(!mLock.compare_exchange_strong(unused,current))
           {
             unused=0;
-            Nap aNap;
-            aNap.nanosleep(10);
+            mNap.nanosleep(10);
           }
         }else{
           throw std::system_error(EOWNERDEAD,std::system_category(), "itc::mutex::lock() - This mutex is being destroyed");
