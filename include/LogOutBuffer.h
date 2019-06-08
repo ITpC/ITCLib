@@ -27,7 +27,7 @@ namespace itc
     template <typename OutAdapter> class LogOutBuffer
     {
     private:
-      std::mutex mMutex;
+      itc::sys::mutex mMutex;
       size_t mMaxRows;
       size_t mRowsNow;
       std::shared_ptr<OutAdapter> mOutAdapter;
@@ -45,20 +45,21 @@ namespace itc
         );
       }
 
-      void post(const shared_char_vector& pLogMessage)
+      void post(const bool _flush, const shared_char_vector& pLogMessage)
       {
-        STDSyncLock sync(mMutex);
+        ITCSyncLock sync(mMutex);
         mMessagesBuffer.push_back(pLogMessage);
         if(++mRowsNow >= mMaxRows)
         {
           pflush();
           mRowsNow=0;
         }
+        if(_flush) pflush();
       }
 
       void flush()
       {
-        STDSyncLock sync(mMutex);
+        ITCSyncLock sync(mMutex);
         pflush();
       }
       
