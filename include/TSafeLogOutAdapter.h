@@ -30,19 +30,22 @@ namespace itc
     class STDOutLogThreadSafeAdapter : public itc::utils::abstract::ILogOutputAdapter
     {
     private:
-      std::mutex    mMutex;
-      std::string   mFilename;
+      using mutextype=itc::sys::mutex;
+      
+      mutextype               mMutex;
       std::ios_base::openmode mMode;
-      std::ofstream mLogFile;
-
-
+      std::string             mFilename;
+      std::ofstream           mLogFile;
+      
     public: 
       explicit STDOutLogThreadSafeAdapter(const std::string& filename, const std::ios_base::openmode& mode=std::ofstream::app)
       : itc::utils::abstract::ILogOutputAdapter(filename),
-        mMutex(), mFilename(filename),mMode(std::ofstream::out|mode),
+        mMutex(),
+        mMode(std::ofstream::out|mode),
+        mFilename(filename),
         mLogFile(mFilename,mMode)
       {
-        STDSyncLock sync(mMutex);
+        std::lock_guard<mutextype> sync(mMutex);
         if(!mLogFile.good())
         {
           throw std::system_error(errno,std::system_category(),"Can't open the log file");
@@ -52,8 +55,8 @@ namespace itc
       explicit STDOutLogThreadSafeAdapter(STDOutLogThreadSafeAdapter& p)
       : itc::utils::abstract::ILogOutputAdapter(NULL)
       {
-        std::lock_guard<std::mutex> sync(mMutex);
-        std::lock_guard<std::mutex> nsync(p.mMutex);
+        std::lock_guard<mutextype> sync(mMutex);
+        std::lock_guard<mutextype> nsync(p.mMutex);
         mFilename=p.mFilename;
         mMode=p.mMode;
         mLogFile.open(mFilename,mMode);
@@ -65,26 +68,26 @@ namespace itc
 
       void post(const shared_char_vector& pMessage)
       {
-        STDSyncLock sync(mMutex);
+        std::lock_guard<mutextype> sync(mMutex);
         mLogFile << pMessage->data();
       }
       
       void flush()
       {
-        STDSyncLock sync(mMutex);
+        std::lock_guard<mutextype> sync(mMutex);
         pflush();
       }
 
       ~STDOutLogThreadSafeAdapter()
       {
-        STDSyncLock sync(mMutex);
+        std::lock_guard<mutextype> sync(mMutex);
         pflush();
         mLogFile.close();
       }
     private:
       void pflush()
       {
-        mLogFile.flush(); 
+        if(mLogFile.good()) mLogFile.flush(); 
       }
     };
   }
