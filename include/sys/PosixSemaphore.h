@@ -48,8 +48,9 @@ namespace itc
     class POSIXSemaphore
     {
      private:
-      mutable sem_t semaphore;
       mutable std::atomic<bool> valid;
+      mutable sem_t semaphore;
+      
      public:
       
 
@@ -112,9 +113,10 @@ namespace itc
        **/
       void destroy() noexcept
       {
-        if(valid.load())
+        bool test=true;
+        while((!valid.compare_exchange_strong(test,false))&&(test));
+        if(test)
         {
-          valid.store(false);
           // an attempt to release all the waiting threads
           // subscribers must check the return code.
           // limited to 1000 subscribers ...
@@ -123,14 +125,15 @@ namespace itc
             sem_post(&semaphore);
           }
           // No error code checked, semaphore may be not destroyed. 
-          // There is no way you can handle error here. undefined behavior.
-          sem_destroy(&semaphore); 
+          // There is no way you can handle error here. 
+          // Undefined behavior for threads using this semaphore.
+          sem_destroy(&semaphore);
         }
       }
 
       ~POSIXSemaphore() noexcept
       {
-        destroy();
+        destroy(); 
       }
     };
   }

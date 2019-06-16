@@ -14,8 +14,7 @@
 #define __USERLAND_MUTEX_H__
 #include <atomic>
 #include <sys/sched_yield.h>
-
-#include "Nanosleep.h"
+#include <usecount.h>
 
 namespace itc {
   namespace sys {
@@ -23,11 +22,12 @@ namespace itc {
     class mutex
     {
     private:
-      std::atomic<bool>      valid;
-      std::atomic<pthread_t> mLock;
+      std::atomic<bool>              valid;
+      mutable std::atomic<size_t>    counter;
+      std::atomic<pthread_t>         mLock;
       
     public:
-      explicit mutex():valid{true},mLock{0}
+      explicit mutex():valid{true},counter{0},mLock{0}
       {
       }
       mutex(const mutex&)=delete;
@@ -35,6 +35,7 @@ namespace itc {
       
       void lock()
       {
+        usecount uc(&counter);
         if(valid.load())
         {
           pthread_t unused=0;
@@ -43,8 +44,7 @@ namespace itc {
           while(!mLock.compare_exchange_strong(unused,current))
           {
             unused=0;
-            Nap aNap;
-            aNap.nanosleep(10);
+            itc::sys::sched_yield(10);
           }
         }else{
           throw std::system_error(EOWNERDEAD,std::system_category(), "itc::mutex::lock() - This mutex is being destroyed");
@@ -53,6 +53,7 @@ namespace itc {
       
       void unlock() // Do not check for validity. if mutex is not yet destroyed, let the thread to unlock it.
       {
+        usecount uc(&counter);
         if(valid.load())
         {
           pthread_t current=pthread_self();
@@ -68,6 +69,7 @@ namespace itc {
       
       const bool try_lock()
       {
+        usecount uc(&counter);
         if(valid.load())
         {
           pthread_t unused=0;
@@ -76,9 +78,23 @@ namespace itc {
         }
         return false;
       }
+      
+      const bool busy() const
+      {
+        usecount uc(&counter);
+        return (mLock.load() != 0) || (!valid.load());
+      }
+      
+      const bool isvalid() const
+      {
+        usecount uc(&counter);
+        return valid.load();
+      }
+      
       ~mutex()
       {
         valid.store(false);
+        while((mLock.load() != 0)&&(counter.load() != 0));
       }
     };
   }

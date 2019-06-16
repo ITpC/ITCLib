@@ -63,7 +63,8 @@ namespace itc
     protected:
       friend void* invoke(Thread*);
     private:
-      using semaphore=::itc::sys::semaphore<0>; // fallback to posix semaphore
+      using semaphore=::itc::sys::POSIXSemaphore;
+      
       semaphore start;
       pthread_t TID;
 

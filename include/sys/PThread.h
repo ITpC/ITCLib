@@ -61,7 +61,7 @@ namespace itc
       typedef std::shared_ptr<::itc::abstract::IRunnable> TaskType;
 
      private:
-      using semaphore=::itc::sys::semaphore<0>; // fallback to posix semaphore
+      using semaphore=::itc::sys::POSIXSemaphore; // fallback to posix semaphore
       friend void* invoke(Thread*);
       friend void cleanup_handler(::itc::abstract::Cleanable*);
 

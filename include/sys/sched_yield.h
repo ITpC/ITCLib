@@ -23,9 +23,9 @@ namespace itc
      * policies (real-time), therefore replacing with context switch made by
      * nanosleep(3). 
      */
-    static void sched_yield(const uint8_t ns=1)
+    static void sched_yield(const long int ns=10)
     {
-      static thread_local struct timespec pause{0,ns};
+      struct timespec pause{0,ns};
       nanosleep(&pause,nullptr);
     }
   }

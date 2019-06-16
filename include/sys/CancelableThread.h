@@ -31,7 +31,7 @@ namespace itc
   namespace sys
   {
 
-    template <typename TRunnable> class CancelableThread : public Thread, ::itc::abstract::Cleanable
+    template <typename TRunnable> class CancelableThread : public Thread, public ::itc::abstract::Cleanable
     {
     public:
       typedef std::weak_ptr<TRunnable> RunnableWeakPtr;
@@ -85,16 +85,16 @@ namespace itc
         if(!isfinished.load())
         {
           isfinished.store(true);
-          if (mRunnable.get() != nullptr)
+          auto ptr{mRunnable.get()};
+          if ( ptr != nullptr)
           {
-            mRunnable.get()->onCancel();
+            ptr->onCancel();
             mRunnable.reset();
-            assert(mRunnable.get() == nullptr);
           }
         }
       }
 
-      ~CancelableThread() noexcept 
+      ~CancelableThread() 
       {
         if(!isfinished.load()) // there is an attempt to call this destructor more then once. It seems that CancelableThread holding shared_ptr is split in two independent ones.
         {

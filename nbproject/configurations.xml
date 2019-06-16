@@ -26,6 +26,7 @@
           <itemPath>include/sys/Types.h</itemPath>
           <itemPath>include/sys/mutex.h</itemPath>
           <itemPath>include/sys/prototypes.h</itemPath>
+          <itemPath>include/sys/sched_yield.h</itemPath>
           <itemPath>include/sys/semaphore.h</itemPath>
           <itemPath>include/sys/spinlock.h</itemPath>
           <itemPath>include/sys/synclock.h</itemPath>
@@ -39,6 +40,7 @@
         <itemPath>include/globals.h</itemPath>
         <itemPath>include/strbuff.h</itemPath>
         <itemPath>include/strformat.h</itemPath>
+        <itemPath>include/usecount.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -76,13 +78,12 @@
       </toolsSet>
       <compileType>
         <ccTool>
-          <standard>11</standard>
-          <commandlineTool>g++</commandlineTool>
+          <commandlineTool>g++ </commandlineTool>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
           </incDir>
-          <commandLine>-pipe -Wall -pthread -g -O2 -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fno-omit-frame-pointer</commandLine>
+          <commandLine>-std=c++17 -pipe -Wall -pthread -g -O2 -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -msse2avx -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fno-omit-frame-pointer</commandLine>
           <preprocessorList>
             <Elem>LOG_ERROR</Elem>
             <Elem>MAX_BUFF_SIZE=512</Elem>
@@ -143,11 +144,15 @@
       </item>
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/sys/sched_yield.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/sys/semaphore.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/spinlock.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/usecount.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -229,11 +234,15 @@
       </item>
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/sys/sched_yield.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/sys/semaphore.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/spinlock.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/usecount.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -313,11 +322,15 @@
       </item>
       <item path="include/sys/prototypes.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/sys/sched_yield.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/sys/semaphore.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/spinlock.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/usecount.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Thread.cpp" ex="false" tool="1" flavor2="11">
       </item>
