@@ -17,9 +17,9 @@
 
 #include <atomic>
 #include <system_error>
-
-
 #include <sys/PosixSemaphore.h>
+#include <iostream>
+#include <usecount.h>
 #include <sys/sched_yield.h>
 
 namespace itc
@@ -30,18 +30,21 @@ namespace itc
      * User-land semaphore with fallback to POSIX semaphore on max attempts 
      * to decrement a semaphore's counter in wait()
      **/
-    template <const size_t max_attempts_before_fallback=25> class semaphore
+    class semaphore
     {
      private:
+      const size_t max_attempts_before_fallback;
+      POSIXSemaphore                fallback;
       mutable std::atomic<int64_t>  counter;
       mutable std::atomic<size_t>   pending;
+      mutable std::atomic<size_t>   inuse;
       std::atomic<bool>             valid;
-      POSIXSemaphore                fallback;
-      
       
      public:
       
-      explicit semaphore() : counter{0},pending{0},valid{true},fallback()
+      explicit semaphore(const size_t mabf=10)
+      : max_attempts_before_fallback{mabf}, fallback(),
+        counter{0},pending{0},inuse{0},valid{true}
       {
       }
       
@@ -50,33 +53,41 @@ namespace itc
       
       const bool post() const
       {
+        usecount uc(&inuse);
+        
         if(valid.load())
         {
           counter.fetch_add(1);
 
           if(pending.load() >0)
             fallback.post();
-
-          return valid.load();
+        }
+        
+        return valid.load();
+      }
+      
+      const bool timed_wait(const struct timespec waiton) const
+      {
+        usecount uc(&inuse);
+        
+        if(valid.load())
+        {
+          if(try_wait())
+            return true;
+          else{
+            usecount pc(&pending);
+            fallback.timed_wait(waiton);
+            return try_wait();
+          }
         }else{
           throw std::system_error(EOWNERDEAD,std::system_category(),"This semaphore is being destroyed");
         }
       }
       
-      const bool timed_wait(const struct timespec waiton) const
-      {
-        if(try_wait())
-          return true;
-        else{
-          pending.fetch_add(1);
-          fallback.timed_wait(waiton);
-          pending.fetch_sub(1);
-          return try_wait();
-        }
-      }
-      
       const bool try_wait() const
       {
+        usecount uc(&inuse);
+        
         if(valid.load())
         {
           if(counter.fetch_sub(1)>0)
@@ -93,35 +104,33 @@ namespace itc
       
       void wait()
       {
+        usecount uc(&inuse);
+        
         size_t attempts=0;
+        
         while(!try_wait())
         {
           if(++attempts >= max_attempts_before_fallback)
           {
-            pending.fetch_add(1);
-            if((!fallback.wait())||(!valid.load()))
+            if(valid.load())
             {
-              pending.fetch_sub(1);
+              usecount pc(&pending);
+              if(!fallback.wait())
+              {
+                throw std::system_error(EOWNERDEAD,std::system_category(),"This semaphore is being destroyed");
+              }
+            } else {
               throw std::system_error(EOWNERDEAD,std::system_category(),"This semaphore is being destroyed");
             }
-            pending.fetch_sub(1);
-            attempts=0;
           }
         }
       }
       
       void destroy() noexcept
       {
-        if(valid.load())
-        {
           valid.store(false);
-          // release pending (up to 1000 threads);
-          // Can't simply increase counter and fallback.post() pending times, because of ABA problem.
           counter.fetch_add(1000);
-          for(size_t i=0;i<1000;++i) fallback.post();
-        
           fallback.destroy();
-        }
       }
       
       const int64_t sub(const size_t value)
@@ -142,6 +151,7 @@ namespace itc
       ~semaphore() noexcept
       {
         destroy();
+        //while(inuse.load()){itc::sys::sched_yield(10);};
       }
     };
   }
