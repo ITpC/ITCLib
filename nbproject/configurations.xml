@@ -78,7 +78,7 @@
       </toolsSet>
       <compileType>
         <ccTool>
-          <commandlineTool>g++ </commandlineTool>
+          <commandlineTool>g++</commandlineTool>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
