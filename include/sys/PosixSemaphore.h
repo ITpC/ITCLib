@@ -29,9 +29,9 @@
 
 #  include <sys/Types.h>
 #  include <sys/prototypes.h>
+#  include <usecount.h>
 
-
-
+#include <iostream>
 
 namespace itc
 {
@@ -48,13 +48,14 @@ namespace itc
     class POSIXSemaphore
     {
      private:
-      mutable std::atomic<bool> valid;
-      mutable sem_t semaphore;
+      mutable std::atomic<bool>    valid;
+      mutable std::atomic<size_t>  counter;
+      mutable sem_t                semaphore;
       
      public:
       
 
-      explicit POSIXSemaphore(ulong def_val = 0): valid{false}
+      explicit POSIXSemaphore(ulong def_val = 0): valid{false},counter{0}
       {
         if(sem_init(&semaphore, 0, def_val))
           throw std::system_error(errno, std::system_category(), "RawPosixSemaphore::RawPosixSemaphore(): semaphore initialization failed");
@@ -66,19 +67,22 @@ namespace itc
 
       const bool wait(void) const
       {
-        return valid.load()&&(sem_wait(&semaphore) != -1);
+        usecount uc(&counter);
+        return valid.load()&&(sem_wait(&semaphore) != -1)&&valid.load();
       }
 
       const bool post(void) const
       {
-        return valid.load()&&(sem_post(&semaphore) == 0);
+        usecount uc(&counter);
+        return valid.load()&&(sem_post(&semaphore) == 0)&&valid.load();
       }
 
       void justwait(const ::timespec& timeout)
       {
+        usecount uc(&counter);
         if(valid.load())
         {
-          if(sem_timedwait(&semaphore, &timeout) == -1)
+          if((sem_timedwait(&semaphore, &timeout) == -1)||(!valid.load()))
             throw std::system_error(errno,std::system_category());
         }else
           throw std::system_error(EACCES,std::system_category(),"RawPosixSemaphore::justwait(): an attempt to access an invalid semaphore");
@@ -86,49 +90,44 @@ namespace itc
       
       const bool timed_wait(const ::timespec& timeout) const noexcept
       {
-        if(valid.load())
-        {
-          return (sem_timedwait(&semaphore, &timeout) == 0);
-        }
-        return false;
+        usecount uc(&counter);
+        return valid.load()&&(sem_timedwait(&semaphore, &timeout) == 0)&&valid.load();
       }
 
       const bool try_wait(void) const
       {
-        return valid.load()&&(sem_trywait(&semaphore) != -1);
+        usecount uc(&counter);
+        return valid.load()&&(sem_trywait(&semaphore) != -1)&&valid.load();
       }
 
       const bool getValue(int& value)
       {
-        return valid.load()&&(sem_getvalue(&semaphore, &value) != -1);
+        usecount uc(&counter);
+        return valid.load()&&(sem_getvalue(&semaphore, &value) != -1)&&valid.load();
       }
-
+      
+      const auto get_usage() const
+      {
+        return counter.load();
+      }
+      
       const bool isValid() const
       {
         return valid.load();
       }
       /**
        * In Linux and Solaris a thread cancellation has to be called before 
-       * semaphore  will be destroyed. destroy() costs a lot.
+       * semaphore  will be destroyed. Prevent undefined behavior on sem_destroy
+       * by waiting for all threads to finish
        **/
       void destroy() noexcept
       {
-        bool test=true;
-        while((!valid.compare_exchange_strong(test,false))&&(test));
-        if(test)
+        valid.store(false);
+        while(get_usage() > 0)
         {
-          // an attempt to release all the waiting threads
-          // subscribers must check the return code.
-          // limited to 1000 subscribers ...
-          for(auto i=0;i<1000;++i)
-          {
             sem_post(&semaphore);
-          }
-          // No error code checked, semaphore may be not destroyed. 
-          // There is no way you can handle error here. 
-          // Undefined behavior for threads using this semaphore.
-          sem_destroy(&semaphore);
         }
+        sem_destroy(&semaphore);
       }
 
       ~POSIXSemaphore() noexcept

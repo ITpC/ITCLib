@@ -39,7 +39,7 @@ namespace itc {
         if(valid.load())
         {
           pthread_t unused=0;
-          auto current=pthread_self();
+          static thread_local auto current=pthread_self();
           
           while(!mLock.compare_exchange_strong(unused,current))
           {
@@ -56,7 +56,7 @@ namespace itc {
         usecount uc(&counter);
         if(valid.load())
         {
-          pthread_t current=pthread_self();
+          static thread_local auto current=pthread_self();
         
           if(!mLock.compare_exchange_strong(current,0))
           {
@@ -73,7 +73,7 @@ namespace itc {
         if(valid.load())
         {
           pthread_t unused=0;
-          auto current=pthread_self();
+          static thread_local auto current=pthread_self();
           return mLock.compare_exchange_strong(unused,current);
         }
         return false;
