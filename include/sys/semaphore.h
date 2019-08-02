@@ -128,9 +128,9 @@ namespace itc
       
       void destroy() noexcept
       {
-          valid.store(false);
-          counter.fetch_add(1000);
-          fallback.destroy();
+        valid.store(false);
+        counter.fetch_add(1000);
+        fallback.destroy();
       }
       
       const int64_t sub(const size_t value)
@@ -151,7 +151,7 @@ namespace itc
       ~semaphore() noexcept
       {
         destroy();
-        //while(inuse.load()){itc::sys::sched_yield(10);};
+        while(inuse.load()){itc::sys::sched_yield(10);};
       }
     };
   }
