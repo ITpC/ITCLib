@@ -133,7 +133,7 @@ namespace itc
         }
         
         strftime(tbuf, 15, "%Y%m%d%H%M%S", td);
-        snprintf(tbuf + 14, 6, ".%03jdZ", msec);
+        snprintf(tbuf + 14, 6, ".%03zuZ", msec);
       }
 
       void publish(const bool flush, const char* method, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message)
@@ -141,7 +141,7 @@ namespace itc
         TFormatter aFormatter;
         strtimebuff timestr;
         getCurrTimeStr(timestr);
-        mOutBuffer.post(flush, aFormatter.format(MAX_BUFF_SIZE, "%s - [%s:%s] - %s:%u: %s\n", timestr, method, mLogLevelStr, pFilename, pLineNumber, message->data()));
+        mOutBuffer.post(flush, aFormatter.format(MAX_BUFF_SIZE, "%s - [%s:%s] - %s:%zu: %s\n", timestr, method, mLogLevelStr, pFilename, pLineNumber, message->data()));
         if(flush) mOutBuffer.flush();
       }
       void trace(Int2Type<XDEBUG> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message) { }

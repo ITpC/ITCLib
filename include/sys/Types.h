@@ -45,6 +45,4 @@ typedef void (*CallBack)();
 typedef void (*(*thread_t)(void *));
 typedef void ((*cleanupfunc)(void *));
 
-typedef unsigned long ulong;
-
 #endif
