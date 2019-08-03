@@ -141,7 +141,7 @@ namespace itc
         TFormatter aFormatter;
         strtimebuff timestr;
         getCurrTimeStr(timestr);
-        mOutBuffer.post(flush, aFormatter.format(MAX_BUFF_SIZE, "%s - [%s:%s] - %s:%u: %s\n", timestr, method, mLogLevelStr, pFilename, pLineNumber, message->data()));
+        mOutBuffer.post(flush, aFormatter.format(MAX_BUFF_SIZE, "%s - [%s:%s] - %s:%zu: %s\n", timestr, method, mLogLevelStr, pFilename, pLineNumber, message->data()));
         if(flush) mOutBuffer.flush();
       }
       void trace(Int2Type<XDEBUG> fictive, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message) { }
