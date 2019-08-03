@@ -83,7 +83,7 @@ namespace itc
       socklen_t mSockAL; // sockaddr length
 
       explicit SockMemberAttr()
-        : mSocket(INVALID_SOCKET), mSockAL(sizeof(struct sockaddr))
+        : mSocket(INVALID_SOCKET),mPort{0}, mSockAL(sizeof(struct sockaddr))
       {
       }
 
