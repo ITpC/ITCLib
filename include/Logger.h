@@ -133,7 +133,7 @@ namespace itc
         }
         
         strftime(tbuf, 15, "%Y%m%d%H%M%S", td);
-        snprintf(tbuf + 14, 6, ".%03jdZ", msec);
+        snprintf(tbuf + 14, 6, ".%03zuZ", msec);
       }
 
       void publish(const bool flush, const char* method, const char* pFilename, const size_t pLineNumber, const shared_char_vector& message)
