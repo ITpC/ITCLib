@@ -31,7 +31,7 @@ namespace itc
       virtual int peek(uint8_t* inBuffer, unsigned buffSize) = 0;
       virtual int write(const uint8_t* outBuffer, unsigned buffSize) = 0;
       virtual bool isValid() const = 0;
-      virtual SOCKET getfd() const = 0;
+      virtual const SOCKET getfd() const = 0;
       virtual void setfd(const SOCKET& sock) = 0;
       virtual void close() = 0;
 

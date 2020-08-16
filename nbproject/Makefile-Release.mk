@@ -42,8 +42,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-pipe -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -march=core2 -mtune=generic -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -mno-tls-direct-seg-refs -DBZ_NO_STDIO -DLOG_ERROR -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1 -std=c++0x -DNDEBUG=1
-CXXFLAGS=-pipe -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -march=core2 -mtune=generic -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -mno-tls-direct-seg-refs -DBZ_NO_STDIO -DLOG_ERROR -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1 -std=c++0x -DNDEBUG=1
+CCFLAGS=-std=c++17 -pipe -Wall -pthread -O2 -flto -fPIC -march=native -mtune=generic -mfpmath=sse -msse2avx -mavx2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer
+CXXFLAGS=-std=c++17 -pipe -Wall -pthread -O2 -flto -fPIC -march=native -mtune=generic -mfpmath=sse -msse2avx -mavx2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -67,7 +67,7 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libitclib.a: ${OBJECTFILES}
 ${OBJECTDIR}/src/Thread.o: src/Thread.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Wall -s -Iinclude -I../utils/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Thread.o src/Thread.cpp
+	$(COMPILE.cc) -O2 -Wall -s -Iinclude -I../utils/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Thread.o src/Thread.cpp
 
 # Subprojects
 .build-subprojects:

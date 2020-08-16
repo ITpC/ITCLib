@@ -170,12 +170,11 @@
         <ccTool>
           <developmentMode>5</developmentMode>
           <stripSymbols>true</stripSymbols>
-          <standard>8</standard>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
           </incDir>
-          <commandLine>-pipe -pthread -D_REENTRANT -D_THREAD_SAFE -O2 -fPIC -march=core2 -mtune=generic -fomit-frame-pointer -mfpmath=sse -ftree-vectorize -funroll-loops -mno-tls-direct-seg-refs -DBZ_NO_STDIO -DLOG_ERROR -DMAX_BUFF_SIZE=256 -DTSAFE_LOG=1 -std=c++0x -DNDEBUG=1</commandLine>
+          <commandLine>-std=c++17 -pipe -Wall -pthread -O2 -flto -fPIC -march=native -mtune=generic -mfpmath=sse -msse2avx -mavx2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer</commandLine>
           <warningLevel>2</warningLevel>
         </ccTool>
         <fortranCompilerTool>
