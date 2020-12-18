@@ -44,7 +44,7 @@ namespace itc {
           while(!mLock.compare_exchange_strong(unused,current))
           {
             unused=0;
-            itc::sys::sched_yield(10);
+            itc::sys::sched_yield();
           }
         }else{
           throw std::system_error(EOWNERDEAD,std::system_category(), "itc::mutex::lock() - This mutex is being destroyed");
@@ -70,7 +70,10 @@ namespace itc {
       void unlock_destroy()
       {
         usecount uc(&counter);
-        if(valid.compare_exchange_strong(true,false))
+        
+        bool val{true};
+        
+        if(valid.compare_exchange_strong(val,false))
         {
           
           static thread_local auto current=pthread_self();

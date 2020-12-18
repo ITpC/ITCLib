@@ -10,6 +10,7 @@
  * 
  **/
 
+
 #ifndef TSAFELOGOUTADAPTER_H_
 #define TSAFELOGOUTADAPTER_H_
 

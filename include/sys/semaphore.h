@@ -11,7 +11,6 @@
  * 
  **/
 
-
 #ifndef __USERLAND_SEMAPHORE_H__
 #  define __USERLAND_SEMAPHORE_H__
 

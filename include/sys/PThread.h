@@ -10,8 +10,6 @@
  * 
  **/
 
-
-
 #ifndef __PCTHREAD_H__
 #  define __PCTHREAD_H__
 

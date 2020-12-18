@@ -10,7 +10,6 @@
  * 
  **/
 
-
 #ifndef __PosixSemaphore_H__
 #  define __PosixSemaphore_H__
 

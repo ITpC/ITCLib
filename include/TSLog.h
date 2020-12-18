@@ -9,7 +9,6 @@
  * EMail: pavel.kraynyukhov@gmail.com
  * 
  **/
- 
 
 #ifndef __TSLOG_H__
 #define __TSLOG_H__

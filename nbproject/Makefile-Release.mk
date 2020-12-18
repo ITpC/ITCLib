@@ -67,7 +67,7 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libitclib.a: ${OBJECTFILES}
 ${OBJECTDIR}/src/Thread.o: src/Thread.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Wall -s -Iinclude -I../utils/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Thread.o src/Thread.cpp
+	$(COMPILE.cc) -O2 -Wall -s -DMIMALLOC -DLOG_ERROR -DTSAFE_LOG=1 -DMAX_BUFF_SIZE=512 -Iinclude -I../utils/include -I/usr/local/lib/mimalloc-1.6/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Thread.o src/Thread.cpp
 
 # Subprojects
 .build-subprojects:

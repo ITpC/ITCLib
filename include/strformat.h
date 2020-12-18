@@ -10,7 +10,6 @@
  * 
  **/
 
-
 #ifndef STRFORMAT_H
 #define	STRFORMAT_H
 
@@ -18,8 +17,6 @@
 #include <cstdint>
 #include <string>
 #include <strbuff.h>
-
-
 
 
 namespace itc

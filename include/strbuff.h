@@ -51,20 +51,19 @@ namespace itc
 
     void getstr(std::string& result)
     {
-      size_t strsize=0;
-      for(auto it=mStrBuff.rbegin();it!=mStrBuff.rend();++it)
+
+      for(auto it=mStrBuff.begin();it!=mStrBuff.end();++it)
       {
-        strsize+=it->length();
-      }
-      
-      result.resize(strsize+1,0);
-      size_t i=0;
-      for(auto it=mStrBuff.begin();it!=mStrBuff.end();i+=it->length())
-      {
-        memcpy(&(result[i]),it->c_str(),it->length());
+        result.append(*it);
       }
     }    
 
+    auto getstr()
+    {
+      std::string out;
+      getstr(out);
+      return out;
+    }
 
     auto begin() -> decltype(mStrBuff.begin())
     {
