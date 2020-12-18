@@ -65,7 +65,8 @@ namespace itc
           retaddrs.insert(ipaddr);
           aiptr = aiptr->ai_next;
         }
-        freeaddrinfo(save);
+        if(save)
+          freeaddrinfo(save);
         return retaddrs;
       }
 

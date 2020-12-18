@@ -31,7 +31,6 @@
           <itemPath>include/sys/spinlock.h</itemPath>
           <itemPath>include/sys/synclock.h</itemPath>
         </logicalFolder>
-        <itemPath>include/DateFormatter.h</itemPath>
         <itemPath>include/LogOutBuffer.h</itemPath>
         <itemPath>include/Logger.h</itemPath>
         <itemPath>include/StdTextLogFormatter.h</itemPath>
@@ -94,8 +93,6 @@
         <archiverTool>
         </archiverTool>
       </compileType>
-      <item path="include/DateFormatter.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/Logger.h" ex="false" tool="3" flavor2="0">
@@ -183,8 +180,6 @@
         <archiverTool>
         </archiverTool>
       </compileType>
-      <item path="include/DateFormatter.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/Logger.h" ex="false" tool="3" flavor2="0">
@@ -271,8 +266,6 @@
         <archiverTool>
         </archiverTool>
       </compileType>
-      <item path="include/DateFormatter.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/Logger.h" ex="false" tool="3" flavor2="0">

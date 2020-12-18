@@ -67,6 +67,23 @@ namespace itc {
         }
       }
       
+      void unlock_destroy()
+      {
+        usecount uc(&counter);
+        if(valid.compare_exchange_strong(true,false))
+        {
+          
+          static thread_local auto current=pthread_self();
+        
+          if(!mLock.compare_exchange_strong(current,0))
+          {
+            throw std::system_error(EACCES, std::system_category(), "An attempt to unlock the mutex owned by other thread");
+          }
+        }else{
+          throw std::system_error(EOWNERDEAD,std::system_category(), "itc::mutex::lock() - This mutex is being destroyed");
+        }
+      }
+      
       const bool try_lock()
       {
         usecount uc(&counter);
