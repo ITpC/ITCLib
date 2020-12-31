@@ -15,8 +15,8 @@ NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
 CC=gcc
-CCC=g++ -std=c++17 -pthread
-CXX=g++ -std=c++17 -pthread
+CCC=g++
+CXX=g++
 FC=gfortran
 AS=as
 
@@ -42,8 +42,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-pipe -Wall -O2 -flto -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer
-CXXFLAGS=-pipe -Wall -O2 -flto -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer
+CCFLAGS=-pipe -std=c++17 -pthread -Wall -O2 -flto -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer
+CXXFLAGS=-pipe -std=c++17 -pthread -Wall -O2 -flto -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer
 
 # Fortran Compiler Flags
 FFLAGS=

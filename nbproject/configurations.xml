@@ -81,12 +81,12 @@
       </toolsSet>
       <compileType>
         <ccTool>
-          <commandlineTool>g++ -std=c++17 -pthread</commandlineTool>
+          <commandlineTool>g++</commandlineTool>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
           </incDir>
-          <commandLine>-pipe -Wall -pthread -g -O2 -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fno-omit-frame-pointer</commandLine>
+          <commandLine>-pipe -std=c++17 -pthread -Wall -pthread -g -O2 -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fno-omit-frame-pointer</commandLine>
           <preprocessorList>
             <Elem>FLOG_DEBUG</Elem>
           </preprocessorList>
@@ -176,12 +176,12 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
-          <commandlineTool>g++ -std=c++17 -pthread</commandlineTool>
+          <commandlineTool>g++</commandlineTool>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
           </incDir>
-          <commandLine>-pipe -Wall -pthread -O2 -flto -fPIC -march=native -mtune=generic -mfpmath=sse -msse2avx -mavx2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer</commandLine>
+          <commandLine>-pipe -std=c++17 -pthread -Wall -O2 -flto -fPIC -march=native -mtune=generic -mfpmath=sse -msse2avx -mavx2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer</commandLine>
           <warningLevel>2</warningLevel>
         </ccTool>
         <fortranCompilerTool>
@@ -267,12 +267,12 @@
       </toolsSet>
       <compileType>
         <ccTool>
-          <commandlineTool>g++ -std=c++17 -pthread</commandlineTool>
+          <commandlineTool>g++</commandlineTool>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
           </incDir>
-          <commandLine>-pipe -Wall -O2 -flto -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer</commandLine>
+          <commandLine>-pipe -std=c++17 -pthread -Wall -O2 -flto -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer</commandLine>
         </ccTool>
         <archiverTool>
         </archiverTool>
