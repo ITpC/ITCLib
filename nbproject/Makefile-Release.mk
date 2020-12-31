@@ -15,8 +15,8 @@ NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
 CC=gcc
-CCC=g++
-CXX=g++
+CCC=g++ -std=c++17 -pthread
+CXX=g++ -std=c++17 -pthread
 FC=gfortran
 AS=as
 
@@ -42,8 +42,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-std=c++17 -pipe -Wall -pthread -O2 -flto -fPIC -march=native -mtune=generic -mfpmath=sse -msse2avx -mavx2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer
-CXXFLAGS=-std=c++17 -pipe -Wall -pthread -O2 -flto -fPIC -march=native -mtune=generic -mfpmath=sse -msse2avx -mavx2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer
+CCFLAGS=-pipe -Wall -pthread -O2 -flto -fPIC -march=native -mtune=generic -mfpmath=sse -msse2avx -mavx2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer
+CXXFLAGS=-pipe -Wall -pthread -O2 -flto -fPIC -march=native -mtune=generic -mfpmath=sse -msse2avx -mavx2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -67,7 +67,7 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libitclib.a: ${OBJECTFILES}
 ${OBJECTDIR}/src/Thread.o: src/Thread.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Wall -s -DMIMALLOC -DLOG_ERROR -DTSAFE_LOG=1 -DMAX_BUFF_SIZE=512 -Iinclude -I../utils/include -I/usr/local/lib/mimalloc-1.6/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Thread.o src/Thread.cpp
+	$(COMPILE.cc) -O2 -Wall -Iinclude -I../utils/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Thread.o src/Thread.cpp
 
 # Subprojects
 .build-subprojects:

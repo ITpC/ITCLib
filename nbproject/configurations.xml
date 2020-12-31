@@ -7,10 +7,11 @@
       <logicalFolder name="include" displayName="include" projectFiles="true">
         <logicalFolder name="abstract" displayName="abstract" projectFiles="true">
           <itemPath>include/abstract/Cleanable.h</itemPath>
+          <itemPath>include/abstract/IController.h</itemPath>
           <itemPath>include/abstract/ILogFormatter.h</itemPath>
+          <itemPath>include/abstract/ILogOutAdapter.h</itemPath>
           <itemPath>include/abstract/ISocket.h</itemPath>
-          <itemPath>include/abstract/ITask.h</itemPath>
-          <itemPath>include/abstract/LoggerHelpers.h</itemPath>
+          <itemPath>include/abstract/IView.h</itemPath>
           <itemPath>include/abstract/Runnable.h</itemPath>
         </logicalFolder>
         <logicalFolder name="net" displayName="net" projectFiles="true">
@@ -20,7 +21,6 @@
         <logicalFolder name="sys" displayName="sys" projectFiles="true">
           <itemPath>include/sys/CancelableThread.h</itemPath>
           <itemPath>include/sys/Nanosleep.h</itemPath>
-          <itemPath>include/sys/PThread.h</itemPath>
           <itemPath>include/sys/PosixSemaphore.h</itemPath>
           <itemPath>include/sys/Thread.h</itemPath>
           <itemPath>include/sys/Types.h</itemPath>
@@ -30,13 +30,19 @@
           <itemPath>include/sys/semaphore.h</itemPath>
           <itemPath>include/sys/synclock.h</itemPath>
         </logicalFolder>
-        <itemPath>include/LogOutBuffer.h</itemPath>
-        <itemPath>include/Logger.h</itemPath>
-        <itemPath>include/StdTextLogFormatter.h</itemPath>
-        <itemPath>include/TSLog.h</itemPath>
-        <itemPath>include/TSafeLogOutAdapter.h</itemPath>
-        <itemPath>include/strbuff.h</itemPath>
-        <itemPath>include/strformat.h</itemPath>
+        <itemPath>include/ClientSocketsFactory.h</itemPath>
+        <itemPath>include/Sequence.h</itemPath>
+        <itemPath>include/Singleton.h</itemPath>
+        <itemPath>include/TCPListener.h</itemPath>
+        <itemPath>include/TCPSocketDef.h</itemPath>
+        <itemPath>include/bz2Compression.h</itemPath>
+        <itemPath>include/cfifo.h</itemPath>
+        <itemPath>include/default_formatter.h</itemPath>
+        <itemPath>include/default_out_adapter.h</itemPath>
+        <itemPath>include/flog.h</itemPath>
+        <itemPath>include/flog_common.h</itemPath>
+        <itemPath>include/itc_log_defs.h</itemPath>
+        <itemPath>include/tsbqueue.h</itemPath>
         <itemPath>include/usecount.h</itemPath>
       </logicalFolder>
     </logicalFolder>
@@ -75,59 +81,65 @@
       </toolsSet>
       <compileType>
         <ccTool>
-          <commandlineTool>g++</commandlineTool>
+          <commandlineTool>g++ -std=c++17 -pthread</commandlineTool>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
-            <pElem>/usr/local/lib/mimalloc-1.6/include</pElem>
           </incDir>
-          <commandLine>-std=c++17 -pipe -Wall -pthread -g -O2 -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fno-omit-frame-pointer</commandLine>
+          <commandLine>-pipe -Wall -pthread -g -O2 -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fno-omit-frame-pointer</commandLine>
           <preprocessorList>
-            <Elem>LOG_ERROR</Elem>
-            <Elem>MAX_BUFF_SIZE=512</Elem>
-            <Elem>MIMALLOC</Elem>
-            <Elem>TSAFE_LOG=1</Elem>
+            <Elem>FLOG_DEBUG</Elem>
           </preprocessorList>
           <warningLevel>2</warningLevel>
         </ccTool>
         <archiverTool>
         </archiverTool>
       </compileType>
-      <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
+      <item path="include/ClientSocketsFactory.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/Logger.h" ex="false" tool="3" flavor2="0">
+      <item path="include/Sequence.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/StdTextLogFormatter.h" ex="false" tool="3" flavor2="0">
+      <item path="include/Singleton.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/TSLog.h" ex="false" tool="3" flavor2="0">
+      <item path="include/TCPListener.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/TSafeLogOutAdapter.h" ex="false" tool="3" flavor2="0">
+      <item path="include/TCPSocketDef.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/abstract/Cleanable.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/abstract/IController.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/abstract/ILogFormatter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/ILogOutAdapter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/abstract/ISocket.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/abstract/ITask.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/abstract/LoggerHelpers.h" ex="false" tool="3" flavor2="0">
+      <item path="include/abstract/IView.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/abstract/Runnable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/bz2Compression.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/cfifo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/default_formatter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/default_out_adapter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/flog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/flog_common.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/itc_log_defs.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/net/IPv4AddrHelper.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/net/NSocket.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/strbuff.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/strformat.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/sys/CancelableThread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Nanosleep.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/sys/PThread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -144,6 +156,8 @@
       <item path="include/sys/semaphore.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/tsbqueue.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/usecount.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -162,19 +176,12 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
-          <stripSymbols>true</stripSymbols>
+          <commandlineTool>g++ -std=c++17 -pthread</commandlineTool>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
-            <pElem>/usr/local/lib/mimalloc-1.6/include</pElem>
           </incDir>
-          <commandLine>-std=c++17 -pipe -Wall -pthread -O2 -flto -fPIC -march=native -mtune=generic -mfpmath=sse -msse2avx -mavx2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer</commandLine>
-          <preprocessorList>
-            <Elem>LOG_ERROR</Elem>
-            <Elem>MAX_BUFF_SIZE=512</Elem>
-            <Elem>MIMALLOC</Elem>
-            <Elem>TSAFE_LOG=1</Elem>
-          </preprocessorList>
+          <commandLine>-pipe -Wall -pthread -O2 -flto -fPIC -march=native -mtune=generic -mfpmath=sse -msse2avx -mavx2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer</commandLine>
           <warningLevel>2</warningLevel>
         </ccTool>
         <fortranCompilerTool>
@@ -183,41 +190,51 @@
         <archiverTool>
         </archiverTool>
       </compileType>
-      <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
+      <item path="include/ClientSocketsFactory.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/Logger.h" ex="false" tool="3" flavor2="0">
+      <item path="include/Sequence.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/StdTextLogFormatter.h" ex="false" tool="3" flavor2="0">
+      <item path="include/Singleton.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/TSLog.h" ex="false" tool="3" flavor2="0">
+      <item path="include/TCPListener.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/TSafeLogOutAdapter.h" ex="false" tool="3" flavor2="0">
+      <item path="include/TCPSocketDef.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/abstract/Cleanable.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/abstract/IController.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/abstract/ILogFormatter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/ILogOutAdapter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/abstract/ISocket.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/abstract/ITask.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/abstract/LoggerHelpers.h" ex="false" tool="3" flavor2="0">
+      <item path="include/abstract/IView.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/abstract/Runnable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/bz2Compression.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/cfifo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/default_formatter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/default_out_adapter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/flog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/flog_common.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/itc_log_defs.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/net/IPv4AddrHelper.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/net/NSocket.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/strbuff.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/strformat.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/sys/CancelableThread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Nanosleep.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/sys/PThread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -234,6 +251,8 @@
       <item path="include/sys/semaphore.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/tsbqueue.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/usecount.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -244,64 +263,65 @@
       <toolsSet>
         <compilerSet>default</compilerSet>
         <dependencyChecking>true</dependencyChecking>
-        <rebuildPropChanged>true</rebuildPropChanged>
+        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <ccTool>
-          <standard>11</standard>
-          <commandlineTool>g++</commandlineTool>
+          <commandlineTool>g++ -std=c++17 -pthread</commandlineTool>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
-            <pElem>/usr/local/lib/mimalloc-1.6/include</pElem>
           </incDir>
-          <commandLine>-pipe -Wall -pthread -O2 -flto -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer</commandLine>
-          <preprocessorList>
-            <Elem>LOG_ERROR</Elem>
-            <Elem>MAX_BUFF_SIZE=512</Elem>
-            <Elem>MIMALLOC</Elem>
-            <Elem>TSAFE_LOG=1</Elem>
-          </preprocessorList>
-          <warningLevel>2</warningLevel>
+          <commandLine>-pipe -Wall -O2 -flto -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-check -fstack-protector-strong -fomit-frame-pointer</commandLine>
         </ccTool>
         <archiverTool>
         </archiverTool>
       </compileType>
-      <item path="include/LogOutBuffer.h" ex="false" tool="3" flavor2="0">
+      <item path="include/ClientSocketsFactory.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/Logger.h" ex="false" tool="3" flavor2="0">
+      <item path="include/Sequence.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/StdTextLogFormatter.h" ex="false" tool="3" flavor2="0">
+      <item path="include/Singleton.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/TSLog.h" ex="false" tool="3" flavor2="0">
+      <item path="include/TCPListener.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/TSafeLogOutAdapter.h" ex="false" tool="3" flavor2="0">
+      <item path="include/TCPSocketDef.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/abstract/Cleanable.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/abstract/IController.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/abstract/ILogFormatter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/abstract/ILogOutAdapter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/abstract/ISocket.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/abstract/ITask.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/abstract/LoggerHelpers.h" ex="false" tool="3" flavor2="0">
+      <item path="include/abstract/IView.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/abstract/Runnable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/bz2Compression.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/cfifo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/default_formatter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/default_out_adapter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/flog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/flog_common.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/itc_log_defs.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/net/IPv4AddrHelper.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/net/NSocket.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/strbuff.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/strformat.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/sys/CancelableThread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/Nanosleep.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/sys/PThread.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/sys/PosixSemaphore.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -319,9 +339,11 @@
       </item>
       <item path="include/sys/synclock.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/tsbqueue.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/usecount.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Thread.cpp" ex="false" tool="1" flavor2="11">
+      <item path="src/Thread.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
   </confs>

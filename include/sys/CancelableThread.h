@@ -21,10 +21,8 @@
 #include <InterfaceCheck.h>
 #include <abstract/Runnable.h>
 #include <sys/Thread.h>
-#include <sys/PosixSemaphore.h>
 #include <abstract/Cleanable.h>
-
-#include <execinfo.h>
+#include <itc_log_defs.h>
 
 namespace itc
 {
@@ -52,7 +50,6 @@ namespace itc
           std::is_base_of<RunnableInterface, TRunnable>::value,
           "Wrong template parameter, - TRunnable is not derived from ::itc::abstract::IRunnable"
           );
-        begin();
       }
 
       CancelableThread(const CancelableThread&) = delete;
@@ -74,7 +71,7 @@ namespace itc
             mRunnable.get()->execute();
           }catch(const std::exception& e)
           {
-            itc::getLog()->error(__FILE__,__LINE__,"Exception in itc::abstract::IRunnable::execute(): %s",e.what());
+            ITC_ERROR(__FILE__,__LINE__,"Exception in itc::abstract::IRunnable::execute(): %s",e.what());
           }
         }
         pthread_cleanup_pop(0);
@@ -96,17 +93,16 @@ namespace itc
 
       ~CancelableThread() 
       {
-        if(!isfinished.load()) // there is an attempt to call this destructor more then once. It seems that CancelableThread holding shared_ptr is split in two independent ones.
+        if(!isfinished.load())
         {
           try{
-            cleanup(); // cleanup first then call cancel
+            cleanup();
           }catch(const std::exception& e)
           {
-            itc::getLog()->error(__FILE__,__LINE__,"Exception in itc::abstract::IRunnable::~Specific_Destructor(): %s",e.what());
+            ITC_ERROR(__FILE__,__LINE__,"Exception in itc::abstract::IRunnable::~Specific_Destructor(): %s",e.what());
           }
           cancel();
           finish();
-          getLog()->flush();
         }
       }
     };

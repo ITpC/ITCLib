@@ -1,33 +1,34 @@
-/* 
- * File:   Observer.h
- * Author: pk
- *
- * Created on 17 Июнь 2008 г., 1:42
- */
+/**
+ * Copyright Pavel Kraynyukhov 2007 - 2021.
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See accompanying file LICENSE_1_0.txt or copy at
+ *          http://www.boost.org/LICENSE_1_0.txt)
+ * 
+ * $Id: Observer.h 22 2010-11-23 12:53:33Z pk $
+ * 
+ * EMail: pavel.kraynyukhov@gmail.com
+ * 
+ **/
 
-#ifndef _OBSERVER_H
-#define	_OBSERVER_H
+#ifndef __OBSERVER_H__
+#define __OBSERVER_H__
 
-namespace itc
-{
-    namespace abstract
-    {
-        template <typename TModel> class IView
-        {
+namespace itc {
+    namespace abstract {
+
+        template <typename EventType, template <class> class TObservable> class Observer {
         public:
-            IView(){}
-            
-            inline void update(const TModel& ref)
-            {
-                onUpdate(ref);
+
+            inline void update(TObservable<EventType> *pObservable, const EventType& event) {
+                onUpdate(pObservable, event);
             }
-            
+
+            virtual void onUpdate(TObservable<EventType> *pObservable, const EventType& event) = 0;
+
         protected:
-            virtual void onUpdate(const TModel& ref)=0;
-            virtual ~IView(){};
+
+            virtual ~Observer()=default;
         };
     }
 }
-
-#endif	/* _OBSERVER_H */
-
+#endif  //_OBSERVER_H_

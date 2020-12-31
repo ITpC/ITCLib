@@ -27,7 +27,6 @@
 #include <sys/prototypes.h>
 #include <InterfaceCheck.h>
 #include <sys/synclock.h>
-#include <TSLog.h>
 
 
 
@@ -64,7 +63,6 @@ namespace itc
     private:
       using semaphore=::itc::sys::POSIXSemaphore;
       
-      semaphore start;
       pthread_t TID;
 
     private:
@@ -79,7 +77,7 @@ namespace itc
        * Default constructor Thread::Thread()
        * Creates a thread in wait state.
        */
-      explicit Thread() : start()
+      explicit Thread()
       {
         int ret = this->create();
         if (ret) throw std::system_error(ret,std::system_category(),"Can't create thread");
@@ -103,14 +101,15 @@ namespace itc
         return ::pthread_detach(TID);
       }
 
-      const pthread_t getThreadId()
+      const pthread_t getThreadId() const
       {
         return TID;
       }
 
-      const pthread_t getCurrentThrId()
+      const pthread_t getCurrentThrId() const
       {
-        return ::pthread_self();
+        static thread_local auto current{pthread_self()};
+        return current;
       }
 
       void yield() const
@@ -121,11 +120,6 @@ namespace itc
     protected:
       virtual ~Thread() = default;
       virtual void run() = 0;
-
-      void begin()
-      {
-        start.post();
-      }
 
       int finish()
       {
