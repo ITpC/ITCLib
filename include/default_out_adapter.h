@@ -82,7 +82,7 @@ namespace flog
     {
       shutdown();
     }
-    void shutdown()
+    void shutdown() final
     {
       valid.store(false);
       YIELD();

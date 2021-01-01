@@ -77,7 +77,7 @@ namespace itc
         pthread_cleanup_pop(0);
       }
 
-      void cleanup()
+      void cleanup() final
       {
         if(!isfinished.load())
         {

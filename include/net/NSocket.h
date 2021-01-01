@@ -326,12 +326,12 @@ namespace itc
       }
 
 
-      void open(const std::string& address, const int port)
+      void open(const std::string& address, const int port)  final
       {
         open(address.c_str(), port, mSockOptions);
       }
 
-      void open(const char* address, const int port)
+      void open(const char* address, const int port) final
       {
         open(address, port, mSockOptions);
       }
@@ -894,7 +894,7 @@ namespace itc
       }
     }
 
-    void close()
+    void close() final
     {
       if(mSocket != INVALID_SOCKET)
       {

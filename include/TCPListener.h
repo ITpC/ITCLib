@@ -118,7 +118,7 @@ namespace itc
     {
       this->shutdown();
     }
-    void shutdown()
+    void shutdown() final
     {
       doRun.store(false);
       while(!canDestroy.load())
