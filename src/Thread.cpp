@@ -40,6 +40,7 @@ namespace itc {
             pthread_sigmask(SIG_BLOCK, &nset, NULL);
 #endif
             try{
+              context->start.wait();
               context->run();
             }catch(const std::exception& e)
             {

@@ -63,13 +63,8 @@ namespace itc
     private:
       using semaphore=::itc::sys::POSIXSemaphore;
       
-      pthread_t TID;
-
-    private:
-      int create()
-      {
-        return ::pthread_create(&TID, NULL, (thread_t) invoke, this);
-      }
+      semaphore start;
+      pthread_t TID;     
 
     public:
 
@@ -77,9 +72,9 @@ namespace itc
        * Default constructor Thread::Thread()
        * Creates a thread in wait state.
        */
-      explicit Thread()
+      explicit Thread() : start(), TID{0}
       {
-        int ret = this->create();
+        int ret = ::pthread_create(&TID, NULL, (thread_t) invoke, this);
         if (ret) throw std::system_error(ret,std::system_category(),"Can't create thread");
       }
 
@@ -120,6 +115,11 @@ namespace itc
     protected:
       virtual ~Thread() = default;
       virtual void run() = 0;
+
+      void begin()
+      {
+        start.post();
+      }
 
       int finish()
       {

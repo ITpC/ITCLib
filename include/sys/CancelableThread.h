@@ -49,7 +49,8 @@ namespace itc
         static_assert(
           std::is_base_of<RunnableInterface, TRunnable>::value,
           "Wrong template parameter, - TRunnable is not derived from ::itc::abstract::IRunnable"
-          );
+        );
+        begin();
       }
 
       CancelableThread(const CancelableThread&) = delete;
