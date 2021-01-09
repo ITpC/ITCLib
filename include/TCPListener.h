@@ -14,19 +14,20 @@
 #ifndef __TCPLISTENER_H__
 #define	__TCPLISTENER_H__
 #include <memory>
-#include <mutex>
 #include <atomic>
 #include <string>
 #include <cstdint>
 #include <functional>
 
-#include <sys/synclock.h>
-#include <TCPSocketDef.h>
+#include <sys/mutex.h>
+#include <net/Socket.h>
 #include <abstract/IController.h>
 #include <abstract/Runnable.h>
 #include <sys/CancelableThread.h>
 #include <Singleton.h>
 #include <itc_log_defs.h>
+
+
 
 namespace itc
 {
@@ -36,13 +37,13 @@ namespace itc
    * indefinitely. The only task this class does is to accept new inbound 
    * connections and notify the associated view (usually a worker class).
    **/
-  class TCPListener: public ::itc::abstract::IRunnable, public ::itc::abstract::IController<CSocketSPtr>
+  class TCPListener: public ::itc::abstract::IRunnable, public ::itc::abstract::IController<std::shared_ptr<net::Socket>>
   {
   private:
-    std::mutex        mMutex;
+    itc::sys::mutex   mMutex;
     std::string       mAddress;
-    int               mPort;
-    ServerSocket      mServerSocket;
+    uint16_t          mPort;
+    net::Socket       mServerSocket;
     ViewTypeSPtr      mSocketsHandler;
     
     std::function<bool(const uint32_t)> mFilter;
@@ -53,12 +54,31 @@ namespace itc
 	public:
    typedef ModelType value_type;
    
-    explicit TCPListener(const std::string& address,const int port,const ViewTypeSPtr& sh, const std::function<bool(const uint32_t)>& _filter=nullptr)
-    : mMutex(), mAddress(address), mPort(port), mServerSocket(mAddress,mPort),
-      mSocketsHandler(sh),mFilter(_filter), doRun(true),canDestroy(false)
+    explicit TCPListener(
+      const std::string& address,
+      const uint16_t port,
+      const ViewTypeSPtr& sh, 
+      const std::function<bool(const uint32_t)>& _filter=nullptr
+    ): mMutex(), mAddress{address}, mPort{port}, mServerSocket(),
+       mSocketsHandler{sh},mFilter{_filter}, doRun{true},canDestroy{false}
     {
       if(!mSocketsHandler.lock())
         throw std::runtime_error("The connection handler view does not exists (nullptr)");
+      try{
+        mServerSocket.open<net::Transport::TCP,net::Side::SERVER>(
+          mAddress.c_str(),mPort,true,1000
+        );
+      }
+      catch(std::exception& e)
+      {
+        ITC_ERROR(__FILE__,__LINE__,"Exception: {}",e.what());
+        
+        throw std::system_error(
+          EINVAL,
+          std::system_category(),
+          fmt::format("Exception in itc::TCPListener() constructor, caused by Socket::open(): {}",e.what())
+        );
+      }
     }
     
     TCPListener(const TCPListener&)=delete;
@@ -68,43 +88,35 @@ namespace itc
     {
       while(doRun.load())
       {
-        STDSyncLock sync(mMutex);
-        value_type newClient(
-          itc::Singleton<TCPSocketsFactory>::getInstance<
-            size_t,size_t
-          >(5,10)->getBlindSocket()
-        );
-        
         try {
-          if(mServerSocket.accept(newClient) == -1)
+          auto newClient{mServerSocket.accept()};
+          
+          auto peerep{newClient->getpeerendpoint()};
+
+          if(peerep.first.empty())
           {
-            throw std::system_error(errno,std::system_category(),"TCPListener::execute()::ServerSocket.accept(ClientSocket)");
+            newClient->close();
+            ITC_ERROR(__FILE__,__LINE__,"Can't receive peer endpoint information, closing connection",nullptr);
           }
           else
-          { 
-            uint32_t u32address;
+          {
+            ITC_DEBUG(__FILE__,__LINE__,"New client connection: {}",peerep.first);
+          }
+          
+          if(newClient->getFamily() == AF_INET)
+          {
+            uint32_t ipv4numeric{newClient->getpeernamev4()};
             
-            newClient->getpeeraddr(u32address);
-            
-            std::string peeraddress;
-            newClient->getpeeraddr(peeraddress);
-            
-            if(peeraddress.empty())
+            if(mFilter&&mFilter(ipv4numeric))
             {
               newClient->close();
             }
-            else if(mFilter&&mFilter(u32address))
-            {
-              newClient->close();
-            }
-            else
-            {
-              if(!notify(newClient,mSocketsHandler))
-              {
-                doRun.store(false);
-                break;
-              }
-            }
+          }
+          
+          if(!notify(newClient,mSocketsHandler))
+          {
+            doRun.store(false);
+            break;
           }
         }catch(const std::exception& e)
         {
@@ -123,31 +135,20 @@ namespace itc
       doRun.store(false);
       while(!canDestroy.load())
       {
-        if(mAddress == "0.0.0.0")
-        {
-          try{
-            itc::ClientSocket aSocket("127.0.0.1",mPort);
-            aSocket.close();
-          }catch(const std::system_error& e)
-          {
-            ITC_INFO(__FILE__,__LINE__,"Listener went down, it is safe to shutdown",nullptr);
-            break;
-          }
+        try{
+          ::itc::net::Socket aSocket;
+          aSocket.open<net::Transport::TCP,net::Side::CLIENT>(mAddress.c_str(),mPort);
+          aSocket.close();
         }
-        else
+        catch(const std::system_error& e)
         {
-          try{
-            itc::ClientSocket aSocket(mAddress,mPort);
-            aSocket.close();
-          }catch(const std::system_error& e)
-          {
-            ITC_INFO(__FILE__,__LINE__,"Listener went down, it is safe to shutdown",nullptr);
-            break;
-          }
+          ITC_INFO(__FILE__,__LINE__,"Listener went down, it is safe to shutdown",nullptr);
+          break;
         }
         itc::sys::sched_yield(10);
       }
     }
+  
     ~TCPListener()
     {
       this->shutdown();
