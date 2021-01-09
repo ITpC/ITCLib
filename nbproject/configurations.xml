@@ -83,7 +83,7 @@
       <compileType>
         <ccTool>
           <developmentMode>0</developmentMode>
-          <commandlineTool>g++</commandlineTool>
+          <commandlineTool>g++  -fstack-clash-protection</commandlineTool>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
@@ -180,7 +180,7 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
-          <commandlineTool>g++ -fsanitize=address -fsanitize=pointer-subtract</commandlineTool>
+          <commandlineTool>g++  -fstack-clash-protection</commandlineTool>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>
@@ -273,7 +273,7 @@
       </toolsSet>
       <compileType>
         <ccTool>
-          <commandlineTool>g++</commandlineTool>
+          <commandlineTool>g++  -fstack-clash-protection</commandlineTool>
           <incDir>
             <pElem>include</pElem>
             <pElem>../utils/include</pElem>

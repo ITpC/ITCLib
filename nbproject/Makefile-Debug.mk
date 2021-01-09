@@ -15,8 +15,8 @@ NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
 CC=gcc
-CCC=g++
-CXX=g++
+CCC=g++  -fstack-clash-protection
+CXX=g++  -fstack-clash-protection
 FC=gfortran
 AS=as
 

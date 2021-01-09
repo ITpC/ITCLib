@@ -15,8 +15,8 @@ NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
 CC=gcc
-CCC=g++ -fsanitize=address -fsanitize=pointer-subtract
-CXX=g++ -fsanitize=address -fsanitize=pointer-subtract
+CCC=g++  -fstack-clash-protection
+CXX=g++  -fstack-clash-protection
 FC=gfortran
 AS=as
 
