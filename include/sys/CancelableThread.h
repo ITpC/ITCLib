@@ -61,7 +61,7 @@ namespace itc
         return mRunnable;
       }
 
-      void run()
+      void run() final
       {
         pthread_cleanup_push((void (*)(void*))cleanup_handler, this);
         if (mRunnable.get() != nullptr)
