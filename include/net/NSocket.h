@@ -13,6 +13,8 @@
 #ifndef __SOCKET_HPP__
 #  define __SOCKET_HPP__
 
+#warning deprecated
+
 #  if !defined(_MSC_VER) && (!defined(__MINGW32_VERSION))
 #    define INVALID_SOCKET (-1)
 #    define SOCKET_ERROR (-1)
