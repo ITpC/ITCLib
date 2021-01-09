@@ -10,6 +10,7 @@
  * 
  **/
 
+#warning "deprecated since 07.01.2021 and for LAppS-0.9.98 and later"
 
 #ifndef __CLIENT_SOCKETS_FACTORY_H__
 #  define __CLIENT_SOCKETS_FACTORY_H__
