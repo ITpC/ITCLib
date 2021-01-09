@@ -43,7 +43,9 @@ namespace flog
       while(!messages.empty())
       {
         auto message{messages.front()};
-        mOutStream << message;
+        if(message.empty())
+            mOutStream.flush();
+        else mOutStream << message;
         messages.pop();
       }
     }
@@ -57,10 +59,16 @@ namespace flog
         throw std::system_error(errno,std::system_category(),std::string(file_name.data(),file_name.size()));
     }
     
-    void post(std::string&& ref){
+    void post(std::string&& ref) final
+    {
       mQueue.send(std::move(ref));
     }
     
+    void flush() final
+    {
+      std::string flshmsg{""};
+      mQueue.send(std::move(flshmsg));
+    }
     void execute()
     {
       while(valid.load())

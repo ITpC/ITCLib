@@ -61,10 +61,15 @@ namespace flog
     template <typename ... Args> void post(flog::LogLevel msgtype,std::string_view _format,Args&&...args)
     {
       mOutAdapter->post(mFormatter.format(msgtype,_format,std::forward<Args>(args)...));
+      if((msgtype == flog::LogLevel::ERROR)||(msgtype == flog::LogLevel::FATAL))
+      {
+        mOutAdapter->flush();
+      }
     }
 
     ~logger()
     {
+      mOutAdapter->flush();
       mOutAdapter->shutdown();
       mOutAdapterThread.join();
     }
