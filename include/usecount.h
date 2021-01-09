@@ -22,7 +22,7 @@ struct usecount
 
   explicit usecount(std::atomic<size_t>* _ptr) : ptr{_ptr}
   { 
-    if(!ptr) throw std::system_error(EINVAL,std::system_category(),"itc::sys::semaphore::usecount(nullptr)");
+    if(!ptr) throw std::system_error(EINVAL,std::system_category(),"usecount(nullptr)");
 
     ptr->fetch_add(1);
   }
