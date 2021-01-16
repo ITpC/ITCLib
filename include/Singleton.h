@@ -36,6 +36,11 @@ namespace itc {
         static std::shared_ptr<T> instance=std::make_shared<T>(args...);
         return instance;
       }
+      template <typename... Args> static const std::shared_ptr<T>& getThreadLocalInstance(Args...args)
+      {
+        static thread_local std::shared_ptr<T> instance=std::make_shared<T>(args...);
+        return instance;
+      }
 
     protected:
       virtual ~Singleton() = 0;
