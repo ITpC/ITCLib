@@ -66,6 +66,11 @@ namespace flog
         mOutAdapter->flush();
       }
     }
+    
+    void flush()
+    {
+      mOutAdapter->flush();
+    }
 
     ~logger()
     {
