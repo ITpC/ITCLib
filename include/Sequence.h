@@ -17,7 +17,7 @@
 #ifndef SEQUENCE_H_
 #define SEQUENCE_H_
 
-#include <compat_types.h>
+//#include <compat_types.h>
 #include <Val2Type.h>
 #include <unistd.h>
 #include <atomic>

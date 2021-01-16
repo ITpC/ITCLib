@@ -25,7 +25,7 @@
 #include <abstract/Runnable.h>
 #include <sys/semaphore.h>
 #include <sys/prototypes.h>
-#include <InterfaceCheck.h>
+//#include <InterfaceCheck.h>
 #include <sys/synclock.h>
 
 

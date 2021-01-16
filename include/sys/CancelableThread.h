@@ -18,7 +18,7 @@
 #include <memory>
 #include <atomic>
 
-#include <InterfaceCheck.h>
+//#include <InterfaceCheck.h>
 #include <abstract/Runnable.h>
 #include <sys/Thread.h>
 #include <abstract/Cleanable.h>

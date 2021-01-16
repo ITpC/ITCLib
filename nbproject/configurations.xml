@@ -86,7 +86,6 @@
           <commandlineTool>g++  -fstack-clash-protection</commandlineTool>
           <incDir>
             <pElem>include</pElem>
-            <pElem>../utils/include</pElem>
           </incDir>
           <commandLine>-gdwarf-4 -pipe -std=c++17 -pthread -Wall -pthread -O2 -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-protector-strong -fno-omit-frame-pointer</commandLine>
           <preprocessorList>
@@ -183,7 +182,6 @@
           <commandlineTool>g++  -fstack-clash-protection</commandlineTool>
           <incDir>
             <pElem>include</pElem>
-            <pElem>../utils/include</pElem>
           </incDir>
           <commandLine>-pipe -std=c++17 -pthread -Wall -O2 -flto -fPIC -march=native -mtune=generic -mfpmath=sse -mavx2 -ftree-vectorize -funroll-loops -fstack-protector-strong -fomit-frame-pointer</commandLine>
           <warningLevel>2</warningLevel>
@@ -276,7 +274,6 @@
           <commandlineTool>g++  -fstack-clash-protection</commandlineTool>
           <incDir>
             <pElem>include</pElem>
-            <pElem>../utils/include</pElem>
           </incDir>
           <commandLine>-pipe -std=c++17 -pthread -Wall -O2 -flto -fPIC -march=core2 -mtune=generic -mfpmath=sse -msse2 -ftree-vectorize -funroll-loops -fstack-protector-strong -fomit-frame-pointer</commandLine>
         </ccTool>
