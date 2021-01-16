@@ -21,13 +21,12 @@
 typedef int SOCKET;
 #  endif
 
-#include <iostream>
 
-#include <compat_types.h>
+#include <unistd.h>
+#include <fcntl.h>
+
 #include <memory>
 #include <string>
-#include <Val2Type.h>
-#include <unistd.h>
 #include <netdb.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -40,12 +39,15 @@ typedef int SOCKET;
 #include <ifaddrs.h>
 #include <net/if.h>
 
+#include <itc_log_defs.h>
+
 namespace itc
 {
   namespace net
   {
     enum class Side: uint8_t      { UNDEFINED, SERVER, CLIENT };
     enum class Transport: uint8_t { UNDEFINED, TCP, UDP };
+    enum class SocketMode: uint8_t { SYNC, ASYNC };
     
     /**
      *@brief Socket wrapper class. 
@@ -142,8 +144,69 @@ namespace itc
       
      public:
 
+      Socket() : mSocket{-1}, mSide{Side::UNDEFINED},
+        mTransport{Transport::UNDEFINED}
+      {
+      }
+
+      Socket(const Socket& ref) : mSocket{ref.mSocket}, mSide{ref.mSide},
+        mTransport{ref.mTransport}
+      {
+      }
+
+      Socket(const SOCKET& ref) : mSocket{ref}, mSide{Side::UNDEFINED},
+        mTransport{Transport::UNDEFINED}
+      {
+        setfd(ref);
+      }
+
+      Socket& operator=(const Socket& ref)
+      {
+        mSocket=ref.mSocket;
+        mSide=ref.mSide;
+        mTransport=ref.mTransport;
+        return (*this);
+      }
+
+      bool isValid() const
+      {
+        return(mSocket != INVALID_SOCKET);
+      }
+
+      const SOCKET getfd() const
+      {
+        return mSocket;
+      }
+
+      void setfd(const SOCKET& sock, const bool validate=false)
+      {
+        if(sock == INVALID_SOCKET)
+        {
+          throw std::system_error(errno, std::system_category(), "Socket::setfd(sock), - sock is invalid");
+        }
+
+        mSocket = sock;
+
+        // validate it is a socket
+        if(validate)
+        {
+          struct sockaddr_storage addr;
+          socklen_t addr_len{sizeof(sockaddr_storage)};
+
+          if(::getsockname(mSocket, ((sockaddr*)(&addr)), &addr_len) == INVALID_SOCKET)
+          {
+            this->close();
+            throw std::system_error(errno, std::system_category(), "Socket::setfd():getsockname():");
+          }
+        }
+
+      }
+      
       void setKeepAlive()
       {
+        if(mSocket == INVALID_SOCKET)
+          throw std::system_error(EINVAL,std::system_category(),"Socket::setKeepAlive() - mSocket is invalid");
+        
         size_t on=1;
         if(setsockopt(mSocket,SOL_SOCKET,SO_KEEPALIVE,&on,sizeof(on))==INVALID_SOCKET)
         {
@@ -153,6 +216,9 @@ namespace itc
       
       void unsetKeepAlive()
       {
+        if(mSocket == INVALID_SOCKET)
+          throw std::system_error(EINVAL,std::system_category(),"Socket::unsetKeepAlive() - mSocket is invalid");
+        
         size_t off=0;
         if(setsockopt(mSocket,SOL_SOCKET,SO_KEEPALIVE,&off,sizeof(off))==INVALID_SOCKET)
         {
@@ -162,6 +228,9 @@ namespace itc
 
       void setNagelOn(int proto)
       {
+        if(mSocket == INVALID_SOCKET)
+          throw std::system_error(EINVAL,std::system_category(),"Socket::setNagelOn() - mSocket is invalid");
+        
         size_t on=1;
         if(setsockopt(mSocket,proto,TCP_NODELAY,&on,sizeof(on))==INVALID_SOCKET)
         {
@@ -171,6 +240,9 @@ namespace itc
       
       void setNagelOff(int proto)
       {
+        if(mSocket == INVALID_SOCKET)
+          throw std::system_error(EINVAL,std::system_category(),"Socket::setNagelOff() - mSocket is invalid");
+        
         size_t off=0;
         if(setsockopt(mSocket,proto,TCP_NODELAY,&off,sizeof(off))==INVALID_SOCKET)
         {
@@ -180,6 +252,9 @@ namespace itc
 
       void setReuseAddr()
       {
+        if(mSocket == INVALID_SOCKET)
+          throw std::system_error(EINVAL,std::system_category(),"Socket::setReuseAddr() - mSocket is invalid");
+        
         size_t on=1;
         if(setsockopt(mSocket,SOL_SOCKET,SO_REUSEADDR|SO_REUSEPORT,&on,sizeof(on))==INVALID_SOCKET)
         {
@@ -187,18 +262,63 @@ namespace itc
         }
       }
       
+      void setMode(const SocketMode mode)
+      {
+        if(mSocket == INVALID_SOCKET)
+          throw std::system_error(EINVAL,std::system_category(),"Socket::setMode() - mSocket is invalid");
+        
+        switch(mode)
+        {
+          case SocketMode::SYNC: // default
+          {
+            auto opts = fcntl(mSocket,F_GETFL);
+            opts = opts & (~O_NONBLOCK);
+            fcntl(mSocket, F_SETFL, opts);
+          }
+          break;
+          case SocketMode::ASYNC:
+          {
+            auto opts = fcntl(mSocket,F_GETFL);
+            opts |= O_NONBLOCK;
+            fcntl(mSocket, F_SETFL, opts);
+          }
+          break;
+          default:
+            throw std::system_error(ENOTRECOVERABLE,std::system_category(),"Socket::setMode(), programming error, file a bug report");
+        }
+      }
+      
+      const auto getTransport() const
+      {
+        return mTransport;
+      }
+      
+      const auto getSide() const
+      {
+        return mSide;
+      }
+      
       const auto getFamily() const
       {
-        if(mSocket != INVALID_SOCKET)
-        {
-          struct sockaddr_storage saddr;
-          socklen_t addrlen=sizeof(struct sockaddr_storage);
+        static int family=-1;
         
-          if(::getsockname(mSocket,(sockaddr*)(&saddr),&addrlen))
-            throw std::system_error(errno,std::system_category(),"In Socket::getFamily()::getsockname()");
-          return ((sockaddr*)(&saddr))->sa_family;
+        if(family == -1)
+        {
+          if(mSocket != INVALID_SOCKET)
+          {
+            struct sockaddr_storage saddr;
+            socklen_t addrlen=sizeof(struct sockaddr_storage);
+
+            if(::getsockname(mSocket,(sockaddr*)(&saddr),&addrlen))
+              throw std::system_error(errno,std::system_category(),"In Socket::getFamily()::getsockname()");
+            family=((sockaddr*)(&saddr))->sa_family;
+          }
+          else
+          {
+            throw std::system_error(EINVAL,std::system_category(),"Socket::getFamily() - socket is invalid");
+          }
         }
-        throw std::system_error(EINVAL,std::system_category(),"Socket::getFamily() - socket is invalid");
+        return family;
       }
       
       int getpeername(struct sockaddr_storage* saddr)
@@ -260,7 +380,7 @@ namespace itc
       }
       
       template <Transport TTransport=Transport::UNDEFINED, Side TSide=Side::UNDEFINED>
-      void open(const char* address, const uint16_t port,const bool reuse=false,const int backlog=100)
+      void open(const char* address, const uint16_t port,const bool reuse=false,const int backlog=1000)
       {
         static_assert(TSide != Side::UNDEFINED,"Can't open a socket with undefined designation {SERVER|CLIENT}");
         
@@ -435,7 +555,7 @@ namespace itc
         socklen_t saddrlen{sizeof(sockaddr_storage)};
         
         std::shared_ptr<Socket> clientSocket=std::make_shared<Socket>();
-        clientSocket->mSide=Side::CLIENT;
+        clientSocket->mSide=Side::SERVER;
         clientSocket->mTransport=Transport::TCP;
        
         clientSocket->mSocket = ::accept(mSocket, (sockaddr*)(&saddr), &saddrlen);
@@ -445,12 +565,24 @@ namespace itc
         
         return clientSocket;
       }
-     
+      
+      const int intaccept() 
+      {
+        if(mSocket == INVALID_SOCKET)
+          throw std::system_error(EBADR,std::system_category(),"Socket::accept() - mSocket is invalid");
+        
+        struct sockaddr_storage saddr;
+        socklen_t saddrlen{sizeof(sockaddr_storage)};
+        
+      
+        return ::accept(mSocket, (sockaddr*)(&saddr), &saddrlen);
+      }
+      
     /** 
      * @brief exposing recv(2)
      * 
      **/
-    auto recv(void *buf, size_t len, const int flags=MSG_NOSIGNAL)
+    const auto recv(void *buf, size_t len, const int flags=MSG_NOSIGNAL)
     {
       return ::recv(mSocket,buf,len,flags);
     }
@@ -459,72 +591,9 @@ namespace itc
      * @brief exposing send(2)
      * 
      **/
-    auto send(void *buf, size_t len, const int flags=MSG_NOSIGNAL)
+    const auto send(const void *buf, size_t len, const int flags=MSG_NOSIGNAL)
     {
       return ::send(mSocket,buf,len,flags);
-    }
-
-    Socket()
-    : mSocket{-1}, mSide{Side::UNDEFINED},
-      mTransport{Transport::UNDEFINED}
-    {
-    }
-
-    Socket(const Socket& ref)
-    : mSocket{ref.mSocket}, mSide{ref.mSide},
-      mTransport{ref.mTransport}
-    {
-    }
-
-    Socket(const SOCKET& ref)
-    : mSocket{ref}, mSide{Side::UNDEFINED},
-      mTransport{Transport::UNDEFINED}
-    {
-      setfd(ref);
-    }
-
-    virtual ~Socket()
-    {
-      this->close();
-    }
-        
-    Socket& operator=(const Socket& ref)
-    {
-      mSocket=ref.mSocket;
-      mSide=ref.mSide;
-      mTransport=ref.mTransport;
-      return (*this);
-    }
-
-    bool isValid() const
-    {
-      return(mSocket != INVALID_SOCKET);
-    }
-
-    const SOCKET getfd() const
-    {
-      return mSocket;
-    }
-    
-    void setfd(const SOCKET& sock)
-    {
-      if(sock == INVALID_SOCKET)
-      {
-        throw std::system_error(errno, std::system_category(), "Socket::setfd(sock), - sock is invalid");
-      }
-      
-      mSocket = sock;
-      
-      // validate it is a socket
-      
-      struct sockaddr_storage addr;
-      socklen_t addr_len{INET6_ADDRSTRLEN};
-      
-      if(::getsockname(mSocket, ((sockaddr*)(&addr)), &addr_len) == INVALID_SOCKET)
-      {
-        this->close();
-        throw std::system_error(errno, std::system_category(), "Socket::setfd():getsockname():");
-      }      
     }
 
     void close()
@@ -535,6 +604,12 @@ namespace itc
         ::close(mSocket);
         mSocket = INVALID_SOCKET;
       }
+    }
+    virtual ~Socket() = default;
+    
+    void setSide(const itc::net::Side side)
+    {
+      mSide=side;
     }
   };
 }
